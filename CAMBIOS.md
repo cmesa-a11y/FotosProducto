@@ -209,3 +209,98 @@ abría una pestaña nueva sin `rel="noopener noreferrer"` (tabnabbing). Corregid
 
 Nada de esto sustituye una prueba en tienda: súbelo como tema **no publicado** y revisa
 home, colección, ficha de producto, carrito y buscador antes de publicar.
+
+---
+
+# Segunda tanda — estructura del home
+
+## Corrección a lo dicho antes
+
+El hero **no** carga slick por ser un slideshow de un solo slide. `sections/slide-show.liquid`
+guarda tanto el `data-loader-script` como el `data-init-slideshow` tras
+`{% if section.blocks.size > 1 %}`. No hay nada que optimizar ahí y no se tocó.
+
+## Código
+
+### `sections/product-tab-block.liquid` — enlace "Ver todo"
+La sección no tenía forma de enlazar a la colección completa: los cuatro grids del home
+mostraban 8 productos y dejaban al usuario sin salida. Añadidos tres ajustes
+(`view_all`, `link_view_all`, `view_all_align`) con el mismo marcado y las mismas clases
+que ya usa `product-block.liquid`; los estilos `.view_all` viven en `base.css`, así que
+no hace falta CSS nuevo. Aplicado a las dos cabeceras de la sección (con y sin banner).
+
+## Estructura del home (`templates/index.json`)
+
+```
+ 1  slide-show          → personalizados          (antes → shop-all)
+ ·  Explora por Categorias        [DESACTIVADA, recuperada]
+ ·  (4 categorías más)            [DESACTIVADA, recuperada]
+ 2  Productos Personalizables   1170  50/50   [Ver todo]
+ 3  ¿Cómo funciona el bordado?
+ 4  banner              → lobster-mini
+ 5  apps
+ 6  Lo Último en Lobster Mini   1170  50/50   [Ver todo]
+ 7  apps
+ 8  banner              → kings-rebels          (antes sin enlace)
+ 9  Kings & Rebels              1170  50/50   [Ver todo]
+10  banner              → igor-shoes
+11  Calzado Respetuoso          1170  50/50   [Ver todo]
+12  Sin género · Circular · Colombia            [ACTIVADO]
+```
+
+### Eliminado (no renderizaba nada)
+| Sección | Motivo |
+|---|---|
+| `slide_show_hGjUTB` | demo de Ella "Cosmopolis", sin imagen, desactivada |
+| `slide_show_zMA7N4` | idem |
+| `custom_image_banner_78M4gC` | demo "Lorem De Dorus", bloques vacíos, desactivada |
+| `product_tab_block_MjcxVg` | titulada "Adultos" pero **sin ningún bloque**: no puede mostrar productos |
+| `slide_show_c6TYCE` | activa, pero su único slide estaba apagado → `section.blocks.size == 0` |
+
+Si "Adultos" era una sección planificada, se vuelve a crear en el editor en un clic.
+
+### Recuperado
+Los dos `spotlight-block` de navegación por categoría que se perdieron en el rediseño,
+tomados de tu export anterior con sus 8 categorías y sus imágenes intactas:
+mixers, camisetas, buzos, vestidos, bottoms, sets, accesorios y shop-all.
+**Se dejaron DESACTIVADOS**: recuperarlos es dato, activarlos es una decisión de
+merchandising que es tuya. Van justo debajo del hero; se encienden con un clic.
+
+### Retícula y ritmo
+Los cuatro grids de producto usaban cuatro anchos distintos (`1170`, `fullwidth`,
+`container`, `1770`) y márgenes dispares. Todos a `1170` y a 50/40/30 px
+(escritorio/tablet/móvil). Los banners quedan a `fullwidth` con margen 0: el aire
+lo ponen los grids vecinos, así que el espaciado entre secciones es constante.
+
+Lo que **no** unifiqué: el primer grid sigue en `scroll` a 3 por fila mientras los otros
+van en `grid` a 5. Es tu producto diferenciador y las fichas más grandes le dan peso;
+si lo prefieres homogéneo, son dos ajustes en el editor.
+
+### Enlaces y textos
+- Banner de Kings & Rebels: enlace añadido (era un clic muerto).
+- Hero: `shop-all` → `personalizados`. **Revísalo** — es una decisión de negocio y quizá
+  tengas datos que digan otra cosa; se revierte en el editor en diez segundos.
+- `'Lo Último en  Lobster  Mini'` → espacios dobles corregidos.
+- `'Trending Now'` → `'Kings & Rebels'`, que es lo que hay debajo y coincide con su banner.
+  Vaciada la pestaña redundante "Todo de Kings & Rebels".
+
+### Bloques de Liquid personalizado
+- **¿Cómo funciona el bordado?**: estaba encajonado a 480 px, así que en escritorio los
+  tres pasos salían en una columna estrecha y centrada. Reescrito con CSS con ámbito
+  propio (`.lm-pasos`): apilado en móvil, **tres columnas a partir de 750 px**.
+  Se conserva `rel="noopener noreferrer"` en el enlace de la guía.
+- **Sin género · Circular · Colombia**: **activado** y movido al final, antes del pie.
+  Los emojis se sustituyeron por SVG en línea — la bandera 🇨🇴 no se renderiza en Windows
+  (sale el texto "CO") y el resto cambia de forma según el sistema operativo.
+
+## Lo que sigue sin hacer, y por qué
+
+1. **Prueba social.** Es lo que más convertiría en una tienda de bordado personalizado, y
+   no lo añado porque tendría que inventarme el contenido. El tema ya trae
+   `customer-review-block`, `instagram-grid` y `lookbook-with-collection` sin usar, y las
+   dos secciones `apps` vacías del home son justo donde vivían Judge.me e Instafeed.
+   En cuanto reactives esos app embeds, las secciones ya están colocadas.
+2. **Activar la navegación por categoría.** Recuperada pero desactivada; decide tú si
+   encaja con el home multimarca.
+3. **Enlace a Google Drive** en la guía de tipografías: sigue apuntando a Drive.
+   Súbelo a Contenido → Archivos.

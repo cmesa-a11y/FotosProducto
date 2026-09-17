@@ -1,3 +1,9 @@
+{%- comment -%}
+  MEJORA: esta sección no tenía forma de enlazar a la colección completa, así que
+  los grids del home mostraban 8 productos sin salida. Añadidos view_all,
+  link_view_all y view_all_align, con el mismo marcado y las mismas clases CSS
+  que ya usa product-block.liquid (los estilos .view_all viven en base.css).
+{%- endcomment -%}
 {%- liquid
     assign container = section.settings.container
     assign limit = section.settings.product_block_limit
@@ -191,7 +197,9 @@
                 {%- if show_banner -%}
                     <div class="halo-block-top{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
                         {%- if block_title != blank -%}
-                            <div class="halo-block-header text-{{ block_title_align }} has__banner"><h3 class="title"><span class="text">{{ block_title | escape }}</span></h3></div>
+                            <div class="halo-block-header text-{{ block_title_align }} has__banner{% if section.settings.view_all != blank %} viewAll--{{ section.settings.view_all_align }} has-viewAll{% if block_title_align == 'left' and section.settings.view_all_align == 'right' %} items-aligned{% endif %}{% endif %}"><h3 class="title"><span class="text">{{ block_title | escape }}</span></h3>{%- if section.settings.view_all != blank -%}
+                            <a class="view_all{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if section.settings.link_view_all == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.link_view_all }}"{% endif %} title="{{ section.settings.view_all | escape }}">{{ section.settings.view_all | escape }}</a>
+                            {%- endif -%}</div>
                         {%- endif -%}
                         <ul class="list-product-tabs list-tab__{{ section.settings.tab_title_style }}{% if enable_scroll_title %} enable_scroll_tab disable-srollbar{% endif %} has__banner">
                             {%- for block in block_tabs -%}
@@ -228,7 +236,9 @@
                         <div class="product-block__grid">
                 {%- else -%}
                     {%- if block_title != blank -%}
-                        <div class="halo-block-header text-{{ block_title_align }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"><h3 class="title"><span class="text">{{ block_title | escape }}</span></h3></div>
+                        <div class="halo-block-header text-{{ block_title_align }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}{% if section.settings.view_all != blank %} viewAll--{{ section.settings.view_all_align }} has-viewAll{% if block_title_align == 'left' and section.settings.view_all_align == 'right' %} items-aligned{% endif %}{% endif %}"><h3 class="title"><span class="text">{{ block_title | escape }}</span></h3>{%- if section.settings.view_all != blank -%}
+                            <a class="view_all{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if section.settings.link_view_all == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.link_view_all }}"{% endif %} title="{{ section.settings.view_all | escape }}">{{ section.settings.view_all | escape }}</a>
+                            {%- endif -%}</div>
                     {%- endif -%}
                 {%- endif -%}
                         <div class="halo-block-content {% if layout == 'scroll'%}is-scroll{% endif %}">
@@ -526,6 +536,28 @@
             "id": "product_block_title",
             "label": "t:sections.image-banner.blocks.image.settings.content.label__1",
             "default": "Trending Now"
+        },
+        {
+            "type": "text",
+            "id": "view_all",
+            "label": "Texto del enlace \u0027Ver todo\u0027",
+            "info": "D\u00e9jalo vac\u00edo para ocultar el enlace."
+        },
+        {
+            "type": "url",
+            "id": "link_view_all",
+            "label": "Destino de \u0027Ver todo\u0027"
+        },
+        {
+            "type": "select",
+            "id": "view_all_align",
+            "label": "Posici\u00f3n de \u0027Ver todo\u0027",
+            "default": "right",
+            "options": [
+                { "value": "left", "label": "Izquierda" },
+                { "value": "center", "label": "Centro" },
+                { "value": "right", "label": "Derecha" }
+            ]
         },
         {
             "type": "range",
