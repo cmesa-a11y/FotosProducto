@@ -304,3 +304,60 @@ si lo prefieres homogéneo, son dos ajustes en el editor.
    encaja con el home multimarca.
 3. **Enlace a Google Drive** en la guía de tipografías: sigue apuntando a Drive.
    Súbelo a Contenido → Archivos.
+
+---
+
+# Tercera tanda — categorías del home
+
+## Sección nueva: `spotlight_categorias`
+
+Cuatro categorías en **una sola** sección `spotlight-block`, colocada después de
+"¿Cómo funciona el bordado?" y antes del banner de Lobster Mini: el recorrido pasa de
+"esto es lo nuestro" a "y este es todo el catálogo", y de ahí a las marcas.
+
+| Ficha | Subtítulo | Destino |
+|---|---|---|
+| **Ropa** | Camisetas · Buzos · Vestidos · Bottoms | `/collections/ropa` ⚠️ |
+| **Zapatos** | — | `/collections/zapatos` ⚠️ |
+| **Bordados** | Personalízalo con el nombre | `shopify://collections/personalizados` ✅ |
+| **Esenciales** | Baberos · Muselinas · Cobijas · Toallas | `/collections/esenciales` ⚠️ |
+
+✅ verificado: ese handle ya se usa en tu home.
+⚠️ **asumido**: no pude comprobar que existan. Si no existen, créalas o corrige el
+destino en el editor.
+
+Ajustes: ancho `1170`, márgenes 50/40/30, 4 columnas en escritorio y 2 en móvil,
+título "Explora por categorías" y enlace "Ver todas las categorías" → `/collections`.
+
+### Faltan las imágenes
+Los cuatro bloques van **sin imagen a propósito**. La sección pinta en su lugar un
+marcador que dice `370 x 440px`, que es la medida que espera. Sube las cuatro
+**con la misma proporción**: `spotlight-block.liquid:31` calcula el alto de cada ficha
+con `1 / aspect_ratio` de cada imagen por separado, así que una más cuadrada que las
+otras desalinea la fila entera.
+
+**No publiques el tema antes de subirlas** o el home mostrará cuatro recuadros grises.
+
+Las imágenes conviene que vayan **sin el nombre escrito dentro**: el nombre lo pone el
+tema desde el ajuste `title`, así puedes renombrar una categoría sin volver a Photoshop,
+Google lee texto ancla de verdad y el enlace tiene nombre accesible. Recuerda que antes
+los ocho bloques tenían `title` vacío y, por el `| default: shop.name` de la línea 31,
+los ocho enlaces se llamaban "Lobster Mini".
+
+### Ortografía
+Quedó **"Esenciales"**, con S. "Escenciales" es un error de escritura frecuente y esto
+se ve en la tienda.
+
+### Sobre "Bordados"
+Es la única de las cuatro que no es un tipo de producto sino un tratamiento: cruza a las
+otras tres. Un babero bordado va a salir en dos fichas. No está mal —es lo mismo que una
+categoría "Sale"— pero que la imagen y el subtítulo dejen claro que es *"personalízalo"*
+y no *"otro tipo de producto"*.
+
+## Otros cambios
+- Eliminadas las dos secciones de 8 categorías que había recuperado, ya que pediste 4.
+  Su configuración completa (8 categorías, enlaces e imágenes) queda guardada en
+  `referencia/categorias-8-anteriores.json` para no volver a perderla.
+- Eliminado un último bloque de demo de Ella: `large_img_9pcdLE` ("Metropólis"),
+  desactivado y sin imagen, dentro de `image_banner_3nRmLM`.
+  El home ya no contiene ni un solo resto de texto de plantilla.
