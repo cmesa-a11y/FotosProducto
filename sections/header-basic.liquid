@@ -145,7 +145,10 @@
         </div>
     </div>
 </header>
-<script defer> 
+<script defer>
+/* FIX: envuelto en themeReady() porque jQuery (vendor.js) ahora carga con defer. */
+themeReady(function () {
+ 
     var appendPrependMenuMobile = function() {
         if (window.innerWidth < 1025) {
             $('.header-top--wrapper .header-top--left .customer-service-text').appendTo('#navigation-mobile .site-nav-mobile.nav-account .wrapper-links');
@@ -154,7 +157,7 @@
         };
     };
 
-    $(document).ready(function() {
+    themeReady(function () {
         appendPrependMenuMobile();
     });
 
@@ -167,6 +170,8 @@
     });
     
     if ($('body').hasClass('template-index')) $('.header-basic--transparent').closest('.section-header-basic').addClass('shb-transparent');
+
+});
 </script>
 
 {% schema %}

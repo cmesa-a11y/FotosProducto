@@ -4,8 +4,16 @@
 	{{ 'fade-up-animation.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 
-{%- if settings.enable_layout_rtl -%}
-	{{ 'layout_rtl.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  FIX: layout_rtl.css pesa 88 KB y es render-blocking. Se cargaba con solo tener
+  activada la opción RTL, aunque el idioma actual NO fuera RTL. Ahora se aplica
+  la misma condición que usa <body> en theme.liquid: idioma realmente RTL.
+{%- endcomment -%}
+{%- if settings.enable_layout_rtl and settings.list_iso_rtl != blank -%}
+	{%- assign arr_list_rtl = settings.list_iso_rtl | remove: ' ' | split: ',' -%}
+	{%- if arr_list_rtl contains request.locale.iso_code -%}
+		{{ 'layout_rtl.css' | asset_url | stylesheet_tag }}
+	{%- endif -%}
 {%- endif -%}
 
 {{ 'animated.css' | asset_url | stylesheet_tag }}

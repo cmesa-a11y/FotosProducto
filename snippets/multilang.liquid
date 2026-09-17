@@ -1,0 +1,21 @@
+{%- comment -%}
+  FIX: snippets/grouped-block.liquid hacía {% render 'multilang' with ... %} y el
+  snippet no existía -> error de Liquid visible en la página.
+  Reproduce la convención multi-idioma de Ella: un texto puede venir como
+  "Texto ES[lang2]Texto EN[lang3]Texto FR"; se devuelve el tramo del idioma activo
+  y, si no existe, el primero.
+  Uso: {% render 'multilang' with mi_texto %}
+{%- endcomment -%}
+{%- liquid
+  assign parts = multilang | split: '[lang2]'
+  assign out = parts | first
+  if settings.list_iso_lang2 != blank
+    assign langs2 = settings.list_iso_lang2 | remove: ' ' | split: ','
+    if langs2 contains request.locale.iso_code
+      if parts.size > 1
+        assign out = parts[1] | split: '[lang3]' | first
+      endif
+    endif
+  endif
+-%}
+{{- out -}}

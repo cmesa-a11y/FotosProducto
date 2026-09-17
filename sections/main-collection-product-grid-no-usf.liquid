@@ -1,4 +1,26 @@
-{% render 'rapid-search-foc-wrapper-condition' %}
+{%- comment -%}
+  FIX: antes esto era {% render 'rapid-search-foc-wrapper-condition' %}, pero {% render %}
+  tiene scope aislado, así que la variable focIsEnabled nunca llegaba a esta sección.
+  Resultado: el <div class="rps-foc-container"> (que lleva display:none !important)
+  se abría y NUNCA se cerraba -> toda la página de colección quedaba oculta.
+  Ahora la condición se evalúa aquí mismo, en el scope de la sección.
+{%- endcomment -%}
+{%- liquid
+  assign rpsMetafields = shop.metafields['rapid-search']
+  assign rpsSettings = rpsMetafields.rpsSettings
+  assign rpsThemeSettings = rpsSettings.shopify_public_settings.filters_on_collection_themes | where: 'theme_id', theme.id | first
+  assign focIsEnabled = false
+  if content_for_header contains rpsMetafields.storeFrontScriptDomain and rpsThemeSettings.enabled == true and rpsSettings.enabled == true and rpsSettings.limit_exceeded == false and rpsSettings.last_import != false and rpsSettings.last_import != null
+    assign focIsEnabled = true
+  endif
+-%}
+{%- if focIsEnabled -%}
+  {% render 'rapid-search-results-skeleton' %}
+  <script>window.RapidSearchCollectionInfo = {{ collection | json }};</script>
+  <style>.rps-foc-container { display: none !important; }</style>
+  <div class="rps-foc-container">
+{%- endif -%}
+
  
 {{ 'component-grid.css' | asset_url | stylesheet_tag }}
 {{ 'component-product-listing.css' | asset_url | stylesheet_tag }}
@@ -947,7 +969,7 @@
 }
 {% endschema %}
 
-{% if  focIsEnabled == true %}
+{%- if focIsEnabled -%}
   <!-- rps-generated-div --></div>
-{% endif %}
+{%- endif -%}
   

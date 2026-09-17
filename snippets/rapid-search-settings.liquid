@@ -1,19 +1,24 @@
-{% if content_for_header contains rpsMetafields.storeFrontScriptDomain %}
-
-  {% assign settings = shop.metafields.rapid-search.rpsSettings %}
-
-  {% if content_for_header contains 'adminBarInjector' or content_for_header contains 'previewBarInjector'  %}
-    {% assign isAdmin = true %}
-  {% else %}
-    {% assign isAdmin = false %}
-  {% endif %}
-
-  {% if settings != '-' and isAdmin == false %}
-    <script type="text/javascript">
-      try {
-        window.RapidSearchSettings = {{ settings | json }};
-      } catch (error) {}
+{%- comment -%}
+  FIX 1: `rpsMetafields` no existía en este snippet ({% render %} aísla el scope),
+         así que la condición era siempre falsa y window.RapidSearchSettings nunca
+         se definía. Ahora se resuelve aquí.
+  FIX 2: el original hacía `{% assign settings = ... %}`, que SOBRESCRIBE el objeto
+         global `settings` del tema. Renombrado a `rpsSettings`.
+  FIX 3: `shop.metafields.rapid-search` (con guion) en notación de punto no resuelve;
+         se usa la notación con corchetes.
+{%- endcomment -%}
+{%- liquid
+  assign rpsMetafields = shop.metafields['rapid-search']
+  assign rpsSettings = rpsMetafields.rpsSettings
+  assign rpsIsAdmin = false
+  if content_for_header contains 'adminBarInjector' or content_for_header contains 'previewBarInjector'
+    assign rpsIsAdmin = true
+  endif
+-%}
+{%- if content_for_header contains rpsMetafields.storeFrontScriptDomain -%}
+  {%- if rpsSettings != blank and rpsSettings != '-' and rpsIsAdmin == false -%}
+    <script>
+      try { window.RapidSearchSettings = {{ rpsSettings | json }}; } catch (error) {}
     </script>
-  {% endif %}
-
-{% endif %}
+  {%- endif -%}
+{%- endif -%}

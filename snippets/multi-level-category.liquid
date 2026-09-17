@@ -97,6 +97,8 @@
 </div>
 
 <script type="text/javascript">
+/* FIX: envuelto en themeReady() porque jQuery ahora carga con defer. */
+themeReady(function () {
     var first = true;
     function getCategories(root) {
         var result = new Array();
@@ -257,5 +259,6 @@
     window.addEventListener('load', () => {
       MultiCategory();
     })
+});
 </script>
 {% endif %}

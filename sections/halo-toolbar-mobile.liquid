@@ -59,6 +59,9 @@
     .halo-sticky-toolbar-mobile span.icon svg {fill: {{color_icon}}}
 </style>
 <script>
+/* FIX: envuelto en themeReady() porque jQuery (vendor.js) ahora carga con defer. */
+themeReady(function () {
+
     const buttons = document.querySelectorAll('[data-bar-content]');
     if (buttons.length) {
         buttons.forEach((button) => {
@@ -80,6 +83,8 @@
         })
     }
     $('body').addClass('sticky-toolbar-mobile');
+
+});
 </script>
 {%- endif -%}
 

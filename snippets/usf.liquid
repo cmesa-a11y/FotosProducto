@@ -1,18 +1,33 @@
-<script>window._usfTheme={
-    id:166236455225,
-    name:"Ella",
-    version:"6.5.5",
-    vendor:"Halothemes",
-    applied:1,
-    assetUrl:"{{ 'usf-boot.js' | asset_url }}"
-};
-window._usfCustomerTags = {{ customer.tags | json }};
-window._usfCollectionId = {{ collection.id | json }};
-window._usfCollectionDefaultSort = {{ collection.default_sort_by | json }};
-window._usfLocale = {{ request.locale.iso_code | json | downcase }};
-window._usfRootUrl = {{ routes.root_url | json }};
-window.usf = {
-  settings: {{ shop.metafields.usf.settings }}
-}
-</script>
-<script src="{{ 'usf-boot.js' | asset_url }}" async></script>
+{%- comment -%}
+  Integración USF (Ultimate Search & Filter) — versión blindada.
+  Cambios frente al original:
+  1. `theme.id` dinámico en vez del ID quemado 166236455225 (sobrevive a duplicados del tema).
+  2. El metafield se valida antes de imprimirlo: si viene vacío ya no genera
+     un SyntaxError que tumbaba TODO el bloque de scripts.
+  3. Si USF no está disponible, se revela el grid nativo en vez de dejar la
+     colección en blanco.
+{%- endcomment -%}
+{%- assign usf_settings = shop.metafields.usf.settings -%}
+{%- if usf_settings != blank -%}
+  <script>
+    window._usfTheme = {
+      id: {{ theme.id | json }},
+      name: "Ella",
+      version: "6.5.5",
+      vendor: "Halothemes",
+      applied: 1,
+      assetUrl: {{ 'usf-boot.js' | asset_url | json }}
+    };
+    window._usfCustomerTags = {{ customer.tags | json }};
+    window._usfCollectionId = {{ collection.id | json }};
+    window._usfCollectionDefaultSort = {{ collection.default_sort_by | json }};
+    window._usfLocale = {{ request.locale.iso_code | downcase | json }};
+    window._usfRootUrl = {{ routes.root_url | json }};
+    window.usf = { settings: {{ usf_settings }} };
+  </script>
+  <script src="{{ 'usf-boot.js' | asset_url }}" async></script>
+{%- endif -%}
+{%- comment -%}
+  Si usf_settings viene vacío no se imprime nada: los snippets collection-*.liquid
+  detectan lo mismo y renderizan el grid nativo del tema.
+{%- endcomment -%}

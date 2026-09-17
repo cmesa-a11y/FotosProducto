@@ -1,0 +1,211 @@
+# Revisión del tema Ella 6.5.5 — lobstermini.com
+
+Origen: `theme_export__hello-mellow-25-myshopify-com-theme-export-lobstermini-com-ella-6-5-5-theme__17SEP2026-0454pm.zip`
+
+El commit anterior sube el export sin tocar. Este aplica las correcciones.
+
+---
+
+## ⚠️ Antes de publicar: este export NO es el tema de Lobster Mini
+
+Se exportó desde `hello-mellow-25.myshopify.com`. Las referencias `shopify://shop_images/...`
+se resuelven **por nombre de archivo en la tienda destino**, así que al publicarlo en
+lobstermini.com se pierde todo lo que no exista allí con ese nombre:
+
+| Qué | Estado en este export |
+|---|---|
+| Logo cabecera | `logo_hello_mellow_sin_fondo.png` (Hello Mellow, no Lobster Mini) |
+| Logo móvil y logo del segundo header | vacíos (antes `logo_web.png`) |
+| Portadas de categoría 01–08 | ausentes |
+| Banners SALE, banners mixers, fotos lobster*WEB | ausentes |
+| Guía de tallas del producto (`size_chart_image`) | ausente |
+| App embeds (Klaviyo, SmartSEO, Judge.me, Sale & Discount, Notify Me, Easy Product Addons) | **ninguno**: `settings_data.current.blocks` no existe |
+| Badges de reseñas Judge.me en la ficha de producto | reemplazados por bloques de Infinite Options |
+| Kiwi Size Chart, Instafeed | ausentes |
+
+**Publicar esto tal cual apaga reseñas, emails, SEO y badges de descuento.** Súbelo como
+tema no publicado, revisa logos e imágenes en el editor y reactiva los app embeds
+(Configuración de la tienda → Apps) antes de publicar.
+
+---
+
+## P0 — Bugs que rompen páginas
+
+### 1. Las colecciones dependían al 100% de la app USF
+`snippets/collection-*.liquid` (6 archivos)
+
+USF (Ultimate Search & Filter) había **comentado el grid nativo de productos** y lo
+sustituyó por `<div id="usf_container">` con `visibility:hidden`. El servidor no
+enviaba ni un producto: si el JS de la app no arrancaba, la colección quedaba en blanco.
+
+Ahora el grid original se restaura como rama `{% else %}`:
+
+```liquid
+{%- liquid
+  assign usf_active = false
+  if shop.metafields.usf.settings != blank
+    assign usf_active = true
+  endif
+-%}
+{%- if usf_active -%}   ...versión USF...
+{%- else -%}            ...grid nativo de Ella...
+{%- endif -%}
+```
+
+### 2. `snippets/usf.liquid` podía tumbar todo el bloque de scripts
+`settings: {{ shop.metafields.usf.settings }}` sin `| json` ni validación. Con el
+metafield vacío se imprimía `settings: }` → **SyntaxError** que mataba el `<script>`
+entero (`_usfTheme`, `_usfCollectionId`, `_usfLocale`…) y la app nunca inicializaba.
+Además el `theme.id` estaba quemado (`166236455225`), así que **al duplicar el tema
+USF dejaba de aplicar**. Ahora se valida el metafield y el id es `{{ theme.id }}`.
+
+### 3. `<div>` sin cerrar que ocultaba la página de colección completa
+`sections/main-collection-product-grid-no-usf.liquid`
+
+Rapid Search abría `<div class="rps-foc-container">` (con `display:none !important`)
+vía `{% render 'rapid-search-foc-wrapper-condition' %}`, pero `{% render %}` **aísla el
+scope**: la variable `focIsEnabled` nunca llegaba a la sección, así que el `</div>` de
+cierre jamás se emitía. El navegador cerraba el div al final del `<body>` → toda la
+colección quedaba oculta. La condición ahora se evalúa dentro de la sección.
+
+### 4. `snippets/rapid-search-settings.liquid`
+- `rpsMetafields` no existía en ese snippet (mismo problema de scope) → el bloque nunca
+  se ejecutaba y `window.RapidSearchSettings` nunca se definía.
+- `{% assign settings = ... %}` **sobrescribía el objeto global `settings`** del tema.
+- `shop.metafields.rapid-search` (guion en notación de punto) no resuelve.
+
+### 5. `layout/theme.liquid`
+- **Dos `<link rel="canonical">`** con valores distintos → Google ignora la etiqueta.
+- El widget de Addi estaba **duplicado** (mismo bundle dos veces, slugs `lobstermini`
+  y `lobstermini-ecommerce`) y el segundo vivía **fuera de `</body>`**. Queda una sola
+  carga, con `defer`, dentro del body y con ambos selectores.
+- `<meta name="theme-color" content="">` vacío.
+
+### 6. Contenido demo de Ella en el pie, en todas las páginas
+`sections/footer-group.json` tenía un `slide-show` con un único slide **sin imagen** y
+titular **"Cosmopolis"**, con 50 px de margen arriba y abajo. Eliminado.
+
+### 7. Condición de contenedor invertida
+`snippets/collection-*.liquid` (12 archivos, 18 ocurrencias)
+
+El `<div class="container">` se abría con `sidebar_type != 'horizontal'` y se cerraba
+con `sidebar_type == 'horizontal'`. Con `settings.layout == '4'` quedaba un div sin
+cerrar o un `</div>` huérfano. Las dos condiciones ahora coinciden.
+
+---
+
+## P1 — Rendimiento (Core Web Vitals)
+
+### 8. 3 scripts bloqueantes en el `<head>`
+`snippets/global-script.liquid`
+
+`{{ 'vendor.js' | asset_url | script_tag }}` genera `<script src>` **sin defer ni
+async**. `vendor.js` son 156 KB (jQuery 3.6 + slick) bloqueando el parseo del HTML en
+**todas** las páginas. Es el mayor lastre de FCP/LCP del tema.
+
+Los tres (`vendor.js`, `global.js`, `lazysizes.min.js`) ahora cargan con `defer`
+(que conserva el orden de ejecución). Para no romper el JS inline que usaba jQuery en
+tiempo de parseo se añadió un helper y se envolvieron **16 bloques** en 13 archivos:
+
+```js
+window.themeReady = function (fn) { /* corre en DOMContentLoaded, con jQuery ya cargado */ };
+```
+
+`lazysizes` se configura antes y se inicializa en su `onload`.
+
+### 9. La imagen LCP se cargaba en `lazy`
+- `sections/image-banner.liquid`: las 14 imágenes salían con `loading="lazy"`, incluida
+  la primera de la página. Ahora las dos primeras secciones usan `eager` +
+  `fetchpriority="high"`. (Ojo: Liquid evalúa condiciones de derecha a izquierda, por
+  eso el `if` va anidado y no como `a != blank and a <= 2`.)
+- `sections/slide-show.liquid`: el primer slide ya iba eager pero sin prioridad;
+  añadido `fetchpriority="high"`. En todo el tema había **cero** `fetchpriority`.
+
+### 10. `layout_rtl.css` (88 KB, render-blocking) en tiendas no RTL
+Se cargaba con solo tener la opción activada, sin mirar el idioma. Ahora usa la misma
+condición que el `<body>`: idioma realmente RTL.
+
+### 11. Preconnect a terceros
+Añadidos `preconnect` + `dns-prefetch` a `clarity.ms` y `s3.amazonaws.com` (Addi).
+
+### 12. Home más ligera
+`templates/index.json`: el primer `product-tab-block` cargaba **20 productos**; sumado a
+los otros 4 bloques eran ~52 fichas de producto en el home. Bajado a 8.
+
+---
+
+## P2 — SEO y robustez
+
+### 13. JSON-LD sin escapar (`snippets/schema.liquid`)
+Títulos de colección, producto, artículo, autor y descripciones se inyectaban entre
+comillas sin escapar: una comilla en el texto rompía el bloque y Google descartaba los
+rich results. Todos pasan ahora por `| json`. Además `"gtin12/13/14"` se emitían **sin
+comillas**: un código de barras con cero a la izquierda genera JSON inválido.
+
+### 14. Open Graph (`snippets/meta-tags.liquid`)
+`og:image` salía con esquema `http:` (validadores de Facebook/WhatsApp lo degradan) y
+usaba el filtro `img_url`, deprecado. Añadidos `og:image:alt` y `twitter:image`, que
+faltaba pese a declarar `summary_large_image`.
+
+### 15. Valores inyectados crudos en JS (`snippets/global-script.liquid`)
+`money_format`, `mobile_menu`, `currencySymbol`, `notify_form_*`, `countdown_text`,
+`dynamic_browser_title_content` y 5 settings booleanos se imprimían sin `| json`
+(algunos dentro de template literals, donde un backtick o `${` rompe el script).
+Cinco de ellos **no existen en `settings_data.json`** y sólo funcionan porque
+`settings_schema.json` tiene default; el día que se toque el schema, el `<head>`
+entero deja de ejecutarse. Todos blindados con `| json`.
+
+### 16. Cookie sin `SameSite`
+`document.cookie = \`currentCollection=...\`` sin `SameSite` ni `Secure` (aviso en la
+consola de Chrome). Además `template contains 'collection'` también capturaba la página
+`list-collections`; ahora usa `request.page_type`.
+
+### 17. Referencias rotas
+Creados `snippets/icon-mail-1.liquid` y `snippets/multilang.liquid` (ambos se invocaban
+con `{% render %}` sin existir → *"Liquid error: Could not find asset"* impreso en la
+página) y los assets `loading.svg` y `green-marker.svg` (404).
+
+### 18. `sections/main-collection-product-grid.liquid`
+`window._usf_show_compare = ... ,` terminaba en **coma** en vez de punto y coma, y el
+objeto `_usfGlobalSettings` repetía las claves `show_compare` y `product_compare_type`.
+
+### 19. `target="_blank"` sin `rel` (`templates/index.json`)
+El botón "Ver guía de tipografías e hilos" del bloque *¿Cómo funciona el bordado?*
+abría una pestaña nueva sin `rel="noopener noreferrer"` (tabnabbing). Corregido.
+
+---
+
+## Pendiente — decisiones tuyas, no las toqué
+
+1. **Enlace a Google Drive en producción.** Esa misma guía apunta a
+   `drive.google.com/file/d/.../preview`. Depende de permisos de Drive, no se puede
+   medir y rompe la marca. Súbelo como archivo de Shopify (Contenido → Archivos).
+2. **Emojis como iconos** en los bloques de Liquid personalizado (`♾️ 🌿 🇨🇴`). La bandera
+   `🇨🇴` **no se renderiza en Windows** (sale "CO"). Conviene SVG.
+3. **Los bloques custom-liquid usan `max-width:480px`**: en escritorio el contenido queda
+   encajonado en una columna estrecha y centrada.
+4. **Doble descarga de imagen en el slideshow.** `slide-pc` y `slide-mobile` renderizan
+   dos `<img>` y los alternan por CSS; el navegador descarga ambas. La solución correcta
+   es `<picture>` con `<source media>`, pero implica reescribir la sección.
+5. **113 archivos siguen usando `img_url`**, deprecado por Shopify en favor de
+   `image_url`. Migración mecánica pero grande.
+6. **SEO de colecciones.** Con USF activo el HTML de las colecciones no lleva productos
+   ni paginación server-side: Google ve páginas de categoría vacías. Vale la pena
+   revisar si USF debe reemplazar el grid o sólo filtrar sobre él.
+7. **`<script defer>` inline** en `sections/header-basic.liquid:148`: `defer` no hace
+   nada en scripts sin `src`.
+
+---
+
+## Verificación ejecutada
+
+- 838 archivos empaquetados, JSON de `templates/`, `sections/`, `config/` y `locales/` válidos.
+- Etiquetas Liquid balanceadas en los 480 `.liquid`.
+- Los 124 `{% schema %}` parsean como JSON.
+- 0 snippets o assets referenciados que falten (salvo uno dentro de `{% comment %}`).
+- 0 usos de jQuery en nivel superior de scripts inline (verificado con un parser que
+  ignora strings y comentarios).
+- Los 77 `.js` de `assets/` pasan `node --check`.
+
+Nada de esto sustituye una prueba en tienda: súbelo como tema **no publicado** y revisa
+home, colección, ficha de producto, carrito y buscador antes de publicar.

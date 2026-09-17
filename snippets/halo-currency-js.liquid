@@ -33,6 +33,9 @@
     {%- endif -%}
     
     <script>
+/* FIX: envuelto en themeReady() porque jQuery (vendor.js) ahora carga con defer. */
+themeReady(function () {
+
         var shopCurrency = '{{ shop.currency }}';
         var currencyItem = $('.dropdown-item[data-currency]');
         currencyItem.on('click', function(e) {
@@ -62,7 +65,9 @@
             $('#currency_form').submit();
             
         });
-    </script>
+    
+});
+</script>
 {%- else -%}
     {%- if enable_multiple_currencies -%}
         {{ "//cdn.shopify.com/s/javascripts/currencies.js" | script_tag }}
@@ -74,6 +79,8 @@
 
         {%- if enable_auto_currency == false -%}
             <script>
+/* FIX: envuelto en themeReady() porque jQuery ahora carga con defer. */
+themeReady(function () {
                 // Pick your format here:  
                 // Can be 'money_format' or 'money_with_currency_format'
                 Currency.format = 'money_format';
@@ -152,9 +159,12 @@
                 $('body').on('refreshCurrency', () => {
                     Currency.convertAll(shopCurrency, $("#currencies .active").attr('data-currency'));
                 });
+});
             </script>
         {%- else -%}
             <script>
+/* FIX: envuelto en themeReady() porque jQuery ahora carga con defer. */
+themeReady(function () {
                 // Pick your format here:  
                 // Can be 'money_format' or 'money_with_currency_format'
                     Currency.format = 'money_format';
@@ -297,6 +307,7 @@
                         callback(true)
                     });
                 }
+});
             </script>
         {%- endif -%}
     {%- else -%}
@@ -311,6 +322,8 @@
                 {{ "jquery.currencies.min.js" | asset_url | script_tag }}
             {%- endif -%}
             <script>
+/* FIX: envuelto en themeReady() porque jQuery ahora carga con defer. */
+themeReady(function () {
                 // Pick your format here:  
                 // Can be 'money_format' or 'money_with_currency_format'
                 Currency.format = 'money_format';
@@ -397,6 +410,7 @@
                         callback(true)
                     });
                 }
+});
             </script>
         {%- endif -%}
     {%- endif -%}

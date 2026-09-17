@@ -1,3 +1,16 @@
+{%- comment -%}
+  Fallback de colección. USF (Ultimate Search & Filter) reemplaza el grid del tema
+  por un contenedor vacío que llena por JavaScript. Si la app no está disponible
+  (metafield usf.settings vacío: app desinstalada, sin plan, tema duplicado…)
+  la colección quedaba EN BLANCO. Ahora se cae al grid nativo de Ella.
+{%- endcomment -%}
+{%- liquid
+  assign usf_active = false
+  if shop.metafields.usf.settings != blank
+    assign usf_active = true
+  endif
+-%}
+{%- if usf_active -%}
 
 <!-- BEGIN USF -->
 {%- liquid
@@ -436,7 +449,7 @@
                 {%- endif -%}
             </div>
         </div>
-    {%- if settings.layout != '4' or sidebar_type == 'horizontal' -%}
+    {%- if settings.layout != '4' or sidebar_type != 'horizontal' -%}
         </div>
     {%- endif -%}
     <div class="loading-overlay loading-overlay--custom">
@@ -481,8 +494,7 @@
     window.addEventListener('resize', resizeAllGridItems);
 </script>
 <!-- END USF -->
-
-{% comment %}USF
+{%- else -%}
 {%- liquid
     assign colors_bg = section.settings.colors_bg
     assign colors_bg_gradient = section.settings.colors_bg_gradient
@@ -716,7 +728,7 @@
                 {%- endif -%}
             </div>
         </div>
-    {%- if settings.layout != '4' or sidebar_type == 'horizontal' -%}
+    {%- if settings.layout != '4' or sidebar_type != 'horizontal' -%}
         </div>
     {%- endif -%}
     <div class="loading-overlay loading-overlay--custom">
@@ -743,4 +755,4 @@
     window.onload = resizeAllGridItems();
     window.addEventListener('resize', resizeAllGridItems);
 </script>
-USF{% endcomment %}
+{%- endif -%}

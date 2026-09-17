@@ -1,3 +1,7 @@
+{%- comment -%}
+  FIX: green-marker.png no existía en /assets (404). Sustituido por green-marker.svg,
+  creado con el tema y nítido en cualquier densidad de pantalla.
+{%- endcomment -%}
 {% liquid
   assign padding_top = section.settings.mg_top_desktop | append: 'px'
   assign padding_bottom = section.settings.mg_bottom_desktop | append: 'px'
@@ -204,7 +208,7 @@
   background-position: center center;
   height: 56px;
   width: 56px;
-  background-image: url('{{ 'green-marker.png' | asset_url }}');
+  background-image: url('{{ 'green-marker.svg' | asset_url }}');
 }
 
 .page-find-a-store .mapboxgl-popup {

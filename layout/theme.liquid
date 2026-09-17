@@ -15,8 +15,13 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta name="theme-color" content="">
-        <link rel="canonical" href="{{ canonical_url }}">
+        <meta name="theme-color" content="{{ settings.colors_bg | default: '#ffffff' }}">
+        {%- comment -%} FIX: preconnect a los dominios de terceros que sí se usan, para recortar el handshake. {%- endcomment -%}
+        <link rel="preconnect" href="https://www.clarity.ms" crossorigin>
+        <link rel="preconnect" href="https://s3.amazonaws.com" crossorigin>
+        <link rel="dns-prefetch" href="https://www.clarity.ms">
+        <link rel="dns-prefetch" href="https://s3.amazonaws.com">
+        {%- comment -%} FIX: había DOS <link rel="canonical">. Google ignora la etiqueta cuando se repite con valores distintos. {%- endcomment -%}
         <link rel="canonical" href="{{ canonical_url }}" canonical-shop-url="{{ shop.url }}/">
         {%- if settings.favicon != blank -%}
             <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
@@ -96,7 +101,13 @@
 
     <body class="template-{{ request.page_type }} {{layout_body}} {{style_dots}} {{style_text_size_varriant}} {{style_arrows}} {{product_card_layout}} {% if settings.enable_button_disable_arrows %} enable_button_disable_arrows{% endif %}{% if settings.display_text_color_title %} enable_text_color_title{% if settings.style_text_color_varriant == '02' %} style_2_text_color_varriant{% endif %}{% endif %}{% if settings.hide_compare_homepage %} hide_compare_homepage{% endif %} {{ quick_shop_type }}{% if settings.show_image_loading %} show_image_loading{% endif %}{% if settings.show_effect_close %} show_effect_close{% endif %}{% if settings.enable_layout_rtl and enable_iso_rtl %} layout_rtl{% endif %}{% if request.design_mode %} shopify-design-mode{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}{% if settings.enable_following_cursor and settings.following_cursor_style == 'default' %} cursor-fixed__show{% endif %}{% unless settings.enable_currencies %} disable_currencies{% endunless %}">
         
-              <script data-name="shopifyAddiWidget" data-id="lobstermini" data-ally-slug="lobstermini" data-element-reference=".price__last" src="https://s3.amazonaws.com/statics.addi.com/shopify/js/shopify-co-widget-wrapper.bundle.min.js"></script>
+              {%- comment -%}
+                FIX: este widget de Addi estaba DUPLICADO (dos veces el mismo bundle de ~? KB,
+                con slugs distintos: "lobstermini" y "lobstermini-ecommerce") y además el
+                segundo estaba FUERA de </body>. Queda una sola carga, con defer, antes de </body>.
+                Si necesitas los dos selectores, Addi admite varios data-element-reference
+                separados por coma en una sola etiqueta.
+              {%- endcomment -%}
 
       <div class="body-content-wrapper">
             <a class="skip-to-content-link button visually-hidden" href="#MainContent">{{ "accessibility.skip_to_text" | t }}</a>
@@ -153,13 +164,13 @@
         <script async src="{{ 'sizesAvailable.js' | asset_url }}">
         </script>
 
+        {%- comment -%} FIX: este <script> vivía FUERA de </body> (HTML inválido). Ahora va dentro y con defer. {%- endcomment -%}
+        <script
+          data-name="shopifyAddiWidget"
+          data-id="lobstermini"
+          data-ally-slug="lobstermini-ecommerce"
+          data-element-reference=".price.price--medium, .price__last"
+          src="https://s3.amazonaws.com/statics.addi.com/shopify/js/shopify-co-widget-wrapper.bundle.min.js"
+          defer></script>
       </body>
-                      
-<script 
-data-name="shopifyAddiWidget" 
-data-id="lobstermini" 
-data-ally-slug="lobstermini-ecommerce" 
-data-element-reference=".price.price--medium" 
-src="https://s3.amazonaws.com/statics.addi.com/shopify/js/shopify-co-widget-wrapper.bundle.min.js"
-  ></script>             
 </html>

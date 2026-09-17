@@ -557,6 +557,9 @@ if (sticky != undefined || sticky != null) {
 }
 {% endjavascript %}
 <script>
+/* FIX: envuelto en themeReady() porque jQuery (vendor.js) ahora carga con defer. */
+themeReady(function () {
+
     var appendPrependMenuMobile = function() {
         var headerLanguageCurrencyPC = $('.wrapper-language-currency'),
             headerLanguageCurrencyMB = $('.nav-currency-language'),
@@ -573,12 +576,14 @@ if (sticky != undefined || sticky != null) {
             }
         };
     };
-    $(document).ready(function() {
+    themeReady(function () {
         appendPrependMenuMobile();
     });
     $(window).on('resize', function () {
         appendPrependMenuMobile();
     })
+
+});
 </script>
 <script type="application/ld+json">
     {
