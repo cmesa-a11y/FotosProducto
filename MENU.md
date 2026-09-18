@@ -2,21 +2,21 @@
 
 **Posicionamiento:** multimarca de niños + **especialista en regalos para bebés**.
 
-El menú anterior era una plantilla de Lobster Mini en solitario: "Prendas superiores",
-"Nuevos Basicos Mixers", "Hasta 50% OFF". Ni una marca aliada, y **ningún eje de regalo**,
-que es justo la posición que quieres ocupar.
+El menú anterior era una plantilla de Lobster Mini en solitario — "Prendas superiores",
+"Nuevos Basicos Mixers", "Hasta 50% OFF" — sin ninguna marca aliada, sin eje de regalo y
+sin eje de edad. Los dos ejes que más necesita esta tienda.
 
 ## Reparto: qué vive dónde
 
 | Pieza | Dónde | Estado |
 |---|---|---|
-| Menú de escritorio | Admin → Contenido → Menús | Lo creas tú, abajo está la estructura |
+| Menú de escritorio | Admin → Contenido → Menús | Lo creas tú, estructura abajo |
 | Diseño del mega menú | Tema → cabecera | ✅ configurado |
 | Menú móvil | Tema → `halo-navigation-mobile` | ✅ reconstruido |
 
-En Ella, con `mobile_menu = 'custom'` el móvil **no usa el menú de Shopify**
-(`wrapper-header.liquid:23-24`): se construye en el tema. Por eso el móvil ya funciona y
-el de escritorio depende de que lo crees.
+Con `mobile_menu = 'custom'` Ella **no usa el menú de Shopify en móvil**
+(`wrapper-header.liquid:23-24`): lo construye desde el tema. Por eso el móvil ya funciona
+y el de escritorio depende de que lo crees.
 
 ## Las seis pestañas
 
@@ -24,36 +24,35 @@ el de escritorio depende de que lo crees.
 REGALOS    BORDADOS    ROPA    ZAPATOS    ESENCIALES    MARCAS
 ```
 
-**Regalos va primero** porque es la palabra que usa tu cliente cuando busca, no la que
-usas tú para describirte. Quien llega de un baby shower no busca "canastilla": busca un
-regalo. **Bordados va segundo** porque es tu diferencial y tu margen, y porque es lo que
-convierte un regalo cualquiera en uno que se guarda.
+**Regalos primero** porque es la palabra que usa tu cliente al buscar, no la que usas tú
+para describirte: quien sale de un baby shower no busca "canastilla", busca un regalo.
+**Bordados segundo** porque es tu margen y lo que convierte un regalo cualquiera en uno
+que se guarda.
 
-El mega menú usa **tres niveles** (`halo-megamenu.liquid:33-55`): nivel 1 = pestaña,
-nivel 2 = encabezado de columna, nivel 3 = enlaces. Shopify permite exactamente esos tres.
+Tres niveles (`halo-megamenu.liquid:33-55`): nivel 1 = pestaña, nivel 2 = encabezado de
+columna, nivel 3 = enlaces. Shopify permite exactamente esos tres.
 
 ### 1 · REGALOS → `/collections/regalos` ⚠
-La pestaña que da sentido a la posición. Es la única que organiza por **momento de
-compra** en vez de por producto.
+La única pestaña que organiza por **momento de compra** en vez de por producto.
 ```
   Por ocasión
-     Nacimiento                ⚠
      Baby shower               ⚠
-     Primer cumpleaños         ⚠
+     Cumpleaños                ⚠
      Bautizo                   ⚠
-  Por precio
-     Hasta $80.000             ⚠
-     Hasta $150.000            ⚠
-     Más de $150.000           ⚠
+  Por edad
+     0-6 meses                 ⚠
+     6-12 meses                ⚠
+     1-2 años                  ⚠
+     3 años en adelante        ⚠
   Listos para regalar
-     Canastillas y sets  → /collections/sets            ✅
-     Regalo personalizado → /collections/personalizados ✅
+     Canastillas y sets   → /collections/sets            ✅
+     Regalo personalizado → /collections/personalizados  ✅
 ```
 
 ### 2 · BORDADOS → `/collections/personalizados` ✅
 ```
   Qué puedes bordar
-     Baberos · Muselinas · Toallas · Cobijas    ⚠
+     Baberos · Muselinas · Toallas · Cobijas   ⚠
   Antes de pedir
      Cómo funciona · Tipografías e hilos · Tiempos de entrega   ⚠ páginas
 ```
@@ -69,26 +68,35 @@ compra** en vez de por producto.
   Conjuntos
      Sets y conjuntos   → /collections/sets      ✅
      Mixers             → /collections/mixers    ✅
+  Por edad
+     0-6 meses · 6-12 meses · 1-2 años · 3 años en adelante   ⚠
   Colecciones
      Aire Libre         → /collections/aire-libre ✅
 ```
 
 ### 4 · ZAPATOS → `/collections/zapatos` ⚠
-Desplegable simple, sin mega menú: hoy solo hay una marca de calzado.
+Tres marcas fuertes, agrupadas.
 ```
-     Igor → /collections/igor-shoes  ✅
+  Marcas
+     Kings & Rebels → /collections/kings-rebels ✅
+     Igor           → /collections/igor-shoes   ✅
+     Piesh Kids     → /collections/piesh-kids   ⚠
+  Por edad
+     0-6 meses · 6-12 meses · 1-2 años · 3 años en adelante   ⚠
+  Primeros pasos
+     Pre-andantes · Andantes    ⚠ (opcional, muy usado en calzado infantil)
 ```
 
 ### 5 · ESENCIALES → `/collections/esenciales` ⚠
 ```
-  Para la comida   → Baberos                              ⚠
-  Para dormir      → Cobijas · Muselinas                  ⚠
-  Para el baño     → Toallas                              ⚠
-  Para cargar      → Fulares Kargo → /collections/fulares-kargo ⚠
+  Para la comida   → Baberos                                     ⚠
+  Para dormir      → Cobijas · Muselinas                         ⚠
+  Para el baño     → Toallas                                     ⚠
+  Para cargar      → Fulares Kargo → /collections/fulares-kargo  ⚠
 ```
 
 ### 6 · MARCAS → página de marcas (`page.template-brands.json` ya existe)
-Ordenadas por desempeño, no alfabéticamente.
+Por desempeño, no alfabéticamente.
 ```
   Nuestra marca
      Lobster Mini    → /collections/lobster-mini  ✅
@@ -96,11 +104,21 @@ Ordenadas por desempeño, no alfabéticamente.
      Kings & Rebels  → /collections/kings-rebels  ✅
      Pombo & Lola    → /collections/pombo-lola    ⚠
      Igor            → /collections/igor-shoes    ✅
-     Fulares Kargo   → /collections/fulares-kargo ⚠
      Piesh Kids      → /collections/piesh-kids    ⚠
+     Fulares Kargo   → /collections/fulares-kargo ⚠
 ```
 
-✅ colección verificada · ⚠ hay que crearla o confirmar el handle
+✅ verificada · ⚠ hay que crearla o confirmar el handle
+
+## Por qué la edad no es una pestaña
+
+Con Edad serían siete pestañas, demasiadas para una barra horizontal. Y la edad por sí
+sola no es un destino de compra: nadie busca "6-12 meses", busca *ropa* o *un regalo*
+para esa edad. Por eso va como **columna dentro de Regalos, Ropa y Zapatos**, que es
+donde se usa.
+
+Si aun así la quieres como pestaña propia, dímelo: la candidata a salir sería Esenciales,
+que se puede absorber dentro de Regalos.
 
 ## Ya configurado en el tema
 
@@ -113,43 +131,37 @@ Enganchan **por el texto de la pestaña**, comparado con `| downcase | handle`
 | Regalos | 3 |
 | Bordados | 2 |
 | Ropa | 4 |
+| Zapatos | 3 |
 | Esenciales | 4 |
 | Marcas | 2 |
 
-Si nombras una pestaña distinto, no engancha y cae en desplegable simple. No se rompe
-nada; pierdes el diseño.
+Si nombras una pestaña distinto no engancha y cae en desplegable simple: no se rompe
+nada, pierdes el diseño.
 
 ### Menú móvil
-Espejo exacto del de escritorio:
+Espejo del de escritorio:
 ```
 Regalos [Para regalar] · Bordados [Personalizado] · Ropa · Zapatos ·
 Esenciales · Marcas · Ver todo
 ```
 
-Quité **Aire Libre 🌿** y **Mixers 🍦** del menú móvil. Son sub-líneas de Lobster Mini, y
-tenerlas en la navegación principal de una tienda multimarca es justo la herencia de la
-que estás saliendo. Viven dentro de Ropa, donde las dejé.
+Quité **Aire Libre 🌿** y **Mixers 🍦**: son sub-líneas de Lobster Mini, y tenerlas en la
+navegación principal de una tienda multimarca es la herencia de la que estás saliendo.
+Siguen dentro de Ropa.
 
 Cada ítem del móvil tiene un campo **Menú** (`menu`, tipo `link_list`): cuando crees los
 submenús en el admin se los asignas ahí y el cajón pasa de plano a anidado.
 
-## Colecciones que faltan, por orden de urgencia
+## Colecciones que faltan, por urgencia
 
-1. **`regalos`** y sus hijas por ocasión. Sin esto la posición de "especialista en regalos"
-   no existe en la tienda, solo en tu cabeza.
-2. **`ropa`**, **`zapatos`**, **`esenciales`** — las tres pestañas de catálogo.
-3. **`pombo-lola`**, **`fulares-kargo`**, **`piesh-kids`** — las tres marcas nuevas.
-4. Las colecciones de bordado (baberos, muselinas, toallas, cobijas).
+1. **`regalos`** + las 3 de ocasión (baby shower, cumpleaños, bautizo). Sin esto la
+   posición de especialista en regalos no existe en la tienda.
+2. **Las 4 de edad**: `0-6-meses`, `6-12-meses`, `1-2-anos`, `3-anos-en-adelante`.
+   Se montan como colecciones **automáticas** por etiqueta, así que basta con etiquetar
+   los productos una vez.
+3. **`ropa`**, **`zapatos`**, **`esenciales`** — las pestañas de catálogo.
+4. **`pombo-lola`**, **`piesh-kids`**, **`fulares-kargo`** — las marcas nuevas.
+5. Las de bordado: baberos, muselinas, toallas, cobijas.
 
-Las de **precio** se montan solas con colecciones automáticas por rango; las de
-**ocasión** necesitan etiquetas en los productos.
-
-## Dos cosas que quedan abiertas
-
-**Las fichas del home dicen Ropa · Zapatos · Bordados · Esenciales.** Si Regalos es la
-primera pestaña del menú, debería estar también ahí. Son cuatro fichas y ahora hay cinco
-candidatas: mi voto es cambiar Zapatos (una sola marca) por Regalos.
-
-**Falta el eje de edad o talla.** "0-6 meses", "6-12 meses", "1-2 años". En regalo para
-bebé es casi la primera pregunta: quien regala no sabe la talla, sabe la edad. Hoy no
-existe en ninguna parte de la tienda.
+Las de ocasión también pueden ser automáticas por etiqueta. Un mismo producto puede estar
+en varias: un babero bordado puede ser `baby-shower` + `0-6-meses` + `bordados` a la vez.

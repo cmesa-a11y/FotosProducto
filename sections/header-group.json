@@ -279,6 +279,17 @@
             "show_product": false
           }
         },
+        "megamenu_zapatos": {
+          "type": "megamenu_style_1",
+          "settings": {
+            "layout_block": "custom_width",
+            "header_custom_width_size": 1200,
+            "item": "Zapatos",
+            "column": 3,
+            "show_banner_1": false,
+            "show_product": false
+          }
+        },
         "megamenu_esenciales": {
           "type": "megamenu_style_1",
           "settings": {
@@ -309,6 +320,7 @@
         "megamenu_regalos",
         "megamenu_bordados",
         "megamenu_ropa",
+        "megamenu_zapatos",
         "megamenu_esenciales",
         "megamenu_marcas"
       ],
