@@ -419,3 +419,62 @@ Dos formas de aliviarlo sin quitar ninguna marca:
 
 Lo dejé como pediste, con las tres parejas completas. Si prefieres cualquiera de las dos
 alternativas, es un cambio pequeño.
+
+---
+
+# Quinta tanda — las tres marcas, en pestañas
+
+Las 6 secciones de la tanda anterior se sustituyen por **una sola sección**
+`product_tab_block_marcas`, titulada "Nuestras marcas", con tres pestañas:
+
+```
+13  Nuestras marcas    →  Pombo & Lola | Fulares Kargo | Piesh Kids
+```
+
+Clonada del grid de Lobster Mini; solo difiere en el título de la sección y en el
+enlace de "Ver todo". El home pasa de 19 secciones activas a 14.
+
+## Corrección a lo que dije en la tanda anterior
+
+Hablé de "56 fichas de producto en el home" como si fueran peso de la página. **No lo
+son.** Revisando `product-tab-block.liquid:266-350` y `theme.js:1100-1150`, esta sección
+no renderiza ni un producto en el HTML: los pide por AJAX
+(`?view=ajax_product_block`) y además lo hace con un **IntersectionObserver**, o sea
+solo cuando la sección entra en pantalla. Mi advertencia sobre el peso del HTML inicial
+estaba mal planteada. Lo que sí seguía en pie era el scroll y la monotonía de seis
+bloques iguales seguidos.
+
+## Por qué las pestañas sí ahorran de verdad
+
+El mismo código explica el ahorro real, que está en peticiones y no en HTML:
+
+- `linkActive.data('href')` — al entrar en pantalla, la sección carga **solo la pestaña
+  activa**.
+- `if (!curTabContent.hasClass('loaded'))` — las demás se cargan al hacer clic, y una
+  sola vez.
+
+Tres secciones independientes disparaban **3 peticiones y 24 productos** al pasar por
+delante. Una sección con tres pestañas dispara **1 petición y 8 productos**; los otros 16
+solo si alguien pulsa la pestaña. El home baja de 7 a 5 peticiones de producto en total.
+
+Y desaparece la necesidad de los seis banners (1880×720 y 638×780 por marca) que
+quedaron pendientes: las pestañas ya nombran cada marca.
+
+## El coste de las pestañas
+
+`view_all` y `link_view_all` son ajustes **de sección, no de pestaña**
+(`product-tab-block.liquid:473` lee `section.settings.view_all`), así que el enlace no
+puede seguir a la pestaña activa. Quedó como **"Ver todas las marcas" → `/collections`**.
+
+Si quieres una salida por marca hay dos caminos: volver a una sección por marca (lo que
+acabamos de deshacer), o que yo haga el enlace dinámico por pestaña — es código, unas
+20 líneas entre el Liquid y el JS que ya cambia de pestaña.
+
+El tema trae `templates/page.template-brands.json`; si tienes una página con esa
+plantilla, es mejor destino que `/collections` para ese enlace.
+
+## Pendiente
+
+Los handles `pombo-lola`, `fulares-kargo` y `piesh-kids` siguen siendo **asumidos**.
+Cada pestaña los usa en el selector de colección, así que si no existen la pestaña
+saldrá vacía. Verifícalos en el editor.
