@@ -566,6 +566,22 @@
       "halo-navigation-mobile": {
         "type": "halo-navigation-mobile",
         "blocks": {
+          "menu_regalos": {
+            "type": "menu-1",
+            "settings": {
+              "show_banner": false,
+              "heading": "Regalos",
+              "url": "/collections/regalos",
+              "menu": "",
+              "label": "Para regalar",
+              "icon": "",
+              "show_custom_style": false,
+              "text_color": "#000000",
+              "label_bg_color": "#000000",
+              "label_text_color": "#ffffff",
+              "image": ""
+            }
+          },
           "menu_bordados": {
             "type": "menu-1",
             "settings": {
@@ -646,38 +662,6 @@
               "image": ""
             }
           },
-          "menu_aire_libre": {
-            "type": "menu-1",
-            "settings": {
-              "show_banner": false,
-              "heading": "Aire Libre 🌿",
-              "url": "shopify://collections/aire-libre",
-              "menu": "",
-              "label": "",
-              "icon": "",
-              "show_custom_style": false,
-              "text_color": "#000000",
-              "label_bg_color": "#000000",
-              "label_text_color": "#ffffff",
-              "image": ""
-            }
-          },
-          "menu_mixers": {
-            "type": "menu-1",
-            "settings": {
-              "show_banner": false,
-              "heading": "Mixers 🍦",
-              "url": "shopify://collections/mixers",
-              "menu": "",
-              "label": "",
-              "icon": "",
-              "show_custom_style": false,
-              "text_color": "#000000",
-              "label_bg_color": "#000000",
-              "label_text_color": "#ffffff",
-              "image": ""
-            }
-          },
           "menu_ver_todo": {
             "type": "menu-1",
             "settings": {
@@ -696,13 +680,12 @@
           }
         },
         "block_order": [
+          "menu_regalos",
           "menu_bordados",
           "menu_ropa",
           "menu_zapatos",
           "menu_esenciales",
           "menu_marcas",
-          "menu_aire_libre",
-          "menu_mixers",
           "menu_ver_todo"
         ],
         "settings": {

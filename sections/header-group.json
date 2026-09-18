@@ -246,13 +246,24 @@
             "cart_count_bubble_bg_gradient": ""
           }
         },
+        "megamenu_regalos": {
+          "type": "megamenu_style_1",
+          "settings": {
+            "layout_block": "custom_width",
+            "header_custom_width_size": 1200,
+            "item": "Regalos",
+            "column": 3,
+            "show_banner_1": false,
+            "show_product": false
+          }
+        },
         "megamenu_bordados": {
           "type": "megamenu_style_1",
           "settings": {
             "layout_block": "custom_width",
             "header_custom_width_size": 1200,
             "item": "Bordados",
-            "column": 3,
+            "column": 2,
             "show_banner_1": false,
             "show_product": false
           }
@@ -295,6 +306,7 @@
         "sections--14682829619277__9c03747e-b054-4db8-8194-5a35c71f82ca-1680876693acfad79f-0",
         "54786c97-e881-45f5-a30a-6fdb552a963e",
         "sections--14682829619277__9c03747e-b054-4db8-8194-5a35c71f82ca-1680876693acfad79f-2",
+        "megamenu_regalos",
         "megamenu_bordados",
         "megamenu_ropa",
         "megamenu_esenciales",

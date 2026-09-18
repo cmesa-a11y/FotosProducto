@@ -1,160 +1,155 @@
-# Menú de lobstermini.com — cómo montarlo
+# Menú de lobstermini.com
+
+**Posicionamiento:** multimarca de niños + **especialista en regalos para bebés**.
+
+El menú anterior era una plantilla de Lobster Mini en solitario: "Prendas superiores",
+"Nuevos Basicos Mixers", "Hasta 50% OFF". Ni una marca aliada, y **ningún eje de regalo**,
+que es justo la posición que quieres ocupar.
 
 ## Reparto: qué vive dónde
 
-| Pieza | Dónde se configura | Estado |
+| Pieza | Dónde | Estado |
 |---|---|---|
-| Menú de escritorio | **Admin de Shopify** → Contenido → Menús | Lo creas tú (instrucciones abajo) |
-| Diseño del mega menú | **Tema** → cabecera → bloques `megamenu` | ✅ ya configurado |
-| Menú móvil | **Tema** → `halo-navigation-mobile` | ✅ ya reconstruido |
+| Menú de escritorio | Admin → Contenido → Menús | Lo creas tú, abajo está la estructura |
+| Diseño del mega menú | Tema → cabecera | ✅ configurado |
+| Menú móvil | Tema → `halo-navigation-mobile` | ✅ reconstruido |
 
-El menú de escritorio es dato de la tienda, no del tema, así que no viaja en el zip.
-El mega menú y el menú móvil sí, y esos ya están hechos.
+En Ella, con `mobile_menu = 'custom'` el móvil **no usa el menú de Shopify**
+(`wrapper-header.liquid:23-24`): se construye en el tema. Por eso el móvil ya funciona y
+el de escritorio depende de que lo crees.
 
-## Lo que había
-
-**Escritorio:** los 7 bloques de mega menú estaban **vacíos**, restos de la demo de Ella.
-Sin configurar, cada ítem del menú caía en un desplegable simple.
-
-**Móvil:** Ella no usa el menú de Shopify cuando `mobile_menu = 'custom'`, que es tu caso
-(`wrapper-header.liquid:23-24`). El menú móvil se construye en el tema, y estaba lleno con
-la estructura antigua de Lobster Mini:
+## Las seis pestañas
 
 ```
-Ver Todo · Nueva Colección Aire Libre 🌿 · Nuevos Basicos Mixers 🍦 ·
-Prendas superiores · Prendas Inferiores · Sets y Conjuntos · Vestidos ·
-Adultos [off] · Hasta 50% OFF🔥 · Manifiesto [off]
+REGALOS    BORDADOS    ROPA    ZAPATOS    ESENCIALES    MARCAS
 ```
 
-Ni una mención a bordados, zapatos, esenciales ni a ninguna de las seis marcas.
-Escritorio sin configurar y móvil desactualizado: **dos navegaciones distintas**.
+**Regalos va primero** porque es la palabra que usa tu cliente cuando busca, no la que
+usas tú para describirte. Quien llega de un baby shower no busca "canastilla": busca un
+regalo. **Bordados va segundo** porque es tu diferencial y tu margen, y porque es lo que
+convierte un regalo cualquiera en uno que se guarda.
 
-## La estructura propuesta: 5 pestañas
+El mega menú usa **tres niveles** (`halo-megamenu.liquid:33-55`): nivel 1 = pestaña,
+nivel 2 = encabezado de columna, nivel 3 = enlaces. Shopify permite exactamente esos tres.
 
-Las mismas cuatro palabras que usan las fichas de categoría del home, más marcas.
-Que el menú y el home digan lo mismo es lo que hace que se aprenda.
-
+### 1 · REGALOS → `/collections/regalos` ⚠
+La pestaña que da sentido a la posición. Es la única que organiza por **momento de
+compra** en vez de por producto.
 ```
-BORDADOS      ROPA      ZAPATOS      ESENCIALES      MARCAS
+  Por ocasión
+     Nacimiento                ⚠
+     Baby shower               ⚠
+     Primer cumpleaños         ⚠
+     Bautizo                   ⚠
+  Por precio
+     Hasta $80.000             ⚠
+     Hasta $150.000            ⚠
+     Más de $150.000           ⚠
+  Listos para regalar
+     Canastillas y sets  → /collections/sets            ✅
+     Regalo personalizado → /collections/personalizados ✅
 ```
 
-## Cómo crearlo en el admin
-
-Contenido → Menús → **Menú principal** (handle `main-menu`, que es el que lee el tema).
-
-El mega menú usa **tres niveles**: nivel 1 = pestaña, nivel 2 = encabezado de columna,
-nivel 3 = enlaces de esa columna (`halo-megamenu.liquid:33-55`). Shopify permite
-exactamente esos tres.
-
-### 1 · BORDADOS → `/collections/personalizados`
+### 2 · BORDADOS → `/collections/personalizados` ✅
 ```
   Qué puedes bordar
-     Baberos            ⚠ crear colección
-     Muselinas          ⚠ crear colección
-     Toallas            ⚠ crear colección
+     Baberos · Muselinas · Toallas · Cobijas    ⚠
   Antes de pedir
-     Cómo funciona      ⚠ crear página
-     Tipografías e hilos ⚠ crear página (hoy es un enlace a Google Drive)
-     Tiempos de entrega ⚠ crear página
+     Cómo funciona · Tipografías e hilos · Tiempos de entrega   ⚠ páginas
 ```
 
-### 2 · ROPA → `/collections/ropa` ⚠
+### 3 · ROPA → `/collections/ropa` ⚠
 ```
   Prendas
-     Prendas superiores → /collections/tops       ✅
-     Prendas inferiores → /collections/bottoms    ✅
-     Vestidos           → /collections/vestidos   ✅
-     Buzos              → /collections/buzos      ✅
-     Camisetas          → /collections/camisetas  ✅
+     Prendas superiores → /collections/tops      ✅
+     Prendas inferiores → /collections/bottoms   ✅
+     Vestidos           → /collections/vestidos  ✅
+     Buzos              → /collections/buzos     ✅
+     Camisetas          → /collections/camisetas ✅
   Conjuntos
-     Sets y conjuntos   → /collections/sets       ✅
-     Mixers             → /collections/mixers     ✅
+     Sets y conjuntos   → /collections/sets      ✅
+     Mixers             → /collections/mixers    ✅
   Colecciones
      Aire Libre         → /collections/aire-libre ✅
 ```
 
-### 3 · ZAPATOS → `/collections/zapatos` ⚠
+### 4 · ZAPATOS → `/collections/zapatos` ⚠
 Desplegable simple, sin mega menú: hoy solo hay una marca de calzado.
 ```
-     Igor               → /collections/igor-shoes ✅
+     Igor → /collections/igor-shoes  ✅
 ```
 
-### 4 · ESENCIALES → `/collections/esenciales` ⚠
+### 5 · ESENCIALES → `/collections/esenciales` ⚠
 ```
-  Para la comida
-     Baberos            ⚠
-  Para dormir
-     Cobijas · Muselinas ⚠
-  Para el baño
-     Toallas            ⚠
-  Para cargar
-     Fulares Kargo      ⚠ → /collections/fulares-kargo
+  Para la comida   → Baberos                              ⚠
+  Para dormir      → Cobijas · Muselinas                  ⚠
+  Para el baño     → Toallas                              ⚠
+  Para cargar      → Fulares Kargo → /collections/fulares-kargo ⚠
 ```
 
-### 5 · MARCAS → página de marcas (`templates/page.template-brands.json` ya existe)
+### 6 · MARCAS → página de marcas (`page.template-brands.json` ya existe)
+Ordenadas por desempeño, no alfabéticamente.
 ```
   Nuestra marca
-     Lobster Mini       → /collections/lobster-mini ✅
+     Lobster Mini    → /collections/lobster-mini  ✅
   Marcas aliadas
-     Kings & Rebels     → /collections/kings-rebels ✅
-     Igor               → /collections/igor-shoes   ✅
-     Pombo & Lola       ⚠ → /collections/pombo-lola
-     Fulares Kargo      ⚠ → /collections/fulares-kargo
-     Piesh Kids         ⚠ → /collections/piesh-kids
+     Kings & Rebels  → /collections/kings-rebels  ✅
+     Pombo & Lola    → /collections/pombo-lola    ⚠
+     Igor            → /collections/igor-shoes    ✅
+     Fulares Kargo   → /collections/fulares-kargo ⚠
+     Piesh Kids      → /collections/piesh-kids    ⚠
 ```
 
-✅ colección verificada en tu configuración · ⚠ hay que crearla o confirmar el handle
+✅ colección verificada · ⚠ hay que crearla o confirmar el handle
 
-## Lo que ya quedó hecho en el tema
+## Ya configurado en el tema
 
 ### Mega menú
-Eliminados los 7 bloques vacíos de la demo. Configurados 4, que se enganchan **por el
-texto del ítem**, comparado con `| downcase | handle`
-(`halo-navigation-list.liquid:28` y `:43`) — o sea que mayúsculas y tildes dan igual:
+Enganchan **por el texto de la pestaña**, comparado con `| downcase | handle`
+(`halo-navigation-list.liquid:28` y `:43`): mayúsculas y tildes dan igual.
 
-| Bloque | `item` | Columnas |
-|---|---|---|
-| megamenu_style_1 | Bordados | 3 |
-| megamenu_style_1 | Ropa | 4 |
-| megamenu_style_1 | Esenciales | 4 |
-| megamenu_style_1 | Marcas | 2 |
+| `item` | Columnas |
+|---|---|
+| Regalos | 3 |
+| Bordados | 2 |
+| Ropa | 4 |
+| Esenciales | 4 |
+| Marcas | 2 |
 
-Si nombras las pestañas distinto, el mega menú no engancha y el ítem cae en un
-desplegable normal. No se rompe nada, pero pierdes el diseño.
-
-Zapatos a propósito no lleva mega menú.
+Si nombras una pestaña distinto, no engancha y cae en desplegable simple. No se rompe
+nada; pierdes el diseño.
 
 ### Menú móvil
+Espejo exacto del de escritorio:
 ```
-Bordados        → /collections/personalizados   [etiqueta: Personalizado]
-Ropa            → /collections/ropa             ⚠
-Zapatos         → /collections/zapatos          ⚠
-Esenciales      → /collections/esenciales       ⚠
-Marcas          → /collections
-Aire Libre 🌿    → /collections/aire-libre        ✅
-Mixers 🍦        → /collections/mixers            ✅
-Ver todo        → /collections/shop-all          ✅
+Regalos [Para regalar] · Bordados [Personalizado] · Ropa · Zapatos ·
+Esenciales · Marcas · Ver todo
 ```
 
-Colores y estilo heredados de tu configuración actual.
+Quité **Aire Libre 🌿** y **Mixers 🍦** del menú móvil. Son sub-líneas de Lobster Mini, y
+tenerlas en la navegación principal de una tienda multimarca es justo la herencia de la
+que estás saliendo. Viven dentro de Ropa, donde las dejé.
 
-Cada ítem del móvil tiene además un campo **Menú** (`menu`, tipo `link_list`): cuando
-crees los submenús en el admin, se los asignas ahí y el cajón móvil pasa a ser anidado
-en vez de plano. Lo dejé vacío porque esos submenús todavía no existen.
+Cada ítem del móvil tiene un campo **Menú** (`menu`, tipo `link_list`): cuando crees los
+submenús en el admin se los asignas ahí y el cajón pasa de plano a anidado.
 
-## Lo que quité del móvil, y por qué
+## Colecciones que faltan, por orden de urgencia
 
-- **"Hasta 50% OFF🔥"** apuntaba a `shop-all`, no a una colección de rebajas. Prometía un
-  descuento y llevaba al catálogo entero. Vuelve a ponerlo cuando tengas una colección
-  de rebajas de verdad.
-- **"Adultos"** y **"Manifiesto"** estaban desactivados. Manifiesto
-  (`/pages/about-us-lobster-mini`) es buen contenido de marca: yo lo pondría en el pie,
-  no en el menú.
-- **"Nueva Colección"** y **"Nuevos Basicos"** como prefijos: envejecen mal. Quedaron
-  "Aire Libre" y "Mixers".
+1. **`regalos`** y sus hijas por ocasión. Sin esto la posición de "especialista en regalos"
+   no existe en la tienda, solo en tu cabeza.
+2. **`ropa`**, **`zapatos`**, **`esenciales`** — las tres pestañas de catálogo.
+3. **`pombo-lola`**, **`fulares-kargo`**, **`piesh-kids`** — las tres marcas nuevas.
+4. Las colecciones de bordado (baberos, muselinas, toallas, cobijas).
 
-## Consejo de fondo
+Las de **precio** se montan solas con colecciones automáticas por rango; las de
+**ocasión** necesitan etiquetas en los productos.
 
-Falta un eje que en ropa infantil funciona muy bien y hoy no tienes en ninguna parte:
-**la edad o la talla**. "0-6 meses", "6-12 meses", "1-2 años"… Si alguna vez creas esas
-colecciones, ese es el sexto ítem del menú — y probablemente el que más se use.
+## Dos cosas que quedan abiertas
+
+**Las fichas del home dicen Ropa · Zapatos · Bordados · Esenciales.** Si Regalos es la
+primera pestaña del menú, debería estar también ahí. Son cuatro fichas y ahora hay cinco
+candidatas: mi voto es cambiar Zapatos (una sola marca) por Regalos.
+
+**Falta el eje de edad o talla.** "0-6 meses", "6-12 meses", "1-2 años". En regalo para
+bebé es casi la primera pregunta: quien regala no sabe la talla, sabe la edad. Hoy no
+existe en ninguna parte de la tienda.
