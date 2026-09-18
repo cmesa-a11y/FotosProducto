@@ -361,3 +361,61 @@ y no *"otro tipo de producto"*.
 - Eliminado un último bloque de demo de Ella: `large_img_9pcdLE` ("Metropólis"),
   desactivado y sin imagen, dentro de `image_banner_3nRmLM`.
   El home ya no contiene ni un solo resto de texto de plantilla.
+
+---
+
+# Cuarta tanda — tres marcas nuevas
+
+Tres parejas **banner + grid**, clonadas del par de Lobster Mini
+(`image_banner_3nRmLM` + `product_tab_block_yaJbK4`). Verificado que cada clon es
+idéntico al original salvo en el nombre, la colección y el enlace: mismo ancho 1170,
+mismos márgenes 50/40/30, mismo layout, mismo `product_block_limit: 8`, mismo estilo de
+pestañas y mismo "Ver todo".
+
+Van después del par de Igor y antes del bloque de valores:
+
+```
+13  banner Pombo & Lola     → /collections/pombo-lola      [SIN IMAGEN]
+14  Pombo & Lola            → pombo-lola          [Ver todo]
+15  banner Fulares Kargo    → /collections/fulares-kargo   [SIN IMAGEN]
+16  Fulares Kargo           → fulares-kargo       [Ver todo]
+17  banner Piesh Kids       → /collections/piesh-kids      [SIN IMAGEN]
+18  Piesh Kids              → piesh-kids          [Ver todo]
+```
+
+## Lo que falta
+
+**Handles asumidos.** `pombo-lola`, `fulares-kargo` y `piesh-kids` siguen la forma en que
+Shopify convierte un nombre en handle (el `&` desaparece). No pude comprobar que existan:
+si no coinciden, corrígelos en el editor o al crear las colecciones.
+
+**Banners sin imagen.** Los seis huecos (escritorio y móvil de cada marca) van vacíos a
+propósito; la sección pinta un marcador con la medida esperada. Mismas medidas que usan
+los banners actuales de Kings & Rebels e Igor:
+
+| | Medida |
+|---|---|
+| Escritorio | **1880 × 720 px** |
+| Móvil | **638 × 780 px** |
+
+**No publiques antes de subirlas** o saldrán tres bandas grises seguidas.
+
+## Advertencia: el home se está alargando
+
+Con esto quedan **19 secciones activas, 7 grids y 56 fichas de producto**. Cada ficha de
+Ella carga swatches, quick view, wishlist, badges y comparador, así que 56 es mucho peso
+y mucho scroll: seis marcas seguidas con la misma estructura banner→grid se vuelven
+monótonas antes de llegar al pie.
+
+Dos formas de aliviarlo sin quitar ninguna marca:
+
+1. **Bajar el límite por grid.** De 8 a 4 en las marcas de terceros deja el home en 32
+   fichas. Es un ajuste por sección en el editor.
+2. **Aprovechar las pestañas.** `product-tab-block` está pensado para varias pestañas en
+   una sola sección — de ahí su nombre — y hoy las siete la usan con una sola. Las tres
+   marcas nuevas podrían ser tres pestañas de una misma sección "Nuestras marcas":
+   un solo bloque en lugar de seis secciones, y el usuario compara marcas sin hacer
+   scroll. Se monta sin tocar código, añadiendo bloques `ProductTabs`.
+
+Lo dejé como pediste, con las tres parejas completas. Si prefieres cualquiera de las dos
+alternativas, es un cambio pequeño.
