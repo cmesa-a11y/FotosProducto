@@ -30,14 +30,14 @@ cat:ropa          cat:zapatos        cat:esenciales
 edad:0-6m         edad:6-12m         edad:1-2a        edad:3a-mas
 ocasion:baby-shower   ocasion:cumpleanos   ocasion:bautizo
 regalo            bordado
-tipo:babero       tipo:muselina      tipo:toalla      tipo:cobija
+tipo:babero       tipo:muselina      tipo:toalla      tipo:cobija      tipo:fular
 ```
 
 Un mismo producto lleva varias a la vez. Un babero bordado de Lobster Mini:
 `cat:esenciales`, `tipo:babero`, `bordado`, `regalo`, `ocasion:baby-shower`,
 `edad:0-6m` — y Proveedor `Lobster Mini`. Con eso aparece solo en seis colecciones.
 
-## Las 18 colecciones
+## Las 19 colecciones
 
 ⚠️ = **el handle tiene que ser exacto**, el tema ya lo enlaza. Si Shopify genera otro,
 el enlace queda roto.
@@ -62,6 +62,7 @@ el enlace queda roto.
 | Muselinas | `muselinas` | Etiqueta = `tipo:muselina` |
 | Toallas | `toallas` | Etiqueta = `tipo:toalla` |
 | Cobijas | `cobijas` | Etiqueta = `tipo:cobija` |
+| Fulares | `fulares` | Etiqueta = `tipo:fular` |
 
 **Todas automáticas**, condición única, "coincide con todas".
 
@@ -70,6 +71,8 @@ Ya existen y no hay que tocarlas: `personalizados`, `lobster-mini`, `kings-rebel
 `aire-libre`, `accesorios`, `shop-all`.
 
 ## Paso 2 · Etiquetar (hazlo antes)
+
+> La matriz completa de qué etiqueta lleva cada producto está en **ETIQUETADO.md**.
 
 **Exporta → edita → importa.** Productos → Exportar → CSV. En la hoja solo tocas la
 columna `Tags` (separadas por coma) y `Vendor`. Vuelves a importar marcando
@@ -80,12 +83,12 @@ respaldo del estado anterior.
 
 ## Paso 3 · Prompts para Sidekick
 
-Sidekick trabaja mejor **de pocas en pocas** que con una lista de 18. Pégale un bloque,
+Sidekick trabaja mejor **de pocas en pocas** que con una lista de 19. Pégale un bloque,
 verifica, y sigue con el siguiente.
 
 > **Antes de empezar:** Sidekick a veces crea la colección como *manual* aunque le pidas
 > automática, y a veces cambia el handle. Revisa las dos cosas en cada tanda. Si te falla
-> más de dos veces, hazlas a mano: son 18 colecciones, unos 20 minutos, y tienes control
+> más de dos veces, hazlas a mano: son 19 colecciones, unos 20 minutos, y tienes control
 > total.
 
 ### Tanda 1 — categorías del menú
@@ -137,12 +140,13 @@ Los handles deben quedar pombo-lola, piesh-kids y fulares-kargo.
 
 ### Tanda 5 — tipos de esenciales
 ```
-Crea 4 colecciones automáticas, una condición cada una sobre la etiqueta:
+Crea 5 colecciones automáticas, una condición cada una sobre la etiqueta:
 
 1. "Baberos"   → etiqueta igual a "tipo:babero"
 2. "Muselinas" → etiqueta igual a "tipo:muselina"
 3. "Toallas"   → etiqueta igual a "tipo:toalla"
 4. "Cobijas"   → etiqueta igual a "tipo:cobija"
+5. "Fulares"   → etiqueta igual a "tipo:fular"
 ```
 
 ### Para pedirle que etiquete (con criterio tuyo)
