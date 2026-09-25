@@ -85,6 +85,7 @@ button{cursor:pointer}
 .scanbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:grid;gap:10px}
 .scan{display:flex;gap:8px;background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:6px}
 .scan input{flex:1;min-width:0;border:0;background:transparent;font-family:var(--mono);font-size:18px;padding:8px 10px;outline:none}
+.scan input::placeholder{font-family:var(--sans);font-size:15px}
 .last{font-size:14px;padding:8px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}
 .last.ok{background:var(--ok-soft);border-color:transparent}
 .last.bad{background:var(--short-soft);border-color:transparent}
@@ -135,6 +136,16 @@ button{cursor:pointer}
 
 .extras{background:var(--surface);border:1px solid var(--short);border-radius:14px;padding:14px;display:grid;gap:8px}
 .extras ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.linkp{background:var(--surface);border:2px solid var(--short);border-radius:14px;padding:12px;display:grid;gap:10px;max-height:55vh;overflow:auto}
+.linkp h3{font-size:15px;font-weight:600}
+.linkp input{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px 10px;width:100%}
+.linklist{display:grid;gap:6px}
+.linkopt{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:8px 10px;text-align:left;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center}
+.linkopt:hover{border-color:var(--accent)}
+.linkopt .code{font-family:var(--mono);font-size:12px;font-weight:700}
+.linkopt .desc{grid-column:1;font-size:14px;overflow-wrap:anywhere}
+.linkopt .cnt{grid-row:1/3;grid-column:2;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.item .ean .learned{color:var(--accent)}
 .extras li{display:flex;justify-content:space-between;gap:10px;align-items:center;font-family:var(--mono);font-size:14px}
 
 .report{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
@@ -233,6 +244,15 @@ button{cursor:pointer}
         <button class="btn primary" type="submit">Sumar</button>
       </form>
       <div class="last" id="last"><span id="lastTxt" class="muted">Con lector de códigos: deja el cursor arriba y escanea cada pieza. Para sumar varias, escribe 12*CÓDIGO.</span><button class="btn small ghost undo" id="undoBtn" type="button" hidden>Deshacer</button></div>
+      <section class="linkp" id="linkPanel" hidden aria-label="Enlazar código de barras">
+        <h3>El código <b class="mono" id="linkCode"></b> no está en la remisión. ¿A qué producto corresponde?</h3>
+        <input id="linkQ" placeholder="Buscar por referencia o descripción" autocomplete="off" aria-label="Buscar producto">
+        <div class="linklist" id="linkList"></div>
+        <div class="btnrow">
+          <button class="btn small" id="linkNo" type="button">No es de esta remisión</button>
+        </div>
+        <p class="muted" style="margin:0;font-size:12px">Al elegir un producto, este código queda enlazado: las próximas piezas se suman solas, también en futuras remisiones.</p>
+      </section>
       <div class="progress" aria-hidden="true"><i id="prog"></i></div>
     </div>
 
@@ -277,6 +297,10 @@ button{cursor:pointer}
 "use strict";
 const $ = s => document.querySelector(s);
 const KEY = "cotejo-remisiones-v1";
+const LKEY = "cotejo-enlaces-v1"; // código de barras -> referencia del proveedor
+function loadLinks(){ try{ return JSON.parse(localStorage.getItem(LKEY))||{}; }catch(e){ return {}; } }
+function saveLinks(m){ try{ localStorage.setItem(LKEY, JSON.stringify(m)); }catch(e){} }
+let linkCode=null;
 const EXAMPLE = {
   example:true,
   meta:{prov:"Piesh Kids (ejemplo)",num:"R-004581",fecha:new Date().toISOString().slice(0,10)},
@@ -336,10 +360,17 @@ $("#scanForm").addEventListener("submit", e=>{
 });
 function findLine(code){
   const c=norm(code);
-  return S.lines.find(l=>norm(l.code)===c || (l.ean && norm(l.ean)===c));
+  return S.lines.find(l=>norm(l.code)===c || (l.ean && norm(l.ean)===c) || (l.alts||[]).some(a=>norm(a)===c));
+}
+function findRemembered(code){
+  const ref=loadLinks()[norm(code)]; if(!ref) return null;
+  const l=S.lines.find(x=>norm(x.code)===ref); if(!l) return null;
+  l.alts=[...new Set([...(l.alts||[]),code.trim()])];
+  return l;
 }
 function registerScan(code, qty){
-  const l=findLine(code);
+  let l=findLine(code), remembered=false;
+  if(!l){ l=findRemembered(code); remembered=!!l; }
   const last=$("#last");
   if(l){
     l.recv=(l.recv||0)+qty;
@@ -348,7 +379,7 @@ function registerScan(code, qty){
     const over = st==="over";
     beep(!over);
     last.className="last "+(over?"bad":"ok");
-    $("#lastTxt").innerHTML=`<b class="mono">+${qty}</b> ${esc(l.desc||l.code)} <span class="mono">· ${l.recv}${blind?"":" / "+l.sent}</span>${over&&!blind?" · <b>¡Sobra!</b>":""}`;
+    $("#lastTxt").innerHTML=`<b class="mono">+${qty}</b> ${esc(l.desc||l.code)} <span class="mono">· ${l.recv}${blind?"":" / "+l.sent}</span>${over&&!blind?" · <b>¡Sobra!</b>":""}${remembered?' <span class="muted">· código enlazado antes</span>':""}`;
     lastTouched=l.id;
   } else {
     let x=S.extras.find(e=>norm(e.code)===norm(code));
@@ -357,8 +388,9 @@ function registerScan(code, qty){
     S.log.push({extra:x.code,qty});
     beep(false);
     last.className="last bad";
-    $("#lastTxt").innerHTML=`<b class="mono">${esc(code)}</b> no está en la remisión · apartado en “No vienen en la remisión”`;
+    $("#lastTxt").innerHTML=`<b class="mono">${esc(code)}</b> no está en la remisión. Elige abajo a qué producto corresponde.`;
     lastTouched=null;
+    openLink(x.code);
   }
   $("#undoBtn").hidden=false;
   save(); render();
@@ -367,7 +399,7 @@ function registerScan(code, qty){
 $("#undoBtn").onclick=()=>{
   const ev=S.log.pop(); if(!ev) return;
   if(ev.line){ const l=S.lines.find(x=>x.id===ev.line); if(l) l.recv=Math.max(0,(l.recv||0)-ev.qty); }
-  else { const x=S.extras.find(e=>e.code===ev.extra); if(x){ x.recv-=ev.qty; if(x.recv<=0) S.extras=S.extras.filter(e=>e!==x); } }
+  else { const x=S.extras.find(e=>e.code===ev.extra); if(x){ x.recv-=ev.qty; if(x.recv<=0){ S.extras=S.extras.filter(e=>e!==x); if(x.code===linkCode) closeLink(); } } }
   $("#lastTxt").textContent="Último escaneo deshecho."; $("#last").className="last";
   $("#undoBtn").hidden=!S.log.length;
   save(); render();
@@ -411,20 +443,20 @@ function render(){
       s==="ok"?`<span class="pill ok">Correcto</span>`: s==="short"?`<span class="pill short">Faltan ${-d}</span>`: s==="over"?`<span class="pill over">Sobran ${d}</span>`:`<span class="pill pending">Sin contar</span>`;
     const item = editing
       ? `<div class="item" style="gap:6px"><input class="edit-in mono" data-k="code" value="${esc(l.code)}" placeholder="Código" aria-label="Código"><input class="edit-in mono" data-k="ean" value="${esc(l.ean)}" placeholder="Código de barras" aria-label="Código de barras"><input class="edit-in" data-k="desc" value="${esc(l.desc)}" placeholder="Descripción" aria-label="Descripción"></div>`
-      : `<div class="item"><span class="code">${esc(l.code)}</span>${l.ean?`<span class="ean">${esc(l.ean)}</span>`:""}<span class="desc">${esc(l.desc)}</span></div>`;
+      : `<div class="item"><span class="code">${esc(l.code)}</span>${l.ean||(l.alts||[]).length?`<span class="ean">${esc(l.ean)}${(l.alts||[]).map(a=>` <span class="learned" title="Código enlazado">+${esc(a)}</span>`).join("")}</span>`:""}<span class="desc">${esc(l.desc)}</span></div>`;
     const sent = editing ? `<input class="edit-in mono" data-k="sent" inputmode="numeric" value="${l.sent}" aria-label="Cantidad enviada" style="text-align:right">` : (blind?"—":l.sent);
     h+=`<div class="row" data-id="${l.id}" data-s="${blind?"pending":s}">
       <span class="stripe"></span>${item}
       <span class="sent">${sent}</span>
       <div class="stepwrap"><div class="stepper"><button type="button" data-a="dec" aria-label="Restar uno">−</button><input data-a="set" inputmode="numeric" value="${l.recv||0}" aria-label="Cantidad recibida"><button type="button" data-a="inc" aria-label="Sumar uno">+</button></div></div>
-      <div class="rowact">${pill}${editing?`<button class="link" type="button" data-a="del" style="color:var(--short)">Quitar línea</button>`:(!blind&&s!=="ok"?`<button class="link" type="button" data-a="all">Llegó completo</button>`:"")}</div>
+      <div class="rowact">${pill}${editing?`${(l.alts||[]).length?`<button class="link" type="button" data-a="unlink">Olvidar enlaces</button>`:""}<button class="link" type="button" data-a="del" style="color:var(--short)">Quitar línea</button>`:(!blind&&s!=="ok"?`<button class="link" type="button" data-a="all">Llegó completo</button>`:"")}</div>
     </div>`;
   });
   $("#lines").innerHTML=h;
   $("#editRow").hidden=!editing;
   $("#editBtn").textContent=editing?"Listo":"Editar remisión";
   $("#extras").hidden=!S.extras.length;
-  $("#extrasList").innerHTML=S.extras.map((e,i)=>`<li><span>${esc(e.code)}</span><span>${e.recv} unid. <button class="link" type="button" data-x="${i}">Quitar</button></span></li>`).join("");
+  $("#extrasList").innerHTML=S.extras.map((e,i)=>`<li><span>${esc(e.code)}</span><span>${e.recv} unid. <button class="link" type="button" data-l="${i}">Enlazar</button> <button class="link" type="button" data-x="${i}">Quitar</button></span></li>`).join("");
   renderReport();
 }
 $("#lines").addEventListener("click", e=>{
@@ -435,6 +467,7 @@ $("#lines").addEventListener("click", e=>{
   if(a==="dec") l.recv=Math.max(0,(l.recv||0)-1);
   if(a==="all") l.recv=l.sent;
   if(a==="del") S.lines=S.lines.filter(x=>x!==l);
+  if(a==="unlink"){ const m=loadLinks(); (l.alts||[]).forEach(c=>delete m[norm(c)]); saveLinks(m); l.alts=[]; toast("Enlaces olvidados"); }
   S.example=S.example && a!=="del";
   save(); render();
 });
@@ -446,7 +479,38 @@ $("#lines").addEventListener("change", e=>{
   else if(inp.dataset.k){ l[inp.dataset.k]=inp.value.trim(); }
   save(); render();
 });
-$("#extrasList").addEventListener("click", e=>{ const b=e.target.closest("[data-x]"); if(!b) return; S.extras.splice(Number(b.dataset.x),1); save(); render(); });
+$("#extrasList").addEventListener("click", e=>{
+  const lk=e.target.closest("[data-l]"); if(lk){ openLink(S.extras[Number(lk.dataset.l)].code); $("#linkPanel").scrollIntoView({block:"nearest"}); return; }
+  const b=e.target.closest("[data-x]"); if(!b) return; const x=S.extras.splice(Number(b.dataset.x),1)[0]; if(x&&x.code===linkCode) closeLink(); save(); render(); });
+
+/* ---------- enlazar códigos desconocidos ---------- */
+function openLink(code){
+  linkCode=code; $("#linkCode").textContent=code; $("#linkQ").value=""; $("#linkPanel").hidden=false; renderLinkList();
+}
+function closeLink(){ linkCode=null; $("#linkPanel").hidden=true; }
+function renderLinkList(){
+  const q=$("#linkQ").value.trim().toLowerCase();
+  const rank=l=>{ const s=status(l); return (s==="pending"||s==="short"?0:2)+(l.ean||(l.alts||[]).length?1:0); };
+  const ls=S.lines.filter(l=>!q || (l.code+" "+l.desc+" "+(l.ean||"")).toLowerCase().includes(q)).sort((a,b)=>rank(a)-rank(b));
+  $("#linkList").innerHTML = ls.length ? ls.map(l=>`<button type="button" class="linkopt" data-id="${l.id}"><span class="code">${esc(l.code)}</span><span class="desc">${esc(l.desc)}</span><span class="cnt">${l.recv||0}${blind?"":" / "+l.sent}</span></button>`).join("")
+    : `<p class="muted" style="margin:0">Ningún producto coincide con la búsqueda.</p>`;
+}
+$("#linkQ").oninput=renderLinkList;
+$("#linkNo").onclick=()=>{ closeLink(); $("#lastTxt").textContent="Apartado en “No vienen en la remisión”."; $("#scanIn").focus(); };
+$("#linkList").addEventListener("click", e=>{
+  const b=e.target.closest(".linkopt"); if(!b||!linkCode) return;
+  const l=S.lines.find(x=>x.id===b.dataset.id); if(!l) return;
+  const x=S.extras.find(e=>e.code===linkCode);
+  const code=linkCode;
+  l.alts=[...new Set([...(l.alts||[]),code])];
+  if(x){ l.recv=(l.recv||0)+x.recv; S.extras=S.extras.filter(e=>e!==x); }
+  S.log.forEach(ev=>{ if(ev.extra===code){ delete ev.extra; ev.line=l.id; } });
+  if(l.code){ const m=loadLinks(); m[norm(code)]=norm(l.code); saveLinks(m); }
+  closeLink(); beep(true);
+  $("#last").className="last ok";
+  $("#lastTxt").innerHTML=`<b class="mono">${esc(code)}</b> enlazado a ${esc(l.desc||l.code)} <span class="mono">· ${l.recv}${blind?"":" / "+l.sent}</span>. Las próximas piezas se suman solas.`;
+  save(); render(); $("#scanIn").focus();
+});
 document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ filter=c.dataset.f; document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",String(x===c))); render(); });
 $("#editBtn").onclick=()=>{ editing=!editing; render(); };
 $("#addLine").onclick=()=>{ S.lines.push({id:uid(),code:"",ean:"",desc:"",sent:1,recv:0}); save(); render(); const ins=document.querySelectorAll('.row input[data-k="code"]'); ins[ins.length-1]?.focus(); };
@@ -476,7 +540,7 @@ function csvText(){
   const q=v=>{ v=String(v??""); return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
   const rows=[["SKU","Codigo de barras","Descripcion","Enviado","Recibido","Diferencia","Estado"]];
   const lbl={ok:"Correcto",short:"Falta",over:"Sobra",pending:"Sin contar"};
-  S.lines.forEach(l=>rows.push([l.code,l.ean,l.desc,l.sent,l.recv||0,(l.recv||0)-l.sent,lbl[status(l)]]));
+  S.lines.forEach(l=>rows.push([l.code,[l.ean,...(l.alts||[])].filter(Boolean).join(" "),l.desc,l.sent,l.recv||0,(l.recv||0)-l.sent,lbl[status(l)]]));
   S.extras.forEach(e=>rows.push([e.code,"","NO ESTÁ EN LA REMISIÓN",0,e.recv,e.recv,"Fuera de remisión"]));
   return "\ufeff"+rows.map(r=>r.map(q).join(",")).join("\n");
 }
@@ -497,7 +561,7 @@ $("#newNo").onclick=()=>$("#newConfirm").hidden=true;
 $("#newYes").onclick=()=>{ $("#newConfirm").hidden=true; startNew(); };
 function startNew(){
   S={example:false,meta:{prov:"",num:"",fecha:new Date().toISOString().slice(0,10)},lines:[],extras:[],log:[]};
-  save(); bindMeta(); showLoad(true); render();
+  closeLink(); save(); bindMeta(); showLoad(true); render();
   $("#lastTxt").textContent="Carga la remisión para empezar a contar."; $("#last").className="last"; $("#undoBtn").hidden=true;
 }
 function showLoad(on){
@@ -508,7 +572,7 @@ function setStatus(msg, err){ const s=$("#loadStatus"); s.hidden=!msg; s.textCon
 function applyLines(lines, meta){
   S.lines=lines.filter(l=>(l.code||l.desc) && l.sent>0).map(l=>({id:uid(),code:String(l.code||"").trim(),ean:String(l.ean||"").trim(),desc:String(l.desc||"").trim(),sent:Math.round(l.sent),recv:0}));
   if(meta){ ["prov","num","fecha"].forEach(k=>{ if(meta[k]) S.meta[k]=meta[k]; }); }
-  S.extras=[]; S.log=[]; S.example=false;
+  S.extras=[]; S.log=[]; S.example=false; closeLink();
   if(!S.lines.length){ setStatus("No encontré líneas con cantidad. Revisa el archivo o prueba pegando el texto.", true); return; }
   save(); bindMeta(); showLoad(false); render();
   toast(`${S.lines.length} líneas cargadas`);
