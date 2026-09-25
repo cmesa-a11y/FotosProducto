@@ -1,0 +1,663 @@
+<title>Cotejo de Remisiones</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#eef1f0; --surface:#ffffff; --surface-2:#f6f8f7; --ink:#15202a; --muted:#5b6872; --line:#d6dcdb;
+  --accent:#2346d8; --accent-ink:#ffffff; --accent-soft:#e3e9ff;
+  --ok:#1d7f46; --ok-soft:#dcf2e4; --short:#c2410c; --short-soft:#fde6d8; --over:#0e7490; --over-soft:#d6f0f5;
+  --pending:#8a96a0; --pending-soft:#e9edef; --flash:#fff5b8;
+  --sans:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1519; --surface:#172027; --surface-2:#1c262e; --ink:#e6ecef; --muted:#9aa8b1; --line:#2b3841;
+    --accent:#7d97ff; --accent-ink:#0b1020; --accent-soft:#1f2a52;
+    --ok:#5fd08f; --ok-soft:#173826; --short:#ff8a5b; --short-soft:#3d2216; --over:#4fc9e0; --over-soft:#123540;
+    --pending:#7c8a94; --pending-soft:#232e36; --flash:#4a4417;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1519; --surface:#172027; --surface-2:#1c262e; --ink:#e6ecef; --muted:#9aa8b1; --line:#2b3841;
+  --accent:#7d97ff; --accent-ink:#0b1020; --accent-soft:#1f2a52;
+  --ok:#5fd08f; --ok-soft:#173826; --short:#ff8a5b; --short-soft:#3d2216; --over:#4fc9e0; --over-soft:#123540;
+  --pending:#7c8a94; --pending-soft:#232e36; --flash:#4a4417;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--sans);-webkit-text-size-adjust:100%}
+.wrap{max-width:960px;margin:0 auto;padding-inline:16px;padding-block:16px 64px;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{margin:0;text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+
+/* header / docket */
+.docket{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:14px}
+.docket-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.brand{display:flex;flex-direction:column;gap:2px}
+.brand h1{font-size:24px;font-weight:800;letter-spacing:-.01em}
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field input{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px 10px;min-width:0;width:100%}
+.example-tag{display:inline-flex;align-items:center;gap:6px;background:var(--flash);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600}
+
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center;min-height:42px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent}
+.btn.small{min-height:34px;padding:6px 10px;font-size:13px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+
+/* load panel */
+.load{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
+.load[hidden]{display:none!important}
+.sources{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.source{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface-2);display:flex;flex-direction:column;gap:8px;text-align:left}
+.source strong{font-size:15px}
+.source span{font-size:13px;color:var(--muted)}
+.source:hover{border-color:var(--accent)}
+.source input[type=file]{display:none}
+.paste{display:grid;gap:8px}
+.paste textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface-2);font-family:var(--mono);font-size:13px;resize:vertical}
+.status{font-size:14px;padding:10px 12px;border-radius:10px;background:var(--accent-soft)}
+.status.err{background:var(--short-soft);color:var(--short)}
+
+/* mapping */
+.mapping{display:grid;gap:10px}
+.mapgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mapgrid select{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px;width:100%}
+.preview{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.preview table{border-collapse:collapse;font-size:12px;font-family:var(--mono);width:100%}
+.preview td,.preview th{padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:left}
+.preview th{background:var(--surface-2);font-family:var(--sans)}
+
+/* scan bar */
+.scanbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:grid;gap:10px}
+.scan{display:flex;gap:8px;background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:6px}
+.scan input{flex:1;min-width:0;border:0;background:transparent;font-family:var(--mono);font-size:18px;padding:8px 10px;outline:none}
+.last{font-size:14px;padding:8px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.last.ok{background:var(--ok-soft);border-color:transparent}
+.last.bad{background:var(--short-soft);border-color:transparent}
+.last .undo{flex:none}
+
+/* summary */
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.tile b{font-family:var(--mono);font-size:22px;line-height:1.1}
+.tile.ok b{color:var(--ok)} .tile.short b{color:var(--short)} .tile.over b{color:var(--over)}
+.progress{height:8px;background:var(--pending-soft);border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+
+.toolbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+
+/* lines */
+.lines{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.lhead,.row{display:grid;grid-template-columns:6px minmax(0,1fr) 72px 150px 124px;gap:12px;align-items:center;padding:10px 14px 10px 0}
+.lhead{background:var(--surface-2);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);padding-block:8px}
+.row{border-top:1px solid var(--line);transition:background .4s}
+.row.flash{background:var(--flash)}
+.stripe{align-self:stretch;background:var(--pending);border-radius:0 3px 3px 0}
+.row[data-s="ok"] .stripe{background:var(--ok)}
+.row[data-s="short"] .stripe{background:var(--short)}
+.row[data-s="over"] .stripe{background:var(--over)}
+.item{min-width:0;display:flex;flex-direction:column;gap:2px}
+.item .code{font-family:var(--mono);font-size:13px;font-weight:700}
+.item .ean{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.item .desc{font-size:14px;overflow-wrap:anywhere}
+.sent{font-family:var(--mono);font-size:18px;text-align:right}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.stepper button{border:0;background:transparent;width:40px;height:40px;font-size:20px;font-weight:700}
+.stepper input{width:100%;min-width:0;border:0;background:transparent;text-align:center;font-family:var(--mono);font-size:18px;font-weight:700;height:40px}
+.pill{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;text-align:center;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.short{background:var(--short-soft);color:var(--short)}
+.pill.over{background:var(--over-soft);color:var(--over)}
+.pill.pending{background:var(--pending-soft);color:var(--muted)}
+.rowact{display:flex;flex-direction:column;gap:4px;align-items:stretch}
+.link{white-space:nowrap}
+.link{border:0;background:none;color:var(--accent);font-size:12px;font-weight:600;padding:2px}
+.empty{padding:24px;text-align:center;color:var(--muted)}
+.edit-in{border:1px solid var(--line);background:var(--surface-2);border-radius:6px;padding:5px 7px;width:100%;min-width:0}
+
+.extras{background:var(--surface);border:1px solid var(--short);border-radius:14px;padding:14px;display:grid;gap:8px}
+.extras ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.extras li{display:flex;justify-content:space-between;gap:10px;align-items:center;font-family:var(--mono);font-size:14px}
+
+.report{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
+.report pre{margin:0;white-space:pre-wrap;font-family:var(--mono);font-size:13px;background:var(--surface-2);border-radius:10px;padding:12px;max-height:340px;overflow:auto}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:20;max-width:calc(100% - 32px)}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--short-soft);padding:10px 12px;border-radius:10px}
+
+@media (max-width:720px){
+  .sources{grid-template-columns:1fr}
+  .meta{grid-template-columns:1fr 1fr}
+  .meta .field:first-child{grid-column:1/-1}
+  .mapgrid{grid-template-columns:1fr 1fr}
+  .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lhead{display:none}
+  .row{grid-template-columns:6px minmax(0,1fr) auto;grid-template-areas:"s item item" "s sent pill" "s step step";row-gap:8px}
+  .row .stripe{grid-area:s}
+  .row .item{grid-area:item}
+  .row .sent{grid-area:sent;text-align:left;font-size:14px}
+  .row .sent::before{content:"Enviado: ";font-family:var(--sans);color:var(--muted)}
+  .row .stepwrap{grid-area:step}
+  .row .rowact{grid-area:pill;flex-direction:row;align-items:center;justify-content:flex-end}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <section class="docket" aria-label="Datos de la remisión">
+    <div class="docket-top">
+      <div class="brand">
+        <span class="eyebrow">Recepción de mercancía</span>
+        <h1>Cotejo de Remisiones</h1>
+      </div>
+      <div class="btnrow">
+        <span class="example-tag" id="exampleTag" hidden>Remisión de ejemplo</span>
+        <button class="btn small" id="newBtn" type="button">Nueva remisión</button>
+      </div>
+    </div>
+    <div class="meta">
+      <label class="field"><span class="eyebrow">Proveedor</span><input id="mProv" autocomplete="off"></label>
+      <label class="field"><span class="eyebrow">Remisión N°</span><input id="mNum" class="mono" autocomplete="off"></label>
+      <label class="field"><span class="eyebrow">Fecha</span><input id="mFecha" type="date"></label>
+    </div>
+    <div class="confirm" id="newConfirm" hidden>
+      <span>¿Borrar el conteo actual y cargar otra remisión?</span>
+      <button class="btn small primary" id="newYes" type="button">Sí, empezar de nuevo</button>
+      <button class="btn small" id="newNo" type="button">Cancelar</button>
+    </div>
+  </section>
+
+  <section class="load" id="loadPanel" hidden aria-label="Cargar remisión">
+    <div>
+      <h2 style="font-size:18px">1. Carga la remisión</h2>
+      <p class="muted" style="margin:4px 0 0">Elige cómo te llegó. Después podrás corregir cualquier línea.</p>
+    </div>
+    <div class="sources">
+      <label class="source" id="srcClaude" hidden>
+        <strong>Foto o PDF</strong>
+        <span>Claude lee la remisión (aunque sea una foto del papel) y saca las líneas.</span>
+        <input type="file" id="fileAI" accept="image/*,application/pdf" multiple>
+      </label>
+      <label class="source">
+        <strong>Excel o CSV</strong>
+        <span>El archivo que manda el proveedor. Detecta las columnas solo.</span>
+        <input type="file" id="fileXls" accept=".xlsx,.xls,.csv,.ods,.txt">
+      </label>
+      <button class="source" type="button" id="srcPaste">
+        <strong>Pegar texto</strong>
+        <span>Copia las filas desde Excel, un correo o un PDF y pégalas.</span>
+      </button>
+    </div>
+    <div class="paste" id="pasteBox" hidden>
+      <textarea id="pasteTxt" placeholder="Código&#9;Descripción&#9;Cantidad&#10;PK-2201&#9;Tenis Piesh Kids azul T24&#9;6"></textarea>
+      <div class="btnrow">
+        <button class="btn primary" type="button" id="pasteGo">Usar estas filas</button>
+        <button class="btn" type="button" id="pasteAI" hidden>Que Claude lo interprete</button>
+      </div>
+    </div>
+    <div class="status" id="loadStatus" hidden></div>
+    <div class="mapping" id="mapping" hidden>
+      <h3 style="font-size:16px">¿Qué columna es cada cosa?</h3>
+      <div class="mapgrid">
+        <label class="field"><span class="eyebrow">Código / SKU</span><select id="mapCode"></select></label>
+        <label class="field"><span class="eyebrow">Código de barras</span><select id="mapEan"></select></label>
+        <label class="field"><span class="eyebrow">Descripción</span><select id="mapDesc"></select></label>
+        <label class="field"><span class="eyebrow">Cantidad enviada</span><select id="mapQty"></select></label>
+      </div>
+      <div class="preview" id="mapPreview"></div>
+      <div class="btnrow"><button class="btn primary" type="button" id="mapGo">Cargar remisión</button></div>
+    </div>
+  </section>
+
+  <div id="workArea">
+    <div class="scanbar">
+      <form class="scan" id="scanForm" autocomplete="off">
+        <input id="scanIn" inputmode="text" enterkeyhint="done" placeholder="Escanea o escribe el código" aria-label="Código escaneado">
+        <button class="btn primary" type="submit">Sumar</button>
+      </form>
+      <div class="last" id="last"><span id="lastTxt" class="muted">Con lector de códigos: deja el cursor arriba y escanea cada pieza. Para sumar varias, escribe 12*CÓDIGO.</span><button class="btn small ghost undo" id="undoBtn" type="button" hidden>Deshacer</button></div>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+    </div>
+
+    <div style="display:grid;gap:12px">
+      <div class="summary" id="summary"></div>
+      <div class="toolbar">
+        <div class="chips" role="group" aria-label="Filtrar líneas">
+          <button class="chip" data-f="all" aria-pressed="true" type="button">Todas</button>
+          <button class="chip" data-f="pending" aria-pressed="false" type="button">Pendientes</button>
+          <button class="chip" data-f="diff" aria-pressed="false" type="button">Con diferencia</button>
+          <button class="chip" data-f="ok" aria-pressed="false" type="button">Correctas</button>
+        </div>
+        <div class="btnrow">
+          <label class="switch"><input type="checkbox" id="blind"> Conteo ciego</label>
+          <button class="btn small" id="editBtn" type="button">Editar remisión</button>
+        </div>
+      </div>
+      <div class="lines" id="lines"></div>
+      <div class="btnrow" id="editRow" hidden><button class="btn small" id="addLine" type="button">+ Añadir línea</button></div>
+      <section class="extras" id="extras" hidden>
+        <div><span class="eyebrow" style="color:var(--short)">No vienen en la remisión</span></div>
+        <ul id="extrasList"></ul>
+      </section>
+      <section class="report" aria-label="Informe">
+        <div class="toolbar">
+          <h2 style="font-size:18px">Informe de la recepción</h2>
+          <div class="btnrow">
+            <button class="btn small primary" id="copyRep" type="button">Copiar informe</button>
+            <button class="btn small" id="csvBtn" type="button">Descargar CSV</button>
+          </div>
+        </div>
+        <pre id="repTxt"></pre>
+        <p class="muted" style="margin:0;font-size:13px">Pégalo en WhatsApp o en un correo al proveedor. El CSV trae SKU, enviado, recibido y diferencia por línea, útil para ajustar el inventario en Shopify.</p>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const KEY = "cotejo-remisiones-v1";
+const EXAMPLE = {
+  example:true,
+  meta:{prov:"Piesh Kids (ejemplo)",num:"R-004581",fecha:new Date().toISOString().slice(0,10)},
+  lines:[
+    {code:"PK-2201-24",ean:"7701234500011",desc:"Tenis Piesh Kids azul marino T24",sent:6,recv:6},
+    {code:"PK-2201-25",ean:"7701234500028",desc:"Tenis Piesh Kids azul marino T25",sent:6,recv:4},
+    {code:"PK-2201-26",ean:"7701234500035",desc:"Tenis Piesh Kids azul marino T26",sent:4,recv:0},
+    {code:"FK-110-ROS",ean:"7709876500102",desc:"Fular Kargo estampado rosa",sent:10,recv:10},
+    {code:"FK-110-VER",ean:"7709876500119",desc:"Fular Kargo estampado verde",sent:10,recv:11},
+    {code:"PL-MOCH-01",ean:"8435566700013",desc:"Mochila Pombo & Lola conejo",sent:3,recv:0},
+    {code:"PL-NEC-02",ean:"8435566700020",desc:"Neceser Pombo & Lola estrellas",sent:5,recv:0}
+  ],
+  extras:[{code:"7701234500042",recv:1}],
+  log:[]
+};
+
+let S = load() || structuredClone(EXAMPLE);
+S.lines.forEach(l=>{ if(!l.id) l.id=uid(); });
+let filter = "all", editing = false, blind = false, pendingRows = null, lastTouched = null;
+let sampleFn = null, downloadsNs = null;
+
+function uid(){ return Math.random().toString(36).slice(2,9); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function load(){ try{ const v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; }catch(e){ return null; } }
+function norm(s){ return String(s??"").trim().toUpperCase().replace(/\s+/g,""); }
+function num(v){ if(typeof v==="number") return v; const m=String(v??"").replace(/\./g,"").replace(",",".").match(/-?\d+(\.\d+)?/); return m?Number(m[0]):NaN; }
+function status(l){ if(!l.recv) return l.sent? "pending":"ok"; if(l.recv===l.sent) return "ok"; return l.recv<l.sent?"short":"over"; }
+function esc(s){ return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,2200); }
+
+/* ---------- sound ---------- */
+let actx=null;
+function beep(good){
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    const tones = good ? [[1175,0,.09]] : [[330,0,.14],[262,.17,.2]];
+    tones.forEach(([f,st,d])=>{ const o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=f; o.type="square"; g.gain.value=.06; o.connect(g); g.connect(actx.destination); o.start(actx.currentTime+st); o.stop(actx.currentTime+st+d); });
+    if(!good && navigator.vibrate) navigator.vibrate([80,60,80]);
+  }catch(e){}
+}
+
+/* ---------- meta ---------- */
+function bindMeta(){
+  const map={mProv:"prov",mNum:"num",mFecha:"fecha"};
+  Object.entries(map).forEach(([id,k])=>{ const el=$("#"+id); el.value=S.meta[k]||""; el.oninput=()=>{ S.meta[k]=el.value; save(); renderReport(); }; });
+}
+
+/* ---------- scanning ---------- */
+$("#scanForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const raw=$("#scanIn").value.trim(); if(!raw) return;
+  let qty=1, code=raw;
+  const m=raw.match(/^(\d{1,4})\s*[*xX]\s*(.+)$/);
+  if(m){ qty=Number(m[1]); code=m[2]; }
+  registerScan(code, qty);
+  $("#scanIn").value="";
+});
+function findLine(code){
+  const c=norm(code);
+  return S.lines.find(l=>norm(l.code)===c || (l.ean && norm(l.ean)===c));
+}
+function registerScan(code, qty){
+  const l=findLine(code);
+  const last=$("#last");
+  if(l){
+    l.recv=(l.recv||0)+qty;
+    S.log.push({line:l.id,qty});
+    const st=status(l);
+    const over = st==="over";
+    beep(!over);
+    last.className="last "+(over?"bad":"ok");
+    $("#lastTxt").innerHTML=`<b class="mono">+${qty}</b> ${esc(l.desc||l.code)} <span class="mono">· ${l.recv}${blind?"":" / "+l.sent}</span>${over&&!blind?" · <b>¡Sobra!</b>":""}`;
+    lastTouched=l.id;
+  } else {
+    let x=S.extras.find(e=>norm(e.code)===norm(code));
+    if(!x){ x={code:code.trim(),recv:0}; S.extras.push(x); }
+    x.recv+=qty;
+    S.log.push({extra:x.code,qty});
+    beep(false);
+    last.className="last bad";
+    $("#lastTxt").innerHTML=`<b class="mono">${esc(code)}</b> no está en la remisión · apartado en “No vienen en la remisión”`;
+    lastTouched=null;
+  }
+  $("#undoBtn").hidden=false;
+  save(); render();
+  if(lastTouched){ const r=document.querySelector(`.row[data-id="${lastTouched}"]`); if(r){ r.classList.add("flash"); setTimeout(()=>r.classList.remove("flash"),500); } }
+}
+$("#undoBtn").onclick=()=>{
+  const ev=S.log.pop(); if(!ev) return;
+  if(ev.line){ const l=S.lines.find(x=>x.id===ev.line); if(l) l.recv=Math.max(0,(l.recv||0)-ev.qty); }
+  else { const x=S.extras.find(e=>e.code===ev.extra); if(x){ x.recv-=ev.qty; if(x.recv<=0) S.extras=S.extras.filter(e=>e!==x); } }
+  $("#lastTxt").textContent="Último escaneo deshecho."; $("#last").className="last";
+  $("#undoBtn").hidden=!S.log.length;
+  save(); render();
+};
+
+/* ---------- render ---------- */
+function totals(){
+  let ok=0,short=0,over=0,pend=0,sent=0,recv=0,uShort=0,uOver=0;
+  S.lines.forEach(l=>{ const s=status(l); sent+=l.sent; recv+=l.recv||0;
+    if(s==="ok") ok++; else if(s==="short"){short++;uShort+=l.sent-l.recv;} else if(s==="over"){over++;uOver+=l.recv-l.sent;} else {pend++;uShort+=l.sent;} });
+  const extraU=S.extras.reduce((a,e)=>a+e.recv,0);
+  return {ok,short,over,pend,sent,recv,uShort,uOver,extraU};
+}
+function render(){
+  $("#exampleTag").hidden=!S.example;
+  const T=totals();
+  $("#prog").style.width = (T.sent? Math.min(100, Math.round(100*S.lines.reduce((a,l)=>a+Math.min(l.recv||0,l.sent),0)/T.sent)):0)+"%";
+  if(blind){
+    $("#summary").innerHTML=`
+      <div class="tile"><span class="eyebrow">Líneas</span><b>${S.lines.length}</b></div>
+      <div class="tile"><span class="eyebrow">Unidades contadas</span><b>${T.recv}</b></div>
+      <div class="tile"><span class="eyebrow">Líneas tocadas</span><b>${S.lines.filter(l=>l.recv).length}</b></div>
+      <div class="tile short"><span class="eyebrow">Fuera de remisión</span><b>${T.extraU}</b></div>`;
+  } else {
+    $("#summary").innerHTML=`
+      <div class="tile ok"><span class="eyebrow">Correctas</span><b>${T.ok}<span class="muted" style="font-size:14px"> / ${S.lines.length}</span></b></div>
+      <div class="tile short"><span class="eyebrow">Unid. que faltan</span><b>${T.uShort}</b></div>
+      <div class="tile over"><span class="eyebrow">Unid. que sobran</span><b>${T.uOver}</b></div>
+      <div class="tile short"><span class="eyebrow">Fuera de remisión</span><b>${T.extraU}</b></div>`;
+  }
+  const rows=S.lines.filter(l=>{ const s=status(l);
+    if(filter==="pending") return s==="pending" || s==="short";
+    if(filter==="diff") return s==="short"||s==="over";
+    if(filter==="ok") return s==="ok";
+    return true; });
+  let h=`<div class="lhead"><span></span><span>Producto</span><span style="text-align:right">Enviado</span><span>Recibido</span><span>Estado</span></div>`;
+  if(!rows.length) h+=`<div class="empty">${S.lines.length?"Ninguna línea en este filtro.":"La remisión no tiene líneas todavía."}</div>`;
+  rows.forEach(l=>{
+    const s=status(l), d=(l.recv||0)-l.sent;
+    const pill = blind ? `<span class="pill pending">${l.recv?"Contado":"Sin contar"}</span>` :
+      s==="ok"?`<span class="pill ok">Correcto</span>`: s==="short"?`<span class="pill short">Faltan ${-d}</span>`: s==="over"?`<span class="pill over">Sobran ${d}</span>`:`<span class="pill pending">Sin contar</span>`;
+    const item = editing
+      ? `<div class="item" style="gap:6px"><input class="edit-in mono" data-k="code" value="${esc(l.code)}" placeholder="Código" aria-label="Código"><input class="edit-in mono" data-k="ean" value="${esc(l.ean)}" placeholder="Código de barras" aria-label="Código de barras"><input class="edit-in" data-k="desc" value="${esc(l.desc)}" placeholder="Descripción" aria-label="Descripción"></div>`
+      : `<div class="item"><span class="code">${esc(l.code)}</span>${l.ean?`<span class="ean">${esc(l.ean)}</span>`:""}<span class="desc">${esc(l.desc)}</span></div>`;
+    const sent = editing ? `<input class="edit-in mono" data-k="sent" inputmode="numeric" value="${l.sent}" aria-label="Cantidad enviada" style="text-align:right">` : (blind?"—":l.sent);
+    h+=`<div class="row" data-id="${l.id}" data-s="${blind?"pending":s}">
+      <span class="stripe"></span>${item}
+      <span class="sent">${sent}</span>
+      <div class="stepwrap"><div class="stepper"><button type="button" data-a="dec" aria-label="Restar uno">−</button><input data-a="set" inputmode="numeric" value="${l.recv||0}" aria-label="Cantidad recibida"><button type="button" data-a="inc" aria-label="Sumar uno">+</button></div></div>
+      <div class="rowact">${pill}${editing?`<button class="link" type="button" data-a="del" style="color:var(--short)">Quitar línea</button>`:(!blind&&s!=="ok"?`<button class="link" type="button" data-a="all">Llegó completo</button>`:"")}</div>
+    </div>`;
+  });
+  $("#lines").innerHTML=h;
+  $("#editRow").hidden=!editing;
+  $("#editBtn").textContent=editing?"Listo":"Editar remisión";
+  $("#extras").hidden=!S.extras.length;
+  $("#extrasList").innerHTML=S.extras.map((e,i)=>`<li><span>${esc(e.code)}</span><span>${e.recv} unid. <button class="link" type="button" data-x="${i}">Quitar</button></span></li>`).join("");
+  renderReport();
+}
+$("#lines").addEventListener("click", e=>{
+  const b=e.target.closest("button[data-a]"); if(!b) return;
+  const id=b.closest(".row").dataset.id, l=S.lines.find(x=>x.id===id); if(!l) return;
+  const a=b.dataset.a;
+  if(a==="inc") l.recv=(l.recv||0)+1;
+  if(a==="dec") l.recv=Math.max(0,(l.recv||0)-1);
+  if(a==="all") l.recv=l.sent;
+  if(a==="del") S.lines=S.lines.filter(x=>x!==l);
+  S.example=S.example && a!=="del";
+  save(); render();
+});
+$("#lines").addEventListener("change", e=>{
+  const inp=e.target; const row=inp.closest(".row"); if(!row) return;
+  const l=S.lines.find(x=>x.id===row.dataset.id); if(!l) return;
+  if(inp.dataset.a==="set"){ const n=num(inp.value); l.recv=isNaN(n)?0:Math.max(0,Math.round(n)); }
+  else if(inp.dataset.k==="sent"){ const n=num(inp.value); l.sent=isNaN(n)?0:Math.max(0,Math.round(n)); }
+  else if(inp.dataset.k){ l[inp.dataset.k]=inp.value.trim(); }
+  save(); render();
+});
+$("#extrasList").addEventListener("click", e=>{ const b=e.target.closest("[data-x]"); if(!b) return; S.extras.splice(Number(b.dataset.x),1); save(); render(); });
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ filter=c.dataset.f; document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",String(x===c))); render(); });
+$("#editBtn").onclick=()=>{ editing=!editing; render(); };
+$("#addLine").onclick=()=>{ S.lines.push({id:uid(),code:"",ean:"",desc:"",sent:1,recv:0}); save(); render(); const ins=document.querySelectorAll('.row input[data-k="code"]'); ins[ins.length-1]?.focus(); };
+$("#blind").onchange=e=>{ blind=e.target.checked; render(); };
+
+/* ---------- report ---------- */
+function reportText(){
+  const T=totals(), m=S.meta;
+  const fecha=m.fecha? m.fecha.split("-").reverse().join("/") : "";
+  const out=[`RECEPCIÓN DE MERCANCÍA`, `Proveedor: ${m.prov||"—"}`, `Remisión: ${m.num||"—"}   Fecha: ${fecha||"—"}`, ""];
+  const short=S.lines.filter(l=>status(l)==="short"||status(l)==="pending");
+  const over=S.lines.filter(l=>status(l)==="over");
+  if(!short.length && !over.length && !S.extras.length){ out.push(`✔ TODO CORRECTO: ${S.lines.length} líneas, ${T.recv} unidades recibidas.`); return out.join("\n"); }
+  out.push(`Resultado: ${T.ok} de ${S.lines.length} líneas correctas.`, `Enviado ${T.sent} unid. · Recibido ${T.recv} unid.`, "");
+  if(short.length){ out.push(`FALTAN (${T.uShort} unid.):`); short.forEach(l=>out.push(`- ${l.code} ${l.desc}: enviado ${l.sent}, recibido ${l.recv||0} → faltan ${l.sent-(l.recv||0)}`)); out.push(""); }
+  if(over.length){ out.push(`SOBRAN (${T.uOver} unid.):`); over.forEach(l=>out.push(`- ${l.code} ${l.desc}: enviado ${l.sent}, recibido ${l.recv} → sobran ${l.recv-l.sent}`)); out.push(""); }
+  if(S.extras.length){ out.push(`NO VIENEN EN LA REMISIÓN:`); S.extras.forEach(e=>out.push(`- ${e.code}: ${e.recv} unid.`)); }
+  return out.join("\n").trim();
+}
+function renderReport(){ $("#repTxt").textContent = blind ? "El informe se muestra al desactivar el conteo ciego." : reportText(); }
+$("#copyRep").onclick=async ()=>{
+  const t=reportText();
+  try{ await navigator.clipboard.writeText(t); toast("Informe copiado"); }
+  catch(e){ const r=document.createRange(); r.selectNodeContents($("#repTxt")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast("Texto seleccionado: cópialo con el menú"); }
+};
+function csvText(){
+  const q=v=>{ v=String(v??""); return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
+  const rows=[["SKU","Codigo de barras","Descripcion","Enviado","Recibido","Diferencia","Estado"]];
+  const lbl={ok:"Correcto",short:"Falta",over:"Sobra",pending:"Sin contar"};
+  S.lines.forEach(l=>rows.push([l.code,l.ean,l.desc,l.sent,l.recv||0,(l.recv||0)-l.sent,lbl[status(l)]]));
+  S.extras.forEach(e=>rows.push([e.code,"","NO ESTÁ EN LA REMISIÓN",0,e.recv,e.recv,"Fuera de remisión"]));
+  return "\ufeff"+rows.map(r=>r.map(q).join(",")).join("\n");
+}
+$("#csvBtn").onclick=async ()=>{
+  const name=`recepcion-${(S.meta.num||"remision").replace(/[^\w-]+/g,"_")}.csv`;
+  if(downloadsNs){
+    try{ await downloadsNs.save({filename:name,data:csvText()}); toast("CSV guardado"); return; }
+    catch(e){ if(e&&e.code==="declined") return; }
+  } else if(!window.claude){
+    const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csvText()],{type:"text/csv"})); a.download=name; a.click(); return;
+  }
+  try{ await navigator.clipboard.writeText(csvText()); toast("No se pudo descargar: CSV copiado al portapapeles"); }catch(e){ toast("No se pudo descargar el CSV aquí"); }
+};
+
+/* ---------- new remisión ---------- */
+$("#newBtn").onclick=()=>{ if(S.example || !S.lines.some(l=>l.recv)) startNew(); else $("#newConfirm").hidden=false; };
+$("#newNo").onclick=()=>$("#newConfirm").hidden=true;
+$("#newYes").onclick=()=>{ $("#newConfirm").hidden=true; startNew(); };
+function startNew(){
+  S={example:false,meta:{prov:"",num:"",fecha:new Date().toISOString().slice(0,10)},lines:[],extras:[],log:[]};
+  save(); bindMeta(); showLoad(true); render();
+  $("#lastTxt").textContent="Carga la remisión para empezar a contar."; $("#last").className="last"; $("#undoBtn").hidden=true;
+}
+function showLoad(on){
+  $("#loadPanel").hidden=!on; $("#workArea").hidden=on;
+  if(on){ $("#mapping").hidden=true; $("#pasteBox").hidden=true; setStatus(""); $("#loadPanel").scrollIntoView({block:"start"}); }
+}
+function setStatus(msg, err){ const s=$("#loadStatus"); s.hidden=!msg; s.textContent=msg||""; s.className="status"+(err?" err":""); }
+function applyLines(lines, meta){
+  S.lines=lines.filter(l=>(l.code||l.desc) && l.sent>0).map(l=>({id:uid(),code:String(l.code||"").trim(),ean:String(l.ean||"").trim(),desc:String(l.desc||"").trim(),sent:Math.round(l.sent),recv:0}));
+  if(meta){ ["prov","num","fecha"].forEach(k=>{ if(meta[k]) S.meta[k]=meta[k]; }); }
+  S.extras=[]; S.log=[]; S.example=false;
+  if(!S.lines.length){ setStatus("No encontré líneas con cantidad. Revisa el archivo o prueba pegando el texto.", true); return; }
+  save(); bindMeta(); showLoad(false); render();
+  toast(`${S.lines.length} líneas cargadas`);
+  $("#lastTxt").textContent=`Remisión cargada: ${S.lines.length} líneas, ${S.lines.reduce((a,l)=>a+l.sent,0)} unidades. Revisa que estén bien y empieza a escanear.`;
+}
+
+/* ---------- tabular import + column mapping ---------- */
+const HINTS={
+  code:/^(c[oó]d(igo)?|sku|ref(erencia)?|art[ií]culo|item|modelo|clave)\b/i,
+  ean:/(ean|barras|upc|gtin|barcode)/i,
+  desc:/(desc|producto|nombre|art[ií]culo|detalle|concepto)/i,
+  qty:/(cant|qty|unid|uds|piezas|pzs|cajas|enviad|despach)/i
+};
+function openMapping(rows){
+  rows=rows.map(r=>r.map(c=>c==null?"":String(c).trim())).filter(r=>r.some(c=>c!==""));
+  if(!rows.length){ setStatus("El archivo está vacío.", true); return; }
+  let hi=0, best=-1;
+  rows.slice(0,15).forEach((r,i)=>{ const sc=r.filter(c=>Object.values(HINTS).some(h=>h.test(c))).length; if(sc>best){best=sc;hi=i;} });
+  const hasHeader=best>=2;
+  const header= hasHeader? rows[hi] : rows[0].map((_,i)=>"Columna "+(i+1));
+  const body= hasHeader? rows.slice(hi+1) : rows;
+  const width=Math.max(...rows.map(r=>r.length));
+  const cols=Array.from({length:width},(_,i)=>header[i]||("Columna "+(i+1)));
+  const guess={code:-1,ean:-1,desc:-1,qty:-1};
+  if(hasHeader){
+    ["ean","qty","code","desc"].forEach(k=>{ const i=cols.findIndex((c,j)=>HINTS[k].test(c) && !Object.values(guess).includes(j)); guess[k]=i; });
+  }
+  if(guess.qty<0){ // última columna mayormente numérica y entera
+    for(let j=width-1;j>=0;j--){ const vals=body.slice(0,20).map(r=>num(r[j])).filter(v=>!isNaN(v)); if(vals.length>=Math.min(3,body.length) && vals.every(v=>Number.isInteger(v)&&v<100000)){ guess.qty=j; break; } }
+  }
+  if(guess.code<0) guess.code= [0,1,2].find(j=>j!==guess.qty && j<width) ?? -1;
+  if(guess.desc<0){ let bl=0; cols.forEach((_,j)=>{ if(Object.values(guess).includes(j)) return; const L=body.slice(0,20).reduce((a,r)=>a+(r[j]||"").length,0); if(L>bl){bl=L;guess.desc=j;} }); }
+  const opts=cols.map((c,i)=>`<option value="${i}">${esc(c)}</option>`).join("");
+  [["mapCode","code"],["mapEan","ean"],["mapDesc","desc"],["mapQty","qty"]].forEach(([id,k])=>{ const s=$("#"+id); s.innerHTML=`<option value="-1">— ninguna —</option>`+opts; s.value=String(guess[k]); });
+  $("#mapPreview").innerHTML=`<table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${body.slice(0,6).map(r=>`<tr>${cols.map((_,i)=>`<td>${esc(r[i]||"")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  pendingRows=body;
+  $("#mapping").hidden=false;
+  setStatus(`${body.length} filas leídas. Comprueba las columnas y pulsa “Cargar remisión”.`);
+}
+$("#mapGo").onclick=()=>{
+  const g=id=>Number($("#"+id).value);
+  const c=g("mapCode"),e=g("mapEan"),d=g("mapDesc"),q=g("mapQty");
+  if(q<0){ setStatus("Elige qué columna es la cantidad enviada.", true); return; }
+  if(c<0 && e<0 && d<0){ setStatus("Elige al menos la columna de código o de descripción.", true); return; }
+  const lines=pendingRows.map(r=>({code:c>=0?r[c]:(e>=0?r[e]:""),ean:e>=0?r[e]:"",desc:d>=0?r[d]:"",sent:num(r[q])})).filter(l=>!isNaN(l.sent) && !/^total/i.test(l.desc+l.code));
+  applyLines(lines);
+};
+$("#fileXls").onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  $("#pasteBox").hidden=true;
+  try{
+    if(/\.(csv|txt)$/i.test(f.name)) { openMapping(splitText(await f.text())); return; }
+    if(!window.XLSX){ setStatus("No se pudo cargar el lector de Excel. Guarda el archivo como CSV o pega las filas.", true); return; }
+    const wb=XLSX.read(await f.arrayBuffer(),{type:"array"});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    openMapping(XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:""}));
+  }catch(err){ setStatus("No pude leer ese archivo. Prueba a guardarlo como CSV o pega las filas.", true); }
+};
+function splitText(t){
+  const lines=t.replace(/\r/g,"").split("\n").filter(x=>x.trim());
+  const sep = lines.some(l=>l.includes("\t"))?"\t" : lines.filter(l=>l.includes(";")).length>lines.length/2?";" : lines.filter(l=>l.includes(",")).length>lines.length/2 && !/\d,\d/.test(t)?",":null;
+  return lines.map(l=>{
+    if(sep) return l.split(sep);
+    // texto libre: código al inicio, cantidad al final, el resto descripción
+    const m=l.trim().match(/^(\S+)\s+(.*?)\s+(\d+(?:[.,]\d+)?)\s*(?:\S{0,6})$/);
+    return m?[m[1],m[2],m[3]]:l.trim().split(/\s{2,}/);
+  });
+}
+$("#srcPaste").onclick=()=>{ $("#pasteBox").hidden=false; $("#mapping").hidden=true; setStatus(""); $("#pasteTxt").focus(); };
+$("#pasteGo").onclick=()=>{ const t=$("#pasteTxt").value; if(!t.trim()){ setStatus("Pega primero las filas de la remisión.", true); return; } openMapping(splitText(t)); };
+
+/* ---------- Claude: foto / PDF / texto desordenado ---------- */
+const PROMPT=`Eres un asistente de bodega. Te paso una REMISIÓN (nota de entrega / albarán) de un proveedor. Extrae cada línea de producto enviada.
+Responde SOLO con JSON con esta forma:
+{"proveedor":"", "numero":"", "fecha":"AAAA-MM-DD", "lineas":[{"codigo":"", "ean":"", "descripcion":"", "cantidad":0}]}
+Reglas: "codigo" es la referencia o SKU del proveedor; "ean" el código de barras numérico si aparece (si no, ""); "cantidad" son las unidades enviadas como número entero. Si una línea indica cajas y unidades por caja, pon el total de unidades. Ignora subtotales, impuestos, totales y fletes. Si un dato no aparece, déjalo vacío. No inventes líneas.`;
+let aiCtl=null;
+async function askClaude(text, images){
+  if(!sampleFn){ setStatus("La lectura con Claude no está disponible en esta vista.", true); return; }
+  aiCtl=new AbortController();
+  setStatus("Claude está leyendo la remisión… suele tardar entre 15 y 60 segundos.");
+  try{
+    const input = PROMPT + (text? "\n\nTEXTO DE LA REMISIÓN:\n"+text.slice(0,40000) : "\n\nLa remisión está en las imágenes adjuntas (pueden ser varias páginas).");
+    const r = await sampleFn.json(input, {signal:aiCtl.signal, images: images&&images.length?images:undefined});
+    const ls=(r&&Array.isArray(r.lineas)?r.lineas:[]).map(x=>({code:x.codigo||x.ean||"",ean:x.ean||"",desc:x.descripcion||"",sent:num(x.cantidad)})).filter(l=>!isNaN(l.sent));
+    const fecha=/^\d{4}-\d{2}-\d{2}$/.test(r?.fecha||"")?r.fecha:"";
+    applyLines(ls,{prov:r?.proveedor||"",num:r?.numero||"",fecha});
+    if(S.lines.length) toast(`Claude leyó ${S.lines.length} líneas. Revísalas antes de contar.`);
+  }catch(e){
+    const msg={not_granted:"No se dio permiso para usar Claude. Usa Excel o pega el texto.",rate_limited:"Demasiadas peticiones seguidas. Espera un momento y vuelve a probar.",image_rejected:"No pude usar esa imagen. Prueba con una foto más nítida en JPG o PNG.",invalid_json:"Claude no devolvió las líneas en el formato esperado. Vuelve a intentarlo.",images_unavailable:"Aquí no se pueden enviar fotos. Pega el texto de la remisión.",cancelled:""}[e&&e.code];
+    setStatus(msg ?? "Hubo un problema al leer la remisión. Vuelve a intentarlo.", msg!=="");
+  }
+}
+let pdfReady=null;
+function loadPdfJs(){
+  if(pdfReady) return pdfReady;
+  const base="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+  const add=src=>new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+  pdfReady=add(base+"pdf.min.js").then(()=>add(base+"pdf.worker.min.js")).then(()=>{ window.pdfjsLib.GlobalWorkerOptions.workerSrc=base+"pdf.worker.min.js"; return window.pdfjsLib; });
+  return pdfReady;
+}
+async function pdfToInput(file, maxImgs){
+  const lib=await loadPdfJs();
+  const doc=await lib.getDocument({data:await file.arrayBuffer()}).promise;
+  let text="";
+  for(let p=1;p<=Math.min(doc.numPages,10);p++){
+    const tc=await (await doc.getPage(p)).getTextContent();
+    let lastY=null; tc.items.forEach(it=>{ const y=Math.round(it.transform[5]); text+=(lastY!==null&&y!==lastY?"\n":" ")+it.str; lastY=y; });
+    text+="\n";
+  }
+  if(text.replace(/\s/g,"").length>80) return {text};
+  const imgs=[];
+  for(let p=1;p<=Math.min(doc.numPages,maxImgs);p++){
+    const page=await doc.getPage(p), vp=page.getViewport({scale:2});
+    const cv=document.createElement("canvas"); cv.width=vp.width; cv.height=vp.height;
+    await page.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise;
+    imgs.push(await new Promise(r=>cv.toBlob(r,"image/jpeg",.85)));
+  }
+  return {images:imgs};
+}
+$("#fileAI").onchange=async e=>{
+  const files=[...e.target.files]; e.target.value=""; if(!files.length) return;
+  $("#mapping").hidden=true; $("#pasteBox").hidden=true;
+  let caps=null; try{ caps=await sampleFn.limits(); }catch(_){}
+  const maxN=caps?.images?.maxCount||1;
+  try{
+    const pdf=files.find(f=>f.type==="application/pdf"||/\.pdf$/i.test(f.name));
+    if(pdf){
+      setStatus("Abriendo el PDF…");
+      const r=await pdfToInput(pdf, maxN);
+      if(r.images && !caps?.images){ setStatus("Este PDF es una imagen escaneada y aquí no se pueden enviar imágenes. Pega el texto.", true); return; }
+      return askClaude(r.text, r.images);
+    }
+    if(!caps?.images){ setStatus("Aquí no se pueden enviar fotos. Usa Excel o pega el texto.", true); return; }
+    askClaude("", files.slice(0,maxN));
+  }catch(err){ setStatus("No pude abrir ese archivo. Prueba con una foto de la remisión.", true); }
+};
+$("#pasteAI").onclick=()=>{ const t=$("#pasteTxt").value; if(!t.trim()){ setStatus("Pega primero el texto de la remisión.", true); return; } askClaude(t); };
+
+/* ---------- capabilities ---------- */
+(async()=>{
+  if(!window.claude || !claude.use) return;
+  try{ sampleFn=await claude.use("sample"); }catch(_){}
+  try{ downloadsNs=await claude.use("downloads"); }catch(_){}
+  if(sampleFn){ $("#srcClaude").hidden=false; $("#pasteAI").hidden=false; }
+})();
+
+bindMeta(); render();
+if(!S.lines.length) showLoad(true);
+if(S.log.length) $("#undoBtn").hidden=false;
+})();
+</script>
