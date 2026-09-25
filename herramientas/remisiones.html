@@ -74,7 +74,7 @@ button{cursor:pointer}
 
 /* mapping */
 .mapping{display:grid;gap:10px}
-.mapgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.mapgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
 .mapgrid select{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px;width:100%}
 .preview{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
 .preview table{border-collapse:collapse;font-size:12px;font-family:var(--mono);width:100%}
@@ -148,6 +148,28 @@ button{cursor:pointer}
 .item .ean .learned{color:var(--accent)}
 .extras li{display:flex;justify-content:space-between;gap:10px;align-items:center;font-family:var(--mono);font-size:14px}
 
+.costs{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:14px}
+.costctl{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface-2)}
+.seg button{border:0;background:transparent;padding:8px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:0;min-height:44px}
+.seg button b{font-family:var(--mono);font-size:16px}
+.seg button span{font-size:11px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg button[aria-pressed="true"] span{color:inherit;opacity:.85}
+.ivactl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px}
+.ivactl input[type=text]{width:56px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:6px 8px;text-align:right}
+.formula{font-family:var(--mono);font-size:13px;background:var(--accent-soft);border-radius:8px;padding:8px 12px}
+.crow,.chead{display:grid;grid-template-columns:minmax(0,1fr) 70px 130px 120px 130px;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.chead{border-top:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.crow .num,.chead .num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.crow input{width:100%;min-width:0;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:7px 8px;text-align:right;font-family:var(--mono)}
+.crow input.missing{border-color:var(--short)}
+.crow .item .desc{font-size:14px}
+.ctot{display:grid;gap:6px;justify-items:end;border-top:2px solid var(--ink);padding-top:10px}
+.ctot div{display:flex;gap:16px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.ctot div span:first-child{font-family:var(--sans);color:var(--muted)}
+.ctot .grand{font-size:18px;font-weight:700}
+.ctot .grand span:first-child{color:var(--ink)}
 .report{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
 .report pre{margin:0;white-space:pre-wrap;font-family:var(--mono);font-size:13px;background:var(--surface-2);border-radius:10px;padding:12px;max-height:340px;overflow:auto}
 .toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:20;max-width:calc(100% - 32px)}
@@ -160,6 +182,13 @@ button{cursor:pointer}
   .mapgrid{grid-template-columns:1fr 1fr}
   .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
   .lhead{display:none}
+  .chead{display:none}
+  .crow{grid-template-columns:1fr 1fr;grid-template-areas:"item item" "rec price" "unit tot";row-gap:6px}
+  .crow .item{grid-area:item} .crow .c-rec{grid-area:rec;text-align:left} .crow .c-price{grid-area:price}
+  .crow .c-unit{grid-area:unit;text-align:left} .crow .c-tot{grid-area:tot}
+  .crow .c-rec::before{content:"Recibido: ";font-family:var(--sans);color:var(--muted)}
+  .crow .c-unit::before{content:"Costo u.: ";font-family:var(--sans);color:var(--muted)}
+  .crow .c-tot::before{content:"Total: ";font-family:var(--sans);color:var(--muted)}
   .row{grid-template-columns:6px minmax(0,1fr) auto;grid-template-areas:"s item item" "s sent pill" "s step step";row-gap:8px}
   .row .stripe{grid-area:s}
   .row .item{grid-area:item}
@@ -231,6 +260,7 @@ button{cursor:pointer}
         <label class="field"><span class="eyebrow">Código de barras</span><select id="mapEan"></select></label>
         <label class="field"><span class="eyebrow">Descripción</span><select id="mapDesc"></select></label>
         <label class="field"><span class="eyebrow">Cantidad enviada</span><select id="mapQty"></select></label>
+        <label class="field"><span class="eyebrow">Precio de venta</span><select id="mapPrice"></select></label>
       </div>
       <div class="preview" id="mapPreview"></div>
       <div class="btnrow"><button class="btn primary" type="button" id="mapGo">Cargar remisión</button></div>
@@ -276,6 +306,27 @@ button{cursor:pointer}
         <div><span class="eyebrow" style="color:var(--short)">No vienen en la remisión</span></div>
         <ul id="extrasList"></ul>
       </section>
+      <section class="costs" aria-label="Costos">
+        <div class="toolbar">
+          <h2 style="font-size:18px">Costo antes de IVA</h2>
+          <span class="muted" style="font-size:13px" id="multNote"></span>
+        </div>
+        <div class="costctl">
+          <div class="field"><span class="eyebrow">Multiplicador de la marca</span>
+            <div class="seg" role="group" aria-label="Multiplicador">
+              <button type="button" data-m="0.6"><b>0,60</b><span>margen 40%</span></button>
+              <button type="button" data-m="0.65"><b>0,65</b><span>margen 35%</span></button>
+            </div>
+          </div>
+          <div class="ivactl">
+            <label class="switch"><input type="checkbox" id="ivaIncl"> El precio de venta ya incluye IVA</label>
+            <label>IVA <input type="text" id="ivaPct" inputmode="decimal" aria-label="Porcentaje de IVA"> %</label>
+          </div>
+        </div>
+        <div class="formula" id="formula"></div>
+        <div id="costRows"></div>
+        <div class="ctot" id="costTot"></div>
+      </section>
       <section class="report" aria-label="Informe">
         <div class="toolbar">
           <h2 style="font-size:18px">Informe de la recepción</h2>
@@ -304,20 +355,22 @@ let linkCode=null;
 const EXAMPLE = {
   example:true,
   meta:{prov:"Piesh Kids (ejemplo)",num:"R-004581",fecha:new Date().toISOString().slice(0,10)},
+  cost:{mult:0.6,ivaIncl:true,iva:19},
   lines:[
-    {code:"PK-2201-24",ean:"7701234500011",desc:"Tenis Piesh Kids azul marino T24",sent:6,recv:6},
-    {code:"PK-2201-25",ean:"7701234500028",desc:"Tenis Piesh Kids azul marino T25",sent:6,recv:4},
-    {code:"PK-2201-26",ean:"7701234500035",desc:"Tenis Piesh Kids azul marino T26",sent:4,recv:0},
-    {code:"FK-110-ROS",ean:"7709876500102",desc:"Fular Kargo estampado rosa",sent:10,recv:10},
-    {code:"FK-110-VER",ean:"7709876500119",desc:"Fular Kargo estampado verde",sent:10,recv:11},
-    {code:"PL-MOCH-01",ean:"8435566700013",desc:"Mochila Pombo & Lola conejo",sent:3,recv:0},
-    {code:"PL-NEC-02",ean:"8435566700020",desc:"Neceser Pombo & Lola estrellas",sent:5,recv:0}
+    {code:"PK-2201-24",ean:"7701234500011",desc:"Tenis Piesh Kids azul marino T24",sent:6,recv:6,price:129900},
+    {code:"PK-2201-25",ean:"7701234500028",desc:"Tenis Piesh Kids azul marino T25",sent:6,recv:4,price:129900},
+    {code:"PK-2201-26",ean:"7701234500035",desc:"Tenis Piesh Kids azul marino T26",sent:4,recv:0,price:129900},
+    {code:"FK-110-ROS",ean:"7709876500102",desc:"Fular Kargo estampado rosa",sent:10,recv:10,price:59900},
+    {code:"FK-110-VER",ean:"7709876500119",desc:"Fular Kargo estampado verde",sent:10,recv:11,price:59900},
+    {code:"PL-MOCH-01",ean:"8435566700013",desc:"Mochila Pombo & Lola conejo",sent:3,recv:0,price:189000},
+    {code:"PL-NEC-02",ean:"8435566700020",desc:"Neceser Pombo & Lola estrellas",sent:5,recv:0,price:99000}
   ],
   extras:[{code:"7701234500042",recv:1}],
   log:[]
 };
 
 let S = load() || structuredClone(EXAMPLE);
+ensureCost();
 S.lines.forEach(l=>{ if(!l.id) l.id=uid(); });
 let filter = "all", editing = false, blind = false, pendingRows = null, lastTouched = null;
 let sampleFn = null, downloadsNs = null;
@@ -326,6 +379,34 @@ function uid(){ return Math.random().toString(36).slice(2,9); }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 function load(){ try{ const v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; }catch(e){ return null; } }
 function norm(s){ return String(s??"").trim().toUpperCase().replace(/\s+/g,""); }
+function money(v){
+  if(typeof v==="number") return v;
+  let t=String(v??"").replace(/[^\d.,-]/g,""); if(!t) return NaN;
+  const lc=t.lastIndexOf(","), ld=t.lastIndexOf(".");
+  if(lc>-1 && ld>-1){ const dec=lc>ld?",":"."; t=t.split(dec==","?".":",").join(""); t=t.replace(dec,"."); }
+  else if(lc>-1||ld>-1){ const sep=lc>-1?",":"."; const parts=t.split(sep);
+    t = parts.length>2 || parts[parts.length-1].length===3 ? parts.join("") : parts.join("."); }
+  const n=Number(t); return isNaN(n)?NaN:n;
+}
+function fmt(n){ return "$"+new Intl.NumberFormat("es-CO",{maximumFractionDigits:Math.abs(n)>=1000?0:2}).format(n); }
+const MKEY="cotejo-multiplicador-v1"; // proveedor -> multiplicador
+function loadMults(){ try{ return JSON.parse(localStorage.getItem(MKEY))||{}; }catch(e){ return {}; } }
+function ensureCost(){ S.cost=Object.assign({mult:0.6,ivaIncl:true,iva:19},S.cost||{}); }
+function unitCost(l){
+  if(!(l.price>0)) return null;
+  const base=S.cost.ivaIncl? l.price/(1+S.cost.iva/100) : l.price;
+  return base*S.cost.mult;
+}
+function costTotals(){
+  let recv=0,sent=0,missing=0;
+  S.lines.forEach(l=>{ const u=unitCost(l); if(u==null){ missing++; return; } recv+=u*(l.recv||0); sent+=u*l.sent; });
+  const iva=recv*S.cost.iva/100;
+  return {recv,sent,iva,total:recv+iva,missing};
+}
+function applyRememberedMult(){
+  const m=loadMults()[norm(S.meta.prov)];
+  if(m){ S.cost.mult=m; return true; } return false;
+}
 function num(v){ if(typeof v==="number") return v; const m=String(v??"").replace(/\./g,"").replace(",",".").match(/-?\d+(\.\d+)?/); return m?Number(m[0]):NaN; }
 function status(l){ if(!l.recv) return l.sent? "pending":"ok"; if(l.recv===l.sent) return "ok"; return l.recv<l.sent?"short":"over"; }
 function esc(s){ return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
@@ -345,7 +426,7 @@ function beep(good){
 /* ---------- meta ---------- */
 function bindMeta(){
   const map={mProv:"prov",mNum:"num",mFecha:"fecha"};
-  Object.entries(map).forEach(([id,k])=>{ const el=$("#"+id); el.value=S.meta[k]||""; el.oninput=()=>{ S.meta[k]=el.value; save(); renderReport(); }; });
+  Object.entries(map).forEach(([id,k])=>{ const el=$("#"+id); el.value=S.meta[k]||""; el.oninput=()=>{ S.meta[k]=el.value; if(k==="prov") applyRememberedMult(); save(); renderCosts(); renderReport(); }; });
 }
 
 /* ---------- scanning ---------- */
@@ -457,6 +538,7 @@ function render(){
   $("#editBtn").textContent=editing?"Listo":"Editar remisión";
   $("#extras").hidden=!S.extras.length;
   $("#extrasList").innerHTML=S.extras.map((e,i)=>`<li><span>${esc(e.code)}</span><span>${e.recv} unid. <button class="link" type="button" data-l="${i}">Enlazar</button> <button class="link" type="button" data-x="${i}">Quitar</button></span></li>`).join("");
+  renderCosts();
   renderReport();
 }
 $("#lines").addEventListener("click", e=>{
@@ -523,13 +605,62 @@ function reportText(){
   const out=[`RECEPCIÓN DE MERCANCÍA`, `Proveedor: ${m.prov||"—"}`, `Remisión: ${m.num||"—"}   Fecha: ${fecha||"—"}`, ""];
   const short=S.lines.filter(l=>status(l)==="short"||status(l)==="pending");
   const over=S.lines.filter(l=>status(l)==="over");
-  if(!short.length && !over.length && !S.extras.length){ out.push(`✔ TODO CORRECTO: ${S.lines.length} líneas, ${T.recv} unidades recibidas.`); return out.join("\n"); }
+  if(!short.length && !over.length && !S.extras.length){ out.push(`✔ TODO CORRECTO: ${S.lines.length} líneas, ${T.recv} unidades recibidas.`); return (out.join("\n")+costText()).trim(); }
   out.push(`Resultado: ${T.ok} de ${S.lines.length} líneas correctas.`, `Enviado ${T.sent} unid. · Recibido ${T.recv} unid.`, "");
   if(short.length){ out.push(`FALTAN (${T.uShort} unid.):`); short.forEach(l=>out.push(`- ${l.code} ${l.desc}: enviado ${l.sent}, recibido ${l.recv||0} → faltan ${l.sent-(l.recv||0)}`)); out.push(""); }
   if(over.length){ out.push(`SOBRAN (${T.uOver} unid.):`); over.forEach(l=>out.push(`- ${l.code} ${l.desc}: enviado ${l.sent}, recibido ${l.recv} → sobran ${l.recv-l.sent}`)); out.push(""); }
   if(S.extras.length){ out.push(`NO VIENEN EN LA REMISIÓN:`); S.extras.forEach(e=>out.push(`- ${e.code}: ${e.recv} unid.`)); }
-  return out.join("\n").trim();
+  return (out.join("\n").trim()+costText()).trim();
 }
+function costText(){
+  const C=costTotals(); if(!S.lines.some(l=>l.price>0)) return "";
+  const m=String(S.cost.mult).replace(".",",");
+  return `\n\nCOSTO (multiplicador ${m}${S.cost.ivaIncl?`, precio de venta con IVA ${S.cost.iva}%`:""}):\nSubtotal antes de IVA: ${fmt(C.recv)}\nIVA ${S.cost.iva}%: ${fmt(C.iva)}\nTotal con IVA: ${fmt(C.total)}${C.missing?`\n(${C.missing} producto(s) sin precio de venta no incluidos)`:""}`;
+}
+function renderCosts(){
+  ensureCost();
+  document.querySelectorAll(".seg [data-m]").forEach(b=>b.setAttribute("aria-pressed", String(Number(b.dataset.m)===S.cost.mult)));
+  $("#ivaIncl").checked=S.cost.ivaIncl;
+  if(document.activeElement!==$("#ivaPct")) $("#ivaPct").value=String(S.cost.iva).replace(".",",");
+  const m=String(S.cost.mult).replace(".",","), iv=String(S.cost.iva).replace(".",",");
+  const f=S.cost.ivaIncl? `Costo antes de IVA = Precio de venta ÷ ${(1+S.cost.iva/100).toFixed(2).replace(".",",")} × ${m}` : `Costo antes de IVA = Precio de venta × ${m}`;
+  const ex=S.cost.ivaIncl? `  (ej.: ${fmt(100000)} ÷ ${(1+S.cost.iva/100).toFixed(2).replace(".",",")} × ${m} = ${fmt(100000/(1+S.cost.iva/100)*S.cost.mult)})` : `  (ej.: ${fmt(100000)} × ${m} = ${fmt(100000*S.cost.mult)})`;
+  $("#formula").textContent=f+ex;
+  $("#multNote").textContent = S.meta.prov ? `Se recuerda para ${S.meta.prov}` : "Escribe el proveedor para recordar su multiplicador";
+  let h=`<div class="chead"><span>Producto</span><span class="num">Recibido</span><span class="num">Precio venta</span><span class="num">Costo u. s/IVA</span><span class="num">Total s/IVA</span></div>`;
+  S.lines.forEach(l=>{
+    const u=unitCost(l);
+    h+=`<div class="crow" data-id="${l.id}">
+      <div class="item"><span class="code">${esc(l.code)}</span><span class="desc">${esc(l.desc)}</span></div>
+      <span class="num c-rec">${l.recv||0}</span>
+      <input class="c-price${l.price>0?"":" missing"}" data-k="price" inputmode="decimal" value="${l.price>0?fmt(l.price):""}" placeholder="Precio" aria-label="Precio de venta de ${esc(l.code||l.desc)}">
+      <span class="num c-unit">${u==null?"—":fmt(u)}</span>
+      <span class="num c-tot">${u==null?"—":fmt(u*(l.recv||0))}</span>
+    </div>`;
+  });
+  $("#costRows").innerHTML=S.lines.length?h:`<p class="muted" style="margin:0">Carga una remisión para calcular costos.</p>`;
+  const C=costTotals();
+  $("#costTot").innerHTML = `
+    ${C.missing?`<div style="color:var(--short)"><span style="color:inherit">${C.missing} producto${C.missing>1?"s":""} sin precio de venta: no entra${C.missing>1?"n":""} en el total</span></div>`:""}
+    <div><span>Subtotal antes de IVA (recibido)</span><span>${fmt(C.recv)}</span></div>
+    <div><span>IVA ${iv}%</span><span>${fmt(C.iva)}</span></div>
+    <div class="grand"><span>Total con IVA</span><span>${fmt(C.total)}</span></div>
+    ${blind?"":`<div><span>Según lo enviado en la remisión, antes de IVA</span><span>${fmt(C.sent)}</span></div>`}`;
+}
+document.querySelectorAll(".seg [data-m]").forEach(b=>b.onclick=()=>{
+  ensureCost(); S.cost.mult=Number(b.dataset.m);
+  if(S.meta.prov){ const m=loadMults(); m[norm(S.meta.prov)]=S.cost.mult; try{ localStorage.setItem(MKEY,JSON.stringify(m)); }catch(e){} }
+  save(); renderCosts(); renderReport();
+});
+$("#ivaIncl").onchange=e=>{ ensureCost(); S.cost.ivaIncl=e.target.checked; save(); renderCosts(); renderReport(); };
+$("#ivaPct").onchange=e=>{ ensureCost(); const n=money(e.target.value); if(!isNaN(n)&&n>=0&&n<100) S.cost.iva=n; save(); renderCosts(); renderReport(); };
+$("#costRows").addEventListener("change", e=>{
+  const inp=e.target; if(inp.dataset.k!=="price") return;
+  const l=S.lines.find(x=>x.id===inp.closest(".crow").dataset.id); if(!l) return;
+  const n=money(inp.value); l.price = isNaN(n)||n<=0 ? 0 : n;
+  save(); renderCosts(); renderReport();
+  const nx=document.querySelector(`.crow[data-id="${l.id}"]`)?.nextElementSibling?.querySelector("input"); if(nx && !nx.value) nx.focus();
+});
 function renderReport(){ $("#repTxt").textContent = blind ? "El informe se muestra al desactivar el conteo ciego." : reportText(); }
 $("#copyRep").onclick=async ()=>{
   const t=reportText();
@@ -538,9 +669,10 @@ $("#copyRep").onclick=async ()=>{
 };
 function csvText(){
   const q=v=>{ v=String(v??""); return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
-  const rows=[["SKU","Codigo de barras","Descripcion","Enviado","Recibido","Diferencia","Estado"]];
+  const rows=[["SKU","Codigo de barras","Descripcion","Enviado","Recibido","Diferencia","Estado","Precio venta","Multiplicador","Costo unitario antes IVA","Costo total antes IVA (recibido)"]];
+  const r2=n=>n==null?"":Math.round(n*100)/100;
   const lbl={ok:"Correcto",short:"Falta",over:"Sobra",pending:"Sin contar"};
-  S.lines.forEach(l=>rows.push([l.code,[l.ean,...(l.alts||[])].filter(Boolean).join(" "),l.desc,l.sent,l.recv||0,(l.recv||0)-l.sent,lbl[status(l)]]));
+  S.lines.forEach(l=>rows.push([l.code,[l.ean,...(l.alts||[])].filter(Boolean).join(" "),l.desc,l.sent,l.recv||0,(l.recv||0)-l.sent,lbl[status(l)],l.price||"",S.cost.mult,r2(unitCost(l)),unitCost(l)==null?"":r2(unitCost(l)*(l.recv||0))]));
   S.extras.forEach(e=>rows.push([e.code,"","NO ESTÁ EN LA REMISIÓN",0,e.recv,e.recv,"Fuera de remisión"]));
   return "\ufeff"+rows.map(r=>r.map(q).join(",")).join("\n");
 }
@@ -560,7 +692,7 @@ $("#newBtn").onclick=()=>{ if(S.example || !S.lines.some(l=>l.recv)) startNew();
 $("#newNo").onclick=()=>$("#newConfirm").hidden=true;
 $("#newYes").onclick=()=>{ $("#newConfirm").hidden=true; startNew(); };
 function startNew(){
-  S={example:false,meta:{prov:"",num:"",fecha:new Date().toISOString().slice(0,10)},lines:[],extras:[],log:[]};
+  const keep=S.cost; S={example:false,meta:{prov:"",num:"",fecha:new Date().toISOString().slice(0,10)},cost:keep,lines:[],extras:[],log:[]};
   closeLink(); save(); bindMeta(); showLoad(true); render();
   $("#lastTxt").textContent="Carga la remisión para empezar a contar."; $("#last").className="last"; $("#undoBtn").hidden=true;
 }
@@ -570,8 +702,9 @@ function showLoad(on){
 }
 function setStatus(msg, err){ const s=$("#loadStatus"); s.hidden=!msg; s.textContent=msg||""; s.className="status"+(err?" err":""); }
 function applyLines(lines, meta){
-  S.lines=lines.filter(l=>(l.code||l.desc) && l.sent>0).map(l=>({id:uid(),code:String(l.code||"").trim(),ean:String(l.ean||"").trim(),desc:String(l.desc||"").trim(),sent:Math.round(l.sent),recv:0}));
+  S.lines=lines.filter(l=>(l.code||l.desc) && l.sent>0).map(l=>({id:uid(),code:String(l.code||"").trim(),ean:String(l.ean||"").trim(),desc:String(l.desc||"").trim(),sent:Math.round(l.sent),recv:0,price:l.price>0?l.price:0}));
   if(meta){ ["prov","num","fecha"].forEach(k=>{ if(meta[k]) S.meta[k]=meta[k]; }); }
+  ensureCost(); applyRememberedMult();
   S.extras=[]; S.log=[]; S.example=false; closeLink();
   if(!S.lines.length){ setStatus("No encontré líneas con cantidad. Revisa el archivo o prueba pegando el texto.", true); return; }
   save(); bindMeta(); showLoad(false); render();
@@ -584,7 +717,8 @@ const HINTS={
   code:/^(c[oó]d(igo)?|sku|ref(erencia)?|art[ií]culo|item|modelo|clave)\b/i,
   ean:/(ean|barras|upc|gtin|barcode)/i,
   desc:/(desc|producto|nombre|art[ií]culo|detalle|concepto)/i,
-  qty:/(cant|qty|unid|uds|piezas|pzs|cajas|enviad|despach)/i
+  qty:/(cant|qty|unid|uds|piezas|pzs|cajas|enviad|despach)/i,
+  price:/(p\.?v\.?p|precio.*(venta|p[uú]blico)|venta|retail)/i
 };
 function openMapping(rows){
   rows=rows.map(r=>r.map(c=>c==null?"":String(c).trim())).filter(r=>r.some(c=>c!==""));
@@ -596,9 +730,9 @@ function openMapping(rows){
   const body= hasHeader? rows.slice(hi+1) : rows;
   const width=Math.max(...rows.map(r=>r.length));
   const cols=Array.from({length:width},(_,i)=>header[i]||("Columna "+(i+1)));
-  const guess={code:-1,ean:-1,desc:-1,qty:-1};
+  const guess={code:-1,ean:-1,desc:-1,qty:-1,price:-1};
   if(hasHeader){
-    ["ean","qty","code","desc"].forEach(k=>{ const i=cols.findIndex((c,j)=>HINTS[k].test(c) && !Object.values(guess).includes(j)); guess[k]=i; });
+    ["ean","price","qty","code","desc"].forEach(k=>{ const i=cols.findIndex((c,j)=>HINTS[k].test(c) && !Object.values(guess).includes(j)); guess[k]=i; });
   }
   if(guess.qty<0){ // última columna mayormente numérica y entera
     for(let j=width-1;j>=0;j--){ const vals=body.slice(0,20).map(r=>num(r[j])).filter(v=>!isNaN(v)); if(vals.length>=Math.min(3,body.length) && vals.every(v=>Number.isInteger(v)&&v<100000)){ guess.qty=j; break; } }
@@ -606,7 +740,7 @@ function openMapping(rows){
   if(guess.code<0) guess.code= [0,1,2].find(j=>j!==guess.qty && j<width) ?? -1;
   if(guess.desc<0){ let bl=0; cols.forEach((_,j)=>{ if(Object.values(guess).includes(j)) return; const L=body.slice(0,20).reduce((a,r)=>a+(r[j]||"").length,0); if(L>bl){bl=L;guess.desc=j;} }); }
   const opts=cols.map((c,i)=>`<option value="${i}">${esc(c)}</option>`).join("");
-  [["mapCode","code"],["mapEan","ean"],["mapDesc","desc"],["mapQty","qty"]].forEach(([id,k])=>{ const s=$("#"+id); s.innerHTML=`<option value="-1">— ninguna —</option>`+opts; s.value=String(guess[k]); });
+  [["mapCode","code"],["mapEan","ean"],["mapDesc","desc"],["mapQty","qty"],["mapPrice","price"]].forEach(([id,k])=>{ const s=$("#"+id); s.innerHTML=`<option value="-1">— ninguna —</option>`+opts; s.value=String(guess[k]); });
   $("#mapPreview").innerHTML=`<table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${body.slice(0,6).map(r=>`<tr>${cols.map((_,i)=>`<td>${esc(r[i]||"")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
   pendingRows=body;
   $("#mapping").hidden=false;
@@ -614,10 +748,10 @@ function openMapping(rows){
 }
 $("#mapGo").onclick=()=>{
   const g=id=>Number($("#"+id).value);
-  const c=g("mapCode"),e=g("mapEan"),d=g("mapDesc"),q=g("mapQty");
+  const c=g("mapCode"),e=g("mapEan"),d=g("mapDesc"),q=g("mapQty"),pr=g("mapPrice");
   if(q<0){ setStatus("Elige qué columna es la cantidad enviada.", true); return; }
   if(c<0 && e<0 && d<0){ setStatus("Elige al menos la columna de código o de descripción.", true); return; }
-  const lines=pendingRows.map(r=>({code:c>=0?r[c]:(e>=0?r[e]:""),ean:e>=0?r[e]:"",desc:d>=0?r[d]:"",sent:num(r[q])})).filter(l=>!isNaN(l.sent) && !/^total/i.test(l.desc+l.code));
+  const lines=pendingRows.map(r=>({code:c>=0?r[c]:(e>=0?r[e]:""),ean:e>=0?r[e]:"",desc:d>=0?r[d]:"",sent:num(r[q]),price:pr>=0?money(r[pr]):0})).filter(l=>!isNaN(l.sent) && !/^total/i.test(l.desc+l.code));
   applyLines(lines);
 };
 $("#fileXls").onchange=async e=>{
@@ -647,8 +781,8 @@ $("#pasteGo").onclick=()=>{ const t=$("#pasteTxt").value; if(!t.trim()){ setStat
 /* ---------- Claude: foto / PDF / texto desordenado ---------- */
 const PROMPT=`Eres un asistente de bodega. Te paso una REMISIÓN (nota de entrega / albarán) de un proveedor. Extrae cada línea de producto enviada.
 Responde SOLO con JSON con esta forma:
-{"proveedor":"", "numero":"", "fecha":"AAAA-MM-DD", "lineas":[{"codigo":"", "ean":"", "descripcion":"", "cantidad":0}]}
-Reglas: "codigo" es la referencia o SKU del proveedor; "ean" el código de barras numérico si aparece (si no, ""); "cantidad" son las unidades enviadas como número entero. Si una línea indica cajas y unidades por caja, pon el total de unidades. Ignora subtotales, impuestos, totales y fletes. Si un dato no aparece, déjalo vacío. No inventes líneas.`;
+{"proveedor":"", "numero":"", "fecha":"AAAA-MM-DD", "lineas":[{"codigo":"", "ean":"", "descripcion":"", "cantidad":0, "precio_venta":0}]}
+Reglas: "codigo" es la referencia o SKU del proveedor; "ean" el código de barras numérico si aparece (si no, ""); "cantidad" son las unidades enviadas como número entero. Si una línea indica cajas y unidades por caja, pon el total de unidades. "precio_venta" es el precio de venta al público unitario (PVP) si aparece; si solo aparece el costo o precio al comercio, pon 0. Ignora subtotales, impuestos, totales y fletes. Si un dato no aparece, déjalo vacío. No inventes líneas.`;
 let aiCtl=null;
 async function askClaude(text, images){
   if(!sampleFn){ setStatus("La lectura con Claude no está disponible en esta vista.", true); return; }
@@ -657,7 +791,7 @@ async function askClaude(text, images){
   try{
     const input = PROMPT + (text? "\n\nTEXTO DE LA REMISIÓN:\n"+text.slice(0,40000) : "\n\nLa remisión está en las imágenes adjuntas (pueden ser varias páginas).");
     const r = await sampleFn.json(input, {signal:aiCtl.signal, images: images&&images.length?images:undefined});
-    const ls=(r&&Array.isArray(r.lineas)?r.lineas:[]).map(x=>({code:x.codigo||x.ean||"",ean:x.ean||"",desc:x.descripcion||"",sent:num(x.cantidad)})).filter(l=>!isNaN(l.sent));
+    const ls=(r&&Array.isArray(r.lineas)?r.lineas:[]).map(x=>({code:x.codigo||x.ean||"",ean:x.ean||"",desc:x.descripcion||"",sent:num(x.cantidad),price:money(x.precio_venta)})).filter(l=>!isNaN(l.sent));
     const fecha=/^\d{4}-\d{2}-\d{2}$/.test(r?.fecha||"")?r.fecha:"";
     applyLines(ls,{prov:r?.proveedor||"",num:r?.numero||"",fecha});
     if(S.lines.length) toast(`Claude leyó ${S.lines.length} líneas. Revísalas antes de contar.`);
