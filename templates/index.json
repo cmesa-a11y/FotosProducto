@@ -380,6 +380,9 @@
         "mg_bottom_mobile": 30,
         "product_block_layout": "scroll",
         "product_block_title": "Productos Personalizables",
+        "view_all": "Ver todo",
+        "link_view_all": "shopify://collections/personalizados",
+        "view_all_align": "right",
         "fontsize_title": 16,
         "fontsize_title_mb": 16,
         "mg_bottom_title": 12,
@@ -431,10 +434,7 @@
         "bg_color_gradient_tab": "",
         "color_tab_active": "#232323",
         "bg_color_tab_active": "#f8f8f8",
-        "bg_color_gradient_tab_active": "",
-        "view_all": "Ver todo",
-        "link_view_all": "shopify://collections/personalizados",
-        "view_all_align": "right"
+        "bg_color_gradient_tab_active": ""
       }
     },
     "custom_liquid_N3GbXi": {
@@ -444,14 +444,303 @@
         "custom_liquid": "<style>\n  .lm-pasos{background:#F0EDE6;padding:36px 20px;text-align:center;font-family:inherit}\n  .lm-pasos__t{font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8B7E6A;margin:0 0 28px}\n  .lm-pasos__grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:480px;margin:0 auto}\n  .lm-paso{display:flex;align-items:flex-start;gap:12px;text-align:left}\n  .lm-paso__n{flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:#2C2A26;color:#fff;font-size:12px;font-weight:600;line-height:28px;text-align:center}\n  .lm-paso__h{font-size:15px;font-weight:600;color:#2C2A26;margin:0 0 3px}\n  .lm-paso__p{font-size:14px;color:#7A7060;margin:0}\n  .lm-pasos__cta{display:inline-block;margin-top:26px;border:1px solid #C4B99A;color:#8B7E6A;padding:10px 22px;border-radius:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}\n  .lm-pasos__cta:hover{background:#C4B99A;color:#fff}\n  @media (min-width:750px){\n    .lm-pasos{padding:56px 20px}\n    .lm-pasos__grid{grid-template-columns:repeat(3,1fr);gap:32px;max-width:1000px}\n    .lm-paso{flex-direction:column;align-items:center;text-align:center;gap:14px}\n  }\n</style>\n<div class=\"lm-pasos\">\n  <p class=\"lm-pasos__t\">¿Cómo funciona el bordado?</p>\n  <div class=\"lm-pasos__grid\">\n    <div class=\"lm-paso\"><div class=\"lm-paso__n\">1</div><div>\n      <p class=\"lm-paso__h\">Elige la prenda y el color</p>\n      <p class=\"lm-paso__p\">Babero o muselina disponibles en varios tonos</p></div></div>\n    <div class=\"lm-paso\"><div class=\"lm-paso__n\">2</div><div>\n      <p class=\"lm-paso__h\">Configura el bordado</p>\n      <p class=\"lm-paso__p\">Nombre · 7 tipografías · 6 colores de hilo</p></div></div>\n    <div class=\"lm-paso\"><div class=\"lm-paso__n\">3</div><div>\n      <p class=\"lm-paso__h\">Recíbela en 3–5 días</p>\n      <p class=\"lm-paso__p\">Bordado listo para regalar o estrenar</p></div></div>\n  </div>\n  <a href=\"https://drive.google.com/file/d/1aC64bvKFZIhLWIrEAo3zSdwPzYXo8TvH/preview\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"lm-pasos__cta\">Ver guía de tipografías e hilos</a>\n</div>"
       }
     },
+    "spotlight_categorias": {
+      "type": "spotlight-block",
+      "blocks": {
+        "cat_ropa": {
+          "type": "image",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/baby_shower_libro_370x440_eb30be9b-504c-4533-bc5e-717cecf3e414.png",
+            "title_align": "center",
+            "enable_absolute": false,
+            "align_items": "center",
+            "align_items_spacing_top_bottom_position": 0,
+            "align_items_spacing_top_bottom_position_mb": 0,
+            "bg_color_content": "",
+            "align_items_spacing_top": 0,
+            "align_items_spacing_bottom": 0,
+            "align_items_spacing_lr": 0,
+            "sub_title": "",
+            "border_sub_title": false,
+            "color_sub_title": "#232323",
+            "fontsize_sub_title": 20,
+            "font_weight_sub_title": "500",
+            "mg_bottom_sub_title": 0,
+            "title": "Baby Showers",
+            "color_title": "#2c2a26",
+            "fontsize_title": 18,
+            "fontsize_title_mb": 15,
+            "font_weight_title": "600",
+            "enable_style_italic": false,
+            "border_title": "border_hover",
+            "border_color_title": "",
+            "des": "",
+            "color_des": "#7a7060",
+            "fontsize_des": 12,
+            "mg_top_des": 0,
+            "enable_des_hover": false,
+            "button": "Ver más",
+            "link": "shopify://collections/baby-shower",
+            "fontsize_btn": 16,
+            "button_width": 190,
+            "color_button": "#ffffff",
+            "border_color_button": "#232323",
+            "bg_color_button": "#232323",
+            "bg_color_button_gradient": "",
+            "color_button_hover": "#ffffff",
+            "border_color_button_hover": "#232323",
+            "bg_color_button_hover": "#232323",
+            "bg_color_button_gradient_hover": "",
+            "bg_opacity_button": 1,
+            "enable_button_custom_border": false,
+            "btn_text_transform": "uppercase",
+            "btn_icon": "",
+            "mg_top_btn": 0
+          }
+        },
+        "cat_zapatos": {
+          "type": "image",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/cumpleanos_botas_durazno_370x440_1.png",
+            "title_align": "center",
+            "enable_absolute": false,
+            "align_items": "center",
+            "align_items_spacing_top_bottom_position": 0,
+            "align_items_spacing_top_bottom_position_mb": 0,
+            "bg_color_content": "",
+            "align_items_spacing_top": 0,
+            "align_items_spacing_bottom": 0,
+            "align_items_spacing_lr": 0,
+            "sub_title": "",
+            "border_sub_title": false,
+            "color_sub_title": "#232323",
+            "fontsize_sub_title": 20,
+            "font_weight_sub_title": "500",
+            "mg_bottom_sub_title": 0,
+            "title": "Cumpleaños",
+            "color_title": "#2c2a26",
+            "fontsize_title": 18,
+            "fontsize_title_mb": 15,
+            "font_weight_title": "600",
+            "enable_style_italic": false,
+            "border_title": "border_hover",
+            "border_color_title": "",
+            "des": "",
+            "color_des": "#7a7060",
+            "fontsize_des": 12,
+            "mg_top_des": 0,
+            "enable_des_hover": false,
+            "button": "ver más",
+            "link": "shopify://collections/cumpleanos",
+            "fontsize_btn": 16,
+            "button_width": 190,
+            "color_button": "#ffffff",
+            "border_color_button": "#232323",
+            "bg_color_button": "#232323",
+            "bg_color_button_gradient": "",
+            "color_button_hover": "#ffffff",
+            "border_color_button_hover": "#232323",
+            "bg_color_button_hover": "#232323",
+            "bg_color_button_gradient_hover": "",
+            "bg_opacity_button": 1,
+            "enable_button_custom_border": false,
+            "btn_text_transform": "uppercase",
+            "btn_icon": "",
+            "mg_top_btn": 0
+          }
+        },
+        "cat_bordados": {
+          "type": "image",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/bautizo_botitas_crema_370x440_02ecf24d-b612-4b9c-a339-c21cf383872f.png",
+            "title_align": "center",
+            "enable_absolute": false,
+            "align_items": "center",
+            "align_items_spacing_top_bottom_position": 0,
+            "align_items_spacing_top_bottom_position_mb": 0,
+            "bg_color_content": "",
+            "align_items_spacing_top": 0,
+            "align_items_spacing_bottom": 0,
+            "align_items_spacing_lr": 0,
+            "sub_title": "",
+            "border_sub_title": false,
+            "color_sub_title": "#232323",
+            "fontsize_sub_title": 20,
+            "font_weight_sub_title": "500",
+            "mg_bottom_sub_title": 0,
+            "title": "Bautizo",
+            "color_title": "#2c2a26",
+            "fontsize_title": 18,
+            "fontsize_title_mb": 15,
+            "font_weight_title": "600",
+            "enable_style_italic": false,
+            "border_title": "border_hover",
+            "border_color_title": "",
+            "des": "",
+            "color_des": "#7a7060",
+            "fontsize_des": 12,
+            "mg_top_des": 0,
+            "enable_des_hover": false,
+            "button": "ver más",
+            "link": "shopify://collections/bautizo",
+            "fontsize_btn": 16,
+            "button_width": 190,
+            "color_button": "#ffffff",
+            "border_color_button": "#232323",
+            "bg_color_button": "#232323",
+            "bg_color_button_gradient": "",
+            "color_button_hover": "#ffffff",
+            "border_color_button_hover": "#232323",
+            "bg_color_button_hover": "#232323",
+            "bg_color_button_gradient_hover": "",
+            "bg_opacity_button": 1,
+            "enable_button_custom_border": false,
+            "btn_text_transform": "uppercase",
+            "btn_icon": "",
+            "mg_top_btn": 0
+          }
+        },
+        "cat_esenciales": {
+          "type": "image",
+          "settings": {
+            "enable_image": true,
+            "image": "shopify://shop_images/esenciales_hello_mellow_370x440_40b9728a-4d83-4e6e-8617-ff0ba3fade24.png",
+            "title_align": "center",
+            "enable_absolute": false,
+            "align_items": "center",
+            "align_items_spacing_top_bottom_position": 0,
+            "align_items_spacing_top_bottom_position_mb": 0,
+            "bg_color_content": "",
+            "align_items_spacing_top": 0,
+            "align_items_spacing_bottom": 0,
+            "align_items_spacing_lr": 0,
+            "sub_title": "",
+            "border_sub_title": false,
+            "color_sub_title": "#232323",
+            "fontsize_sub_title": 20,
+            "font_weight_sub_title": "500",
+            "mg_bottom_sub_title": 0,
+            "title": "Esenciales",
+            "color_title": "#2c2a26",
+            "fontsize_title": 18,
+            "fontsize_title_mb": 15,
+            "font_weight_title": "600",
+            "enable_style_italic": false,
+            "border_title": "border_hover",
+            "border_color_title": "",
+            "des": "",
+            "color_des": "#7a7060",
+            "fontsize_des": 12,
+            "mg_top_des": 0,
+            "enable_des_hover": false,
+            "button": "ver más",
+            "link": "shopify://collections/esenciales",
+            "fontsize_btn": 16,
+            "button_width": 190,
+            "color_button": "#ffffff",
+            "border_color_button": "#232323",
+            "bg_color_button": "#232323",
+            "bg_color_button_gradient": "",
+            "color_button_hover": "#ffffff",
+            "border_color_button_hover": "#232323",
+            "bg_color_button_hover": "#232323",
+            "bg_color_button_gradient_hover": "",
+            "bg_opacity_button": 1,
+            "enable_button_custom_border": false,
+            "btn_text_transform": "uppercase",
+            "btn_icon": "",
+            "mg_top_btn": 0
+          }
+        }
+      },
+      "block_order": [
+        "cat_ropa",
+        "cat_zapatos",
+        "cat_bordados",
+        "cat_esenciales"
+      ],
+      "settings": {
+        "container": "1170",
+        "padding_full_width": 0,
+        "disable_padding_content": true,
+        "mg_minus_desktop": 0,
+        "block_layout": "grid",
+        "spotlight_block_swipe_on_mobile": "list",
+        "column": "4",
+        "column_mb": "2",
+        "enable_arrows": true,
+        "enable_arrows_mb": false,
+        "position_horizontal_slick_arrow": "0",
+        "enable_dots": false,
+        "enable_dots_mb": true,
+        "display_border_bottom": false,
+        "border_color": "#e3e3e3",
+        "mg_top_desktop": 20,
+        "mg_top_tablet": 20,
+        "mg_top_mobile": 20,
+        "mg_bottom_desktop": 0,
+        "mg_bottom_tablet": 0,
+        "mg_bottom_mobile": 0,
+        "spotlight_bg": "#ffffff",
+        "spotlight_bg_gradient": "",
+        "spotlight_block_title": "Explora por categorías",
+        "enable_border_title": true,
+        "color_title": "#232323",
+        "fontsize_title": 20,
+        "fontsize_title_mb": 18,
+        "margin_bottom_title": 0,
+        "spotlight_block_des": "",
+        "color_des": "#3c3c3c",
+        "margin_bottom_des": 0,
+        "fontsize_des": 16,
+        "title_align": "center",
+        "item_distance": 20,
+        "item_radius": 0,
+        "view_all": "Ver todas las categorías",
+        "view_all_fs": 12,
+        "view_all_align": "center",
+        "font_weight_view_all": "600",
+        "mg_bottom_view": 0,
+        "enable_border_view_all": true,
+        "link_view_all": "/collections",
+        "color_view_all": "#8b7e6a",
+        "display_spotlight_button": false,
+        "spotlight_button_text": "",
+        "spotlight_button_link": "",
+        "color_button": "#ffffff",
+        "border_color_button": "#232323",
+        "bg_color_button": "#232323",
+        "bg_color_gradient_button": "",
+        "color_button_hover": "#232323",
+        "border_color_button_hover": "#ffffff",
+        "bg_color_button_hover": "#ffffff",
+        "bg_color_gradient_button_hover": "",
+        "maxwidth_button": 230,
+        "mg_top_button": 30,
+        "enable_shadow": false,
+        "shadow_horizontal_length": 0,
+        "shadow_vertical_length": 0,
+        "shadow_blur_radius": 0,
+        "shadow_spread": 0,
+        "shadow_color": "transparent",
+        "shadow_inset": "no",
+        "enable_plus_icon": false,
+        "color_plus_icon": "#ffffff",
+        "enable_content_border": false,
+        "content_border_color": "#e2e2e2"
+      }
+    },
     "image_banner_3nRmLM": {
       "type": "image-banner",
       "blocks": {
         "large_img_waxinJ": {
           "type": "largeImg",
           "settings": {
-            "image": "shopify://shop_images/banner_hello_mellow_lobster_mini.jpg",
-            "mobile_image": "shopify://shop_images/pautas_cherryleague-10.jpg_1.jpg",
+            "image": "shopify://shop_images/banners_cheeryleague_web_jpg.jpg",
+            "mobile_image": "shopify://shop_images/banners_cheeryleague_Cel_jpg.jpg",
             "enable_max_width_image": false,
             "custom_width_image": 1170,
             "enable_scroll_down": false,
@@ -605,6 +894,9 @@
         "mg_bottom_mobile": 30,
         "product_block_layout": "grid",
         "product_block_title": "Lo Último en Lobster Mini",
+        "view_all": "Ver todo",
+        "link_view_all": "shopify://collections/lobster-mini",
+        "view_all_align": "right",
         "fontsize_title": 16,
         "fontsize_title_mb": 16,
         "mg_bottom_title": 12,
@@ -614,7 +906,7 @@
         "border_color_title2": "#232323",
         "color_title": "#232323",
         "title_align": "center",
-        "product_block_limit": 8,
+        "product_block_limit": 4,
         "image_behavior": "zoom-in",
         "product_block_per_row": "4",
         "product_block_infinite_scroll": true,
@@ -656,23 +948,7 @@
         "bg_color_gradient_tab": "",
         "color_tab_active": "#232323",
         "bg_color_tab_active": "#f8f8f8",
-        "bg_color_gradient_tab_active": "",
-        "view_all": "Ver todo",
-        "link_view_all": "shopify://collections/lobster-mini",
-        "view_all_align": "right"
-      }
-    },
-    "1764197366b1768c20": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "custom_liquid_VbUFfk": {
-      "type": "custom-liquid",
-      "name": "t:sections.custom-liquid.presets.name",
-      "settings": {
-        "custom_liquid": "<style>\n  .lm-valores{background:#fff;border-top:.5px solid #E8E2D8;border-bottom:.5px solid #E8E2D8;padding:0 20px}\n  .lm-valores__in{display:flex;max-width:760px;margin:0 auto}\n  .lm-valor{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px 8px;position:relative}\n  .lm-valor+.lm-valor:before{content:\"\";position:absolute;left:0;top:20%;height:60%;width:.5px;background:#E8E2D8}\n  .lm-valor__ico{width:40px;height:40px;border-radius:50%;background:#F2EDE3;border:.5px solid #D8CEBC;display:flex;align-items:center;justify-content:center}\n  .lm-valor__tx{font-size:11px;font-weight:700;color:#5A6B54;text-align:center;letter-spacing:.08em;text-transform:uppercase}\n  @media (min-width:750px){ .lm-valores__in{max-width:900px} .lm-valor{padding:26px 8px} .lm-valor__tx{font-size:12px} }\n</style>\n<div class=\"lm-valores\"><div class=\"lm-valores__in\">\n  <div class=\"lm-valor\"><span class=\"lm-valor__ico\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"#5A6B54\" stroke-width=\"1.6\" aria-hidden=\"true\"><path d=\"M6.5 8.5c-2 0-3.5 1.6-3.5 3.5s1.5 3.5 3.5 3.5c3.5 0 4.5-7 8-7 2 0 3.5 1.6 3.5 3.5S20.5 15.5 18.5 15.5c-3.5 0-4.5-7-8-7Z\"/></svg></span><span class=\"lm-valor__tx\">Sin género</span></div>\n  <div class=\"lm-valor\"><span class=\"lm-valor__ico\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"#5A6B54\" stroke-width=\"1.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M4 20c0-8 5-14 16-15 0 10-5 15-12 15H4Z\"/><path d=\"M8 18c2-4 5-7 9-9\"/></svg></span><span class=\"lm-valor__tx\">Circular</span></div>\n  <div class=\"lm-valor\"><span class=\"lm-valor__ico\"><svg viewBox=\"0 0 24 16\" width=\"22\" height=\"15\" aria-hidden=\"true\"><rect width=\"24\" height=\"8\" fill=\"#FCD116\"/><rect y=\"8\" width=\"24\" height=\"4\" fill=\"#003893\"/><rect y=\"12\" width=\"24\" height=\"4\" fill=\"#CE1126\"/></svg></span><span class=\"lm-valor__tx\">Colombia</span></div>\n</div></div>"
+        "bg_color_gradient_tab_active": ""
       }
     },
     "image_banner_6KwJkY": {
@@ -681,8 +957,8 @@
         "large_img_ByRdQk": {
           "type": "largeImg",
           "settings": {
-            "image": "shopify://shop_images/banner-kings-and-rebels-1880x720.png",
-            "mobile_image": "shopify://shop_images/banner-kings-and-rebels-638x780.png",
+            "image": "shopify://shop_images/banner-igor-barefoot-638x780.png",
+            "mobile_image": "shopify://shop_images/banner-igor-barefoot-638x780.png",
             "enable_max_width_image": false,
             "custom_width_image": 1170,
             "enable_scroll_down": false,
@@ -783,7 +1059,7 @@
         "mg_bottom_desktop": 0,
         "mg_bottom_tablet": 0,
         "mg_bottom_mobile": 0,
-        "image_banner_title": "Kings & Rebels",
+        "image_banner_title": "",
         "enable_border_title": false,
         "color_title": "#232323",
         "fontsize_title": 24,
@@ -817,15 +1093,15 @@
         "tab_igor": {
           "type": "ProductTabs",
           "settings": {
-            "title": "Igor",
-            "collection": "igor-shoes"
+            "title": "Fulares Kargo",
+            "collection": "fulares-kargo"
           }
         },
         "tab_piesh": {
           "type": "ProductTabs",
           "settings": {
-            "title": "Piesh Kids",
-            "collection": "piesh-kids"
+            "title": "Pombo & Lola",
+            "collection": "pombo-y-lola"
           }
         }
       },
@@ -845,7 +1121,10 @@
         "mg_bottom_tablet": 40,
         "mg_bottom_mobile": 30,
         "product_block_layout": "grid",
-        "product_block_title": "Zapatos",
+        "product_block_title": "Nuestro Top para bebés",
+        "view_all": "Ver todo",
+        "link_view_all": "shopify://collections/0-6-meses",
+        "view_all_align": "right",
         "fontsize_title": 16,
         "fontsize_title_mb": 16,
         "mg_bottom_title": 12,
@@ -855,7 +1134,7 @@
         "border_color_title2": "#232323",
         "color_title": "#232323",
         "title_align": "center",
-        "product_block_limit": 8,
+        "product_block_limit": 4,
         "image_behavior": "none",
         "product_block_per_row": "4",
         "product_block_infinite_scroll": true,
@@ -897,211 +1176,13 @@
         "bg_color_gradient_tab": "",
         "color_tab_active": "#232323",
         "bg_color_tab_active": "#f8f8f8",
-        "bg_color_gradient_tab_active": "",
-        "view_all": "Ver todo",
-        "link_view_all": "/collections/zapatos",
-        "view_all_align": "right"
+        "bg_color_gradient_tab_active": ""
       }
     },
-    "spotlight_categorias": {
-      "type": "spotlight-block",
-      "blocks": {
-        "cat_ropa": {
-          "type": "image",
-          "settings": {
-            "enable_image": true,
-            "enable_absolute": false,
-            "title_align": "center",
-            "title": "Ropa",
-            "color_title": "#2C2A26",
-            "fontsize_title": 18,
-            "fontsize_title_mb": 15,
-            "font_weight_title": "600",
-            "border_title": "border_hover",
-            "des": "Camisetas · Buzos · Vestidos · Bottoms",
-            "color_des": "#7A7060",
-            "fontsize_des": 12,
-            "mg_top_des": 6,
-            "link": "/collections/ropa"
-          }
-        },
-        "cat_zapatos": {
-          "type": "image",
-          "settings": {
-            "enable_image": true,
-            "enable_absolute": false,
-            "title_align": "center",
-            "title": "Zapatos",
-            "color_title": "#2C2A26",
-            "fontsize_title": 18,
-            "fontsize_title_mb": 15,
-            "font_weight_title": "600",
-            "border_title": "border_hover",
-            "des": "",
-            "color_des": "#7A7060",
-            "fontsize_des": 12,
-            "mg_top_des": 6,
-            "link": "/collections/zapatos"
-          }
-        },
-        "cat_bordados": {
-          "type": "image",
-          "settings": {
-            "enable_image": true,
-            "enable_absolute": false,
-            "title_align": "center",
-            "title": "Bordados",
-            "color_title": "#2C2A26",
-            "fontsize_title": 18,
-            "fontsize_title_mb": 15,
-            "font_weight_title": "600",
-            "border_title": "border_hover",
-            "des": "Personalízalo con el nombre",
-            "color_des": "#7A7060",
-            "fontsize_des": 12,
-            "mg_top_des": 6,
-            "link": "shopify://collections/personalizados"
-          }
-        },
-        "cat_esenciales": {
-          "type": "image",
-          "settings": {
-            "enable_image": true,
-            "enable_absolute": false,
-            "title_align": "center",
-            "title": "Esenciales",
-            "color_title": "#2C2A26",
-            "fontsize_title": 18,
-            "fontsize_title_mb": 15,
-            "font_weight_title": "600",
-            "border_title": "border_hover",
-            "des": "Baberos · Muselinas · Cobijas · Toallas",
-            "color_des": "#7A7060",
-            "fontsize_des": 12,
-            "mg_top_des": 6,
-            "link": "/collections/esenciales"
-          }
-        }
-      },
-      "block_order": [
-        "cat_ropa",
-        "cat_zapatos",
-        "cat_bordados",
-        "cat_esenciales"
-      ],
+    "1764197366b1768c20": {
+      "type": "apps",
       "settings": {
-        "container": "1170",
-        "block_layout": "grid",
-        "column": "4",
-        "column_mb": "2",
-        "spotlight_block_swipe_on_mobile": "list",
-        "item_distance": 15,
-        "item_radius": 0,
-        "spotlight_bg": "#ffffff",
-        "spotlight_block_title": "Explora por categorías",
-        "title_align": "center",
-        "enable_border_title": true,
-        "color_title": "#232323",
-        "fontsize_title": 20,
-        "fontsize_title_mb": 18,
-        "margin_bottom_title": 30,
-        "view_all": "Ver todas las categorías",
-        "link_view_all": "/collections",
-        "view_all_align": "center",
-        "view_all_fs": 12,
-        "font_weight_view_all": "600",
-        "enable_border_view_all": true,
-        "color_view_all": "#8B7E6A",
-        "mg_bottom_view": 0,
-        "mg_top_desktop": 50,
-        "mg_top_tablet": 40,
-        "mg_top_mobile": 30,
-        "mg_bottom_desktop": 50,
-        "mg_bottom_tablet": 40,
-        "mg_bottom_mobile": 30
-      }
-    },
-    "product_tab_block_marcas": {
-      "type": "product-tab-block",
-      "blocks": {
-        "tab_fulares_kargo": {
-          "type": "ProductTabs",
-          "settings": {
-            "title": "Fulares Kargo",
-            "collection": "fulares-kargo"
-          }
-        }
-      },
-      "block_order": [
-        "tab_fulares_kargo"
-      ],
-      "name": "t:sections.product_tab_block.name",
-      "settings": {
-        "container": "1170",
-        "padding_full_width": 0,
-        "mg_top_desktop": 50,
-        "mg_top_tablet": 40,
-        "mg_top_mobile": 30,
-        "mg_bottom_desktop": 50,
-        "mg_bottom_tablet": 40,
-        "mg_bottom_mobile": 30,
-        "product_block_layout": "grid",
-        "product_block_title": "Fulares Kargo",
-        "fontsize_title": 16,
-        "fontsize_title_mb": 16,
-        "mg_bottom_title": 12,
-        "enable_border_title": false,
-        "border_color_title": "#232323",
-        "enable_border_title2": false,
-        "border_color_title2": "#232323",
-        "color_title": "#232323",
-        "title_align": "center",
-        "product_block_limit": 8,
-        "image_behavior": "zoom-in",
-        "product_block_per_row": "4",
-        "product_block_infinite_scroll": true,
-        "min_width_button": "ver mas",
-        "product_block_dots": false,
-        "product_block_dots_mb": true,
-        "product_block_arrows": true,
-        "product_block_arrows_mb": false,
-        "product_block_show": "5",
-        "product_block_per_view": "4",
-        "show_half": true,
-        "scroll_height": 4,
-        "scroll_track_bg": "#f1f1f1",
-        "scroll_thumb_color": "#000",
-        "scroll_thumb_hover_color": "#444",
-        "enable_hover_drag_icon": true,
-        "position": "left",
-        "width_banner": 20,
-        "tab_title_style": "style_2",
-        "mg_bottom_title_tab": 24,
-        "type_tab_font": "font_1",
-        "separation": true,
-        "style_separation": "style1",
-        "color_separation": "",
-        "enable_scroll_title": true,
-        "fontsize_tab": 14,
-        "fontsize_tab_mb": 14,
-        "font_weight_tab": "700",
-        "font_weight_active_tab": "700",
-        "spacing_between_title": 24,
-        "line_height_tab": 20,
-        "line_height_tab_mobile": 24,
-        "border_tab_radius": 3,
-        "min_width_tab": 5,
-        "border_width_tab": 3,
-        "color_tab": "#232323",
-        "border_color_tab": "",
-        "bg_color_tab": "#fff",
-        "bg_color_gradient_tab": "",
-        "color_tab_active": "#232323",
-        "bg_color_tab_active": "#f8f8f8",
-        "bg_color_gradient_tab_active": "",
-        "view_all": "Ver todas las marcas",
-        "link_view_all": "/collections/fulares-kargo",
-        "view_all_align": "right"
+        "include_margins": true
       }
     },
     "image_banner_pombo_lola": {
@@ -1110,8 +1191,6 @@
         "large_img_pombo_lola": {
           "type": "largeImg",
           "settings": {
-            "image": "",
-            "mobile_image": "",
             "enable_max_width_image": false,
             "custom_width_image": 1170,
             "enable_scroll_down": false,
@@ -1185,6 +1264,7 @@
             "button_border_hover_2": "#232323",
             "button_background_hover_2": "#232323",
             "button_background_gradient_hover_2": "",
+            "video_link": "",
             "adaptive_height_video": "56",
             "icon_style": "style_1",
             "color_icon": "#fff",
@@ -1200,6 +1280,7 @@
       "block_order": [
         "large_img_pombo_lola"
       ],
+      "disabled": true,
       "name": "t:sections.image-banner.presets.name",
       "settings": {
         "id_section": "Igor",
@@ -1237,15 +1318,17 @@
       "blocks": {
         "product_tabs_pombo_lola": {
           "type": "ProductTabs",
+          "disabled": true,
           "settings": {
             "title": "",
-            "collection": "pombo-lola"
+            "collection": "pombo-y-lola"
           }
         }
       },
       "block_order": [
         "product_tabs_pombo_lola"
       ],
+      "disabled": true,
       "name": "t:sections.product_tab_block.name",
       "settings": {
         "container": "1170",
@@ -1258,6 +1341,9 @@
         "mg_bottom_mobile": 30,
         "product_block_layout": "grid",
         "product_block_title": "Pombo & Lola",
+        "view_all": "Ver todo",
+        "link_view_all": "/collections/pombo-lola",
+        "view_all_align": "right",
         "fontsize_title": 16,
         "fontsize_title_mb": 16,
         "mg_bottom_title": 12,
@@ -1297,7 +1383,7 @@
         "fontsize_tab_mb": 14,
         "font_weight_tab": "700",
         "font_weight_active_tab": "700",
-        "spacing_between_title": 24,
+        "spacing_between_title": 28,
         "line_height_tab": 20,
         "line_height_tab_mobile": 24,
         "border_tab_radius": 3,
@@ -1309,10 +1395,188 @@
         "bg_color_gradient_tab": "",
         "color_tab_active": "#232323",
         "bg_color_tab_active": "#f8f8f8",
-        "bg_color_gradient_tab_active": "",
-        "view_all": "Ver todo",
-        "link_view_all": "/collections/pombo-lola",
-        "view_all_align": "right"
+        "bg_color_gradient_tab_active": ""
+      }
+    },
+    "custom_liquid_VbUFfk": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<style>\n  .lm-valores{background:#fff;border-top:.5px solid #E8E2D8;border-bottom:.5px solid #E8E2D8;padding:0 20px}\n  .lm-valores__in{display:flex;max-width:760px;margin:0 auto}\n  .lm-valor{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:20px 8px;position:relative}\n  .lm-valor+.lm-valor:before{content:\"\";position:absolute;left:0;top:20%;height:60%;width:.5px;background:#E8E2D8}\n  .lm-valor__ico{width:40px;height:40px;border-radius:50%;background:#F2EDE3;border:.5px solid #D8CEBC;display:flex;align-items:center;justify-content:center}\n  .lm-valor__tx{font-size:11px;font-weight:700;color:#5A6B54;text-align:center;letter-spacing:.08em;text-transform:uppercase}\n  @media (min-width:750px){ .lm-valores__in{max-width:900px} .lm-valor{padding:26px 8px} .lm-valor__tx{font-size:12px} }\n</style>\n<div class=\"lm-valores\"><div class=\"lm-valores__in\">\n  <div class=\"lm-valor\"><span class=\"lm-valor__ico\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"#5A6B54\" stroke-width=\"1.6\" aria-hidden=\"true\"><path d=\"M6.5 8.5c-2 0-3.5 1.6-3.5 3.5s1.5 3.5 3.5 3.5c3.5 0 4.5-7 8-7 2 0 3.5 1.6 3.5 3.5S20.5 15.5 18.5 15.5c-3.5 0-4.5-7-8-7Z\"/></svg></span><span class=\"lm-valor__tx\">Sin género</span></div>\n  <div class=\"lm-valor\"><span class=\"lm-valor__ico\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"#5A6B54\" stroke-width=\"1.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M4 20c0-8 5-14 16-15 0 10-5 15-12 15H4Z\"/><path d=\"M8 18c2-4 5-7 9-9\"/></svg></span><span class=\"lm-valor__tx\">Circular</span></div>\n  <div class=\"lm-valor\"><span class=\"lm-valor__ico\"><svg viewBox=\"0 0 24 16\" width=\"22\" height=\"15\" aria-hidden=\"true\"><rect width=\"24\" height=\"8\" fill=\"#FCD116\"/><rect y=\"8\" width=\"24\" height=\"4\" fill=\"#003893\"/><rect y=\"12\" width=\"24\" height=\"4\" fill=\"#CE1126\"/></svg></span><span class=\"lm-valor__tx\">Colombia</span></div>\n</div></div>"
+      }
+    },
+    "brand_slider_cThhHE": {
+      "type": "brand-slider",
+      "blocks": {
+        "image_NWJdM8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/igor-shopify_1.png",
+            "title": "igor shoes",
+            "color_text": "#948888",
+            "color_text_hover": "#3e8cc4",
+            "description": "",
+            "color_des": "#3c3c3c",
+            "link": ""
+          }
+        },
+        "image_XkgrxT": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/un-libro-para-siempre-shopify.png",
+            "title": "Un Libro para siempre",
+            "color_text": "#948888",
+            "color_text_hover": "#3e8cc4",
+            "description": "",
+            "color_des": "#3c3c3c",
+            "link": ""
+          }
+        },
+        "image_r7kGUH": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/piesh-shopify.png",
+            "title": "Piesh Kids",
+            "color_text": "#948888",
+            "color_text_hover": "#3e8cc4",
+            "description": "",
+            "color_des": "#3c3c3c",
+            "link": ""
+          }
+        },
+        "image_xir9Jp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/kargo-shopify.png",
+            "title": "Fulares Kargo",
+            "color_text": "#948888",
+            "color_text_hover": "#3e8cc4",
+            "description": "",
+            "color_des": "#3c3c3c",
+            "link": "shopify://collections/fulares-kargo"
+          }
+        },
+        "image_FdW4MQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/pombo-lola-shopify.png",
+            "title": "Pombo & Lola",
+            "color_text": "#948888",
+            "color_text_hover": "#3e8cc4",
+            "description": "",
+            "color_des": "#3c3c3c",
+            "link": "shopify://collections/pombo-y-lola"
+          }
+        },
+        "image_eD6QUc": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/lobster-mini-shopify.png",
+            "title": "Lobster Mini",
+            "color_text": "#948888",
+            "color_text_hover": "#3e8cc4",
+            "description": "",
+            "color_des": "#3c3c3c",
+            "link": "shopify://collections/lobster-mini"
+          }
+        },
+        "image_69BFzh": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/kings-rebels-logo-gris-claro.png",
+            "title": "Kings & Rebels",
+            "color_text": "#948888",
+            "color_text_hover": "#3e8cc4",
+            "description": "",
+            "color_des": "#3c3c3c",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_NWJdM8",
+        "image_XkgrxT",
+        "image_r7kGUH",
+        "image_xir9Jp",
+        "image_FdW4MQ",
+        "image_eD6QUc",
+        "image_69BFzh"
+      ],
+      "name": "t:sections.brand.presets.name",
+      "settings": {
+        "container": "container",
+        "padding_full_width": 0,
+        "brands_block_style": "style_1",
+        "brand_layout": "slider",
+        "scroll_from": "ltr",
+        "brand_scroll_time": "20",
+        "display_brand_border": true,
+        "brand_bg": "#f5f5f5",
+        "brand_bg_gradient": "",
+        "title_align": "center",
+        "brand_title": "",
+        "color_title": "#232323",
+        "fontsize_title": 16,
+        "fontsize_title_mb": 16,
+        "mg_bottom_title": 12,
+        "enable_background_title": false,
+        "enable_border_title": false,
+        "border_color_title": "#051c42",
+        "brand_des": "",
+        "color_des": "#3c3c3c",
+        "fontsize_des": 16,
+        "mg_bottom_des": 0,
+        "view_all": "",
+        "view_all_fs": 12,
+        "font_weight_view_all": "400",
+        "mg_bottom_view": 0,
+        "enable_border_view_all": true,
+        "link_view_all": "",
+        "color_view_all": "#3c3c3c",
+        "icon_view_all": "",
+        "color_view_all_icon": "#eb492f",
+        "view_all_icon_side": "left",
+        "btn_text": "",
+        "fontsize_btn": 12,
+        "btn_spacing_top": 15,
+        "btn_color": "#828282",
+        "btn_link": "",
+        "enable_autoplay": false,
+        "brand_speed": "3000",
+        "brand_rows": "5",
+        "enable_arrows": true,
+        "enable_dots": false,
+        "enable_center_mode": false,
+        "style_position_arrows": "none",
+        "position_horizontal_arrow": 15,
+        "color_arrow": "",
+        "arrow_background": "",
+        "arrow_background_gradient": "",
+        "arrow_border": "",
+        "color_arrow_hover": "",
+        "arrow_background_hover": "",
+        "arrow_background_gradient_hover": "",
+        "arrow_border_hover": "",
+        "brand_rows_mb": "1",
+        "brand_image_ratio": "square",
+        "item_distance": 20,
+        "margin_bottom_image": 0,
+        "brand_item_border": "none",
+        "border_radius": 0,
+        "border_color": "#e2e5e7",
+        "border_color_hover": "#2d2d2d",
+        "hover_effect": "zoom",
+        "color_underline_image_hover": "#000",
+        "fontsize_text": 16,
+        "fontsize_text_mb": 13,
+        "font_weight_title": "400",
+        "margin_bottom_title": 0,
+        "mg_top_desktop": 50,
+        "mg_top_tablet": 50,
+        "mg_top_mobile": 50,
+        "mg_bottom_desktop": 50,
+        "mg_bottom_tablet": 50,
+        "mg_bottom_mobile": 50
       }
     },
     "servicio_porque_hello_mellow": {
@@ -1335,13 +1599,13 @@
             "title_block_font_weight": "500",
             "mg_bottom_title": 12,
             "mg_bottom_title_mb": 10,
-            "color_block": "#2C2A26",
+            "color_block": "#2c2a26",
             "description": "Más de 15 marcas de moda infantil, seleccionadas una por una. Si está en Hello Mellow es porque nos enamoró primero a nosotras.",
             "fontsize_des_block": 15,
             "fontsize_des_block_mb": 14,
             "lineheight_des_block": 24,
             "mg_bottom_des": 0,
-            "color_des_block": "#7A7060",
+            "color_des_block": "#7a7060",
             "button": "",
             "link": ""
           }
@@ -1363,13 +1627,13 @@
             "title_block_font_weight": "500",
             "mg_bottom_title": 12,
             "mg_bottom_title_mb": 10,
-            "color_block": "#2C2A26",
+            "color_block": "#2c2a26",
             "description": "Seleccionamos marca por marca y solo lo mejor de lo mejor. Puedes estar tranquila: la calidad está asegurada.",
             "fontsize_des_block": 15,
             "fontsize_des_block_mb": 14,
             "lineheight_des_block": 24,
             "mg_bottom_des": 0,
-            "color_des_block": "#7A7060",
+            "color_des_block": "#7a7060",
             "button": "",
             "link": ""
           }
@@ -1391,13 +1655,13 @@
             "title_block_font_weight": "500",
             "mg_bottom_title": 12,
             "mg_bottom_title_mb": 10,
-            "color_block": "#2C2A26",
+            "color_block": "#2c2a26",
             "description": "Cada producto cuenta una historia. Déjanos contártela.",
             "fontsize_des_block": 15,
             "fontsize_des_block_mb": 14,
             "lineheight_des_block": 24,
             "mg_bottom_des": 0,
-            "color_des_block": "#7A7060",
+            "color_des_block": "#7a7060",
             "button": "",
             "link": ""
           }
@@ -1415,7 +1679,7 @@
         "policies_bg": "#ffffff",
         "service_block_title": "Hello Mellow es especial. Déjanos contarte por qué.",
         "title_align": "center",
-        "color_title": "#2C2A26",
+        "color_title": "#2c2a26",
         "fontsize_title": 30,
         "fontsize_title_mb": 22,
         "mg_bottom_title_service_block": 40,
@@ -1453,7 +1717,7 @@
     "1764197366b1768c20",
     "image_banner_pombo_lola",
     "product_tab_block_pombo_lola",
-    "product_tab_block_marcas",
-    "custom_liquid_VbUFfk"
+    "custom_liquid_VbUFfk",
+    "brand_slider_cThhHE"
   ]
 }
