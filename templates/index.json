@@ -358,7 +358,8 @@
         "number_desktop_size": 24,
         "number_mobile_size": 16,
         "lookbook_truncate": "1"
-      }
+      },
+      "disabled": true
     },
     "product_tab_block_aYYmGB": {
       "type": "product-tab-block",
@@ -1864,9 +1865,14 @@
         "mg_bottom_tablet": 40,
         "mg_bottom_mobile": 30
       }
+    },
+    "banner_animado": {
+      "type": "banner-animado",
+      "settings": {}
     }
   },
   "order": [
+    "banner_animado",
     "16321237356a896dad",
     "product_tab_block_aYYmGB",
     "custom_liquid_N3GbXi",
