@@ -478,3 +478,71 @@ plantilla, es mejor destino que `/collections` para ese enlace.
 Los handles `pombo-lola`, `fulares-kargo` y `piesh-kids` siguen siendo **asumidos**.
 Cada pestaña los usa en el selector de colección, así que si no existen la pestaña
 saldrá vacía. Verifícalos en el editor.
+
+---
+
+# Sexta tanda — sección "por qué nosotras"
+
+Añadida `servicio_porque_hello_mellow`, del tipo **`custom-service-block`**, entre
+"Explora por categorías" y el bloque de Lobster Mini. Ahí hace de bisagra: primero qué
+vendemos, luego por qué confiar, y solo entonces empiezan las marcas.
+
+```
+Hello Mellow es especial. Déjanos contarte por qué.
+
+  [ilustración]            [ilustración]           [ilustración]
+  Aquí todo es especial    Curadas con amor        Nuestra magia
+  Más de 15 marcas…        Seleccionamos marca…    Cada producto cuenta…
+```
+
+## Por qué esta sección y no otra
+
+El bloque tiene `mg_bottom_icon`, no `icon_mg_right`: el icono va **arriba** del texto, que
+es la maqueta de la referencia. `policies-block`, la otra candidata, coloca el icono a la
+izquierda — sirve para una barra de "envío gratis · devoluciones", no para esto.
+
+Las columnas salen del número de bloques (`custom-service-block.liquid:252`,
+`column-{{ section.blocks.size }}`): tres bloques, tres columnas, sin configurar nada.
+
+## Ajustes puestos
+
+| Ajuste | Valor | Por qué |
+|---|---|---|
+| `bg_color_block` · `border_block` | transparente | La referencia no tiene tarjetas; el tema traía `#f8f8f8` |
+| `width_icon` · `height_icon` | 100 (el máximo) | Las ilustraciones de la referencia son grandes |
+| `service_block_swipe_on_mobile` | `list` | Apilado. En carrusel, el 2.º y el 3.º no los ve nadie |
+| `container` | 1170 | El mismo ancho que el resto del home |
+| colores | `#2C2A26` / `#7A7060` | Los de tu paleta, los mismos del bloque de bordado |
+
+## Faltan las tres ilustraciones
+
+Van como imagen (`icon_type: image`). Sin ellas la sección se ve bien igual — el tema
+**no pinta marcador gris** cuando falta (`custom-service-block.liquid:256-263`), así que
+queda titular + texto y ya. Se pueden subir después sin prisa.
+
+Medida sugerida: **200 × 200 px** en PNG con fondo transparente, para que se vean nítidas
+en pantallas retina a los 100 px que ocupan.
+
+Lo que hace que esa sección funcione en la referencia no es el layout, que es trivial,
+sino que **las tres ilustraciones son del mismo sistema gráfico**: mismo trazo, misma
+paleta, mismo nivel de detalle. Un icono de línea junto a una foto junto a un emoji tira
+abajo la sección por muy bien que esté el código.
+
+## Correcciones de texto
+
+Respetadas tus palabras; corregidas tildes y puntuación:
+
+| Original | Publicado |
+|---|---|
+| Hello, es especial, dejanos contarte porque | Hello Mellow es especial. Déjanos contarte por qué. |
+| Aqui, Todo es especial | Aquí todo es especial |
+| PUedes estar tranquilo! La calidad esta asegurada! | Puedes estar tranquila: la calidad está asegurada. |
+| Cada producto cuenta una histori | Cada producto cuenta una historia. |
+
+Dos decisiones que conviene que revises:
+
+1. **"tranquila"** — escribiste "tranquilo". Puse el femenino por tu público, pero tu
+   propio bloque de valores dice "Sin género". Si prefieres algo neutro:
+   *"Compra con los ojos cerrados: la calidad está asegurada."*
+2. **"Más de 15 marcas"** — el home muestra 6. No es mentira si manejas 15, pero quien
+   cuente la cinta de logos va a notar el desajuste. O suben las otras, o el número baja.
