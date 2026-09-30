@@ -1,6 +1,7 @@
 {%- comment -%}
   Banner dividido: foto a un lado, texto centrado al otro sobre un fondo de
-  color con manchas orgánicas. En móvil la foto va arriba y el texto debajo.
+  color, con decoración de bordado (marco de puntadas, aguja que cose al
+  entrar en pantalla y ramita) y/o manchas orgánicas. En móvil la foto va arriba y el texto debajo.
   Clases con prefijo bd- para no chocar con las del tema.
 {%- endcomment -%}
 {%- assign s = section.settings -%}
@@ -22,7 +23,46 @@
   #bd-{{ section.id }} .bd-btn{display:inline-block;padding:11px 19px;border:1px solid var(--bd-ink);color:var(--bd-ink);background:transparent;
     font-size:13px;line-height:1.2;letter-spacing:0;text-transform:none;text-decoration:none;transition:background .2s,color .2s}
   #bd-{{ section.id }} .bd-btn:hover{background:var(--bd-ink);color:var(--bd-bg)}
+  /* Decoración "bordado": marco de puntadas, aguja con hilo y ramita */
+  #bd-{{ section.id }}{--bd-hilo:{{ s.color_hilo }};--bd-hoja:{{ s.color_hoja }}}
+  #bd-{{ section.id }} .bd-stitch{position:absolute;inset:22px;pointer-events:none;
+    background:
+      repeating-linear-gradient(90deg,var(--bd-hilo) 0 11px,transparent 11px 19px) top/100% 2px no-repeat,
+      repeating-linear-gradient(90deg,var(--bd-hilo) 0 11px,transparent 11px 19px) bottom/100% 2px no-repeat,
+      repeating-linear-gradient(180deg,var(--bd-hilo) 0 11px,transparent 11px 19px) left/2px 100% no-repeat,
+      repeating-linear-gradient(180deg,var(--bd-hilo) 0 11px,transparent 11px 19px) right/2px 100% no-repeat;
+    opacity:.85}
+  #bd-{{ section.id }} .bd-needle{position:absolute;top:2px;right:4px;width:185px;height:auto;pointer-events:none;overflow:visible}
+  #bd-{{ section.id }} .bd-needle .bd-thread{fill:none;stroke:var(--bd-hilo);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:260;stroke-dashoffset:260}
+  #bd-{{ section.id }} .bd-needle .bd-steel{stroke:#9a9a9a;stroke-width:3;stroke-linecap:round}
+  #bd-{{ section.id }} .bd-needle .bd-eye{fill:var(--bd-bg);stroke:#9a9a9a;stroke-width:1}
+  #bd-{{ section.id }} .bd-sprig{position:absolute;left:36px;bottom:24px;width:96px;height:auto;pointer-events:none;overflow:visible}
+  #bd-{{ section.id }} .bd-sprig .bd-stem{fill:none;stroke:var(--bd-hoja);stroke-width:2;stroke-linecap:round}
+  #bd-{{ section.id }} .bd-sprig .bd-leaf{fill:var(--bd-hoja)}
+  #bd-{{ section.id }} .bd-sprig .bd-bud{fill:var(--bd-hilo)}
+  #bd-{{ section.id }} .bd-sprig > *{opacity:0;transform:scale(.4);transform-box:fill-box;transform-origin:50% 100%}
+  #bd-{{ section.id }} .bd-seam{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 18px;height:12px}
+  #bd-{{ section.id }} .bd-seam i{display:block;width:54px;height:2px;background:repeating-linear-gradient(90deg,var(--bd-hilo) 0 7px,transparent 7px 12px)}
+  #bd-{{ section.id }} .bd-seam svg{width:13px;height:12px;fill:var(--bd-hilo)}
+  #bd-{{ section.id }}.is-visible .bd-thread{animation:bdSew 1.6s .2s ease-out forwards}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *{animation:bdGrow .5s ease-out forwards}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *:nth-child(2){animation-delay:.9s}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *:nth-child(3){animation-delay:1s}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *:nth-child(4){animation-delay:1.1s}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *:nth-child(5){animation-delay:1.2s}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *:nth-child(6){animation-delay:1.35s}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *:nth-child(7){animation-delay:1.5s}
+  #bd-{{ section.id }}.is-visible .bd-sprig > *:first-child{animation-delay:.7s}
+  @keyframes bdSew{to{stroke-dashoffset:0}}
+  @keyframes bdGrow{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    #bd-{{ section.id }} .bd-needle .bd-thread{stroke-dashoffset:0;animation:none!important}
+    #bd-{{ section.id }} .bd-sprig > *{opacity:1;transform:none;animation:none!important}
+  }
   @media (max-width:749px){
+    #bd-{{ section.id }} .bd-stitch{inset:14px}
+    #bd-{{ section.id }} .bd-needle{width:92px;top:0;right:2px}
+    #bd-{{ section.id }} .bd-sprig{left:22px;bottom:20px;width:54px}
     #bd-{{ section.id }} .bd-wrap{grid-template-columns:1fr}
     #bd-{{ section.id }}.bd--derecha .bd-media{order:0}
     #bd-{{ section.id }} .bd-text{padding:40px 24px 44px}
@@ -56,15 +96,45 @@
           <path d="M378 506c-18-44-18-88 16-102 34-14 84-4 128 0 56 6 104 26 120 60 6 14 8 28 8 42H378Z"/>
         </svg>
       {%- endif -%}
+      {%- if s.bordado -%}
+        <span class="bd-stitch" aria-hidden="true"></span>
+        <svg class="bd-needle" viewBox="0 0 150 120" aria-hidden="true">
+          <path class="bd-thread" d="M6 116 C 30 70, 10 40, 52 44 S 96 80, 112 40"/>
+          <line class="bd-steel" x1="108" y1="50" x2="146" y2="6"/>
+          <ellipse class="bd-eye" cx="112" cy="44.5" rx="1.6" ry="3.6" transform="rotate(41 112 44.5)"/>
+        </svg>
+        <svg class="bd-sprig" viewBox="0 0 74 110" aria-hidden="true">
+          <path class="bd-stem" d="M30 108 C 32 80, 36 50, 44 8"/>
+          <ellipse class="bd-leaf" cx="24" cy="84" rx="4" ry="10" transform="rotate(-38 24 84)"/>
+          <ellipse class="bd-leaf" cx="44" cy="70" rx="4" ry="10" transform="rotate(34 44 70)"/>
+          <ellipse class="bd-leaf" cx="29" cy="52" rx="3.5" ry="9" transform="rotate(-32 29 52)"/>
+          <circle class="bd-bud" cx="44" cy="8" r="4"/>
+          <circle class="bd-bud" cx="49" cy="20" r="3.5"/>
+          <circle class="bd-bud" cx="38" cy="22" r="3.5"/>
+        </svg>
+      {%- endif -%}
       <div class="bd-inner">
         {%- if s.subtitulo != blank -%}<p class="bd-sub">{{ s.subtitulo | escape }}</p>{%- endif -%}
         {%- if s.titulo != blank -%}<h2 class="bd-title">{{ s.titulo | escape | newline_to_br }}</h2>{%- endif -%}
+        {%- if s.bordado -%}<div class="bd-seam" aria-hidden="true"><i></i><svg viewBox="0 0 24 22"><path d="M12 21 2.6 11.7a5.6 5.6 0 0 1 7.9-7.9L12 5.3l1.5-1.5a5.6 5.6 0 0 1 7.9 7.9Z"/></svg><i></i></div>{%- endif -%}
         {%- if s.texto != blank -%}<p class="bd-des">{{ s.texto | escape }}</p>{%- endif -%}
         {%- if s.boton != blank -%}<a class="bd-btn"{% if s.link != blank %} href="{{ s.link }}"{% endif %}>{{ s.boton | escape }}</a>{%- endif -%}
       </div>
     </div>
   </div>
 </div>
+
+{%- if s.bordado -%}
+<script>
+  (function(){
+    var el=document.getElementById('bd-{{ section.id }}');
+    if(!el) return;
+    if(!('IntersectionObserver' in window)){el.classList.add('is-visible');return;}
+    var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){el.classList.add('is-visible');io.disconnect();}},{threshold:.35});
+    io.observe(el);
+  })();
+</script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -87,7 +157,10 @@
     { "type": "url", "id": "link", "label": "Enlace" },
     { "type": "header", "content": "Estilo" },
     { "type": "color", "id": "color_fondo", "label": "Fondo", "default": "#FDF3DA" },
-    { "type": "checkbox", "id": "manchas", "label": "Mostrar manchas decorativas", "default": true },
+    { "type": "checkbox", "id": "bordado", "label": "Decoración de bordado", "info": "Marco de puntadas, aguja con hilo y ramita bordada.", "default": true },
+    { "type": "color", "id": "color_hilo", "label": "Color del hilo", "default": "#B77E86" },
+    { "type": "color", "id": "color_hoja", "label": "Color de las hojas", "default": "#8E9C7E" },
+    { "type": "checkbox", "id": "manchas", "label": "Mostrar manchas decorativas", "default": false },
     { "type": "color", "id": "color_manchas", "label": "Color de las manchas", "default": "#F9C6AE" },
     { "type": "color", "id": "color_texto", "label": "Texto y botón", "default": "#111111" },
     { "type": "range", "id": "tamano_titulo", "label": "Tamaño del titular", "min": 28, "max": 72, "step": 2, "unit": "px", "default": 54 },
