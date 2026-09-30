@@ -702,7 +702,7 @@
         "margin_bottom_des": 30,
         "fontsize_des": 14,
         "title_align": "center",
-        "item_distance": 20,
+        "item_distance": 10,
         "item_radius": 0,
         "view_all": "",
         "view_all_fs": 12,
@@ -739,7 +739,7 @@
       },
       "custom_css": [
         ".halo-block-header .title {text-transform: none; letter-spacing: 0; font-weight: 400; line-height: 1.15;}",
-        ".spotlight-item .image-zoom.adaptive_height {padding-top: 100% !important;}",
+        ".spotlight-item .image-zoom.adaptive_height {padding-top: 120% !important;}",
         ".spotlight-item .adaptive_height img {object-fit: cover;}",
         ".spotlight-inner .title.custom-text-style {font-family: var(--font-body-family); text-transform: none; letter-spacing: 0; margin-top: 12px;}"
       ]
