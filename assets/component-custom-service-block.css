@@ -58,8 +58,9 @@
     height: var(--height-icon-style);
 }
 
-/* FIX: estos ajustes solo se aplicaban a los SVG, así que con icon_type: image
-   no hacían nada y cada PNG salía a su tamaño natural. */
+/* FIX: los ajustes "ancho/alto del icono" solo se aplicaban a los SVG, así que
+   con icon_type: image no hacían nada y cada PNG salía a su tamaño natural.
+   Eso es lo que descuadraba las columnas y metía espacio en blanco de más. */
 .custom-service-block .halo-item .policies-icon img {
     width: var(--width-icon-style);
     height: var(--height-icon-style);
