@@ -1,0 +1,101 @@
+{%- comment -%}
+  Banner dividido: foto a un lado, texto centrado al otro sobre un fondo de
+  color con manchas orgánicas. En móvil la foto va arriba y el texto debajo.
+  Clases con prefijo bd- para no chocar con las del tema.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<style>
+  #bd-{{ section.id }}{--bd-bg:{{ s.color_fondo }};--bd-blob:{{ s.color_manchas }};--bd-ink:{{ s.color_texto }};
+    margin:{{ s.mg_top }}px auto {{ s.mg_bottom }}px;max-width:{{ s.ancho_max }}px}
+  #bd-{{ section.id }} .bd-wrap{display:grid;grid-template-columns:1fr 1fr;background:var(--bd-bg);overflow:hidden}
+  #bd-{{ section.id }}.bd--derecha .bd-media{order:2}
+  #bd-{{ section.id }} .bd-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:#f3ece4}
+  #bd-{{ section.id }} .bd-media img,#bd-{{ section.id }} .bd-media svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ s.foco }}}
+  #bd-{{ section.id }} .bd-text{position:relative;display:flex;align-items:center;justify-content:center;padding:48px 32px;text-align:center;color:var(--bd-ink)}
+  #bd-{{ section.id }} .bd-blobs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  #bd-{{ section.id }} .bd-blobs path{fill:var(--bd-blob)}
+  #bd-{{ section.id }} .bd-inner{position:relative;max-width:440px}
+  #bd-{{ section.id }} .bd-sub{margin:0 0 22px;font-size:15px;line-height:1.4;letter-spacing:.01em;color:var(--bd-ink)}
+  #bd-{{ section.id }} .bd-title{margin:0 0 10px;font-family:var(--font-heading-family);font-weight:400;font-style:normal;
+    font-size:{{ s.tamano_titulo }}px;line-height:1.08;letter-spacing:-.01em;text-transform:none;color:var(--bd-ink)}
+  #bd-{{ section.id }} .bd-des{margin:0 0 30px;font-size:15px;line-height:1.4;color:var(--bd-ink)}
+  #bd-{{ section.id }} .bd-btn{display:inline-block;padding:11px 19px;border:1px solid var(--bd-ink);color:var(--bd-ink);background:transparent;
+    font-size:13px;line-height:1.2;letter-spacing:0;text-transform:none;text-decoration:none;transition:background .2s,color .2s}
+  #bd-{{ section.id }} .bd-btn:hover{background:var(--bd-ink);color:var(--bd-bg)}
+  @media (max-width:749px){
+    #bd-{{ section.id }} .bd-wrap{grid-template-columns:1fr}
+    #bd-{{ section.id }}.bd--derecha .bd-media{order:0}
+    #bd-{{ section.id }} .bd-text{padding:40px 24px 44px}
+    #bd-{{ section.id }} .bd-sub{margin-bottom:14px;font-size:14px}
+    #bd-{{ section.id }} .bd-title{font-size:{{ s.tamano_titulo_mb }}px}
+    #bd-{{ section.id }} .bd-des{margin-bottom:24px;font-size:14px}
+  }
+</style>
+<div id="bd-{{ section.id }}" class="bd{% if s.lado_foto == 'derecha' %} bd--derecha{% endif %}">
+  <div class="bd-wrap">
+    <a class="bd-media"{% if s.link != blank %} href="{{ s.link }}"{% endif %} tabindex="-1" aria-hidden="true">
+      {%- if s.imagen != blank -%}
+        {%- if s.imagen_mb != blank -%}
+          <picture>
+            <source media="(max-width: 749px)" srcset="{{ s.imagen_mb | image_url: width: 900 }}">
+            {{ s.imagen | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(max-width: 749px) 100vw, 50vw', alt: s.imagen.alt }}
+          </picture>
+        {%- else -%}
+          {{ s.imagen | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(max-width: 749px) 100vw, 50vw', alt: s.imagen.alt }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </a>
+    <div class="bd-text">
+      {%- if s.manchas -%}
+        <svg class="bd-blobs" viewBox="0 0 670 506" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <path d="M92 0h338c8 30 14 58 6 78-14 30-74 10-128 -2-58-12-102 20-156 12C112 82 92 40 92 0Z"/>
+          <path d="M600 30c42 14 70 50 70 90v150c-40 6-94-6-120-40-26-34-38-92-18-140 12-30 40-66 68-60Z"/>
+          <path d="M0 190c40-20 108-18 140 16 34 36 50 104 40 160-12 64-58 128-122 140H0V190Z"/>
+          <path d="M378 506c-18-44-18-88 16-102 34-14 84-4 128 0 56 6 104 26 120 60 6 14 8 28 8 42H378Z"/>
+        </svg>
+      {%- endif -%}
+      <div class="bd-inner">
+        {%- if s.subtitulo != blank -%}<p class="bd-sub">{{ s.subtitulo | escape }}</p>{%- endif -%}
+        {%- if s.titulo != blank -%}<h2 class="bd-title">{{ s.titulo | escape | newline_to_br }}</h2>{%- endif -%}
+        {%- if s.texto != blank -%}<p class="bd-des">{{ s.texto | escape }}</p>{%- endif -%}
+        {%- if s.boton != blank -%}<a class="bd-btn"{% if s.link != blank %} href="{{ s.link }}"{% endif %}>{{ s.boton | escape }}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Banner dividido",
+  "tag": "section",
+  "class": "banner-dividido",
+  "settings": [
+    { "type": "header", "content": "Imagen" },
+    { "type": "image_picker", "id": "imagen", "label": "Foto", "info": "Horizontal 4:3, por ejemplo 1400 × 1050 px." },
+    { "type": "image_picker", "id": "imagen_mb", "label": "Foto para móvil (opcional)" },
+    { "type": "select", "id": "lado_foto", "label": "Lado de la foto", "default": "izquierda",
+      "options": [{ "value": "izquierda", "label": "Izquierda" }, { "value": "derecha", "label": "Derecha" }] },
+    { "type": "select", "id": "foco", "label": "Punto de recorte", "default": "center center",
+      "options": [{ "value": "center top", "label": "Arriba" }, { "value": "center center", "label": "Centro" }, { "value": "center bottom", "label": "Abajo" }] },
+    { "type": "header", "content": "Textos" },
+    { "type": "text", "id": "subtitulo", "label": "Antetítulo", "default": "Hecho solo para ti" },
+    { "type": "textarea", "id": "titulo", "label": "Titular", "info": "Pulsa Intro para partir la línea.", "default": "Productos\npersonalizados" },
+    { "type": "text", "id": "texto", "label": "Texto", "default": "Bordamos su nombre en cada prenda." },
+    { "type": "text", "id": "boton", "label": "Botón", "default": "Personalizar" },
+    { "type": "url", "id": "link", "label": "Enlace" },
+    { "type": "header", "content": "Estilo" },
+    { "type": "color", "id": "color_fondo", "label": "Fondo", "default": "#FDF3DA" },
+    { "type": "checkbox", "id": "manchas", "label": "Mostrar manchas decorativas", "default": true },
+    { "type": "color", "id": "color_manchas", "label": "Color de las manchas", "default": "#F9C6AE" },
+    { "type": "color", "id": "color_texto", "label": "Texto y botón", "default": "#111111" },
+    { "type": "range", "id": "tamano_titulo", "label": "Tamaño del titular", "min": 28, "max": 72, "step": 2, "unit": "px", "default": 54 },
+    { "type": "range", "id": "tamano_titulo_mb", "label": "Tamaño del titular en móvil", "min": 24, "max": 48, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "ancho_max", "label": "Ancho máximo", "min": 1000, "max": 2000, "step": 50, "unit": "px", "default": 2000 },
+    { "type": "range", "id": "mg_top", "label": "Espacio arriba", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 },
+    { "type": "range", "id": "mg_bottom", "label": "Espacio abajo", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 }
+  ],
+  "presets": [{ "name": "Banner dividido" }]
+}
+{% endschema %}

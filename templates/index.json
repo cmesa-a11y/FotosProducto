@@ -1,5 +1,23 @@
 {
   "sections": {
+    "banner_animado": {
+      "type": "banner-animado",
+      "settings": {
+        "titulo": "Regalos para\nbebés y niños",
+        "saludo": "HELLO!",
+        "boton": "Ver todos los productos",
+        "link": "shopify://collections/all",
+        "mostrar_logo": true,
+        "color_texto": "#70202c",
+        "color_fondo": "#f6ddd0",
+        "cargar_poppins": true,
+        "ancho_max": 2000,
+        "padding_lados": 0,
+        "radio": 0,
+        "mg_top": 0,
+        "mg_bottom": 0
+      }
+    },
     "16321237356a896dad": {
       "type": "slide-show",
       "blocks": {
@@ -292,6 +310,7 @@
         "image_878caq",
         "16321237356a896dad-0"
       ],
+      "disabled": true,
       "custom_css": [
         ".slide-content .slide-heading {font-weight: 400; text-transform: none; letter-spacing: -0.01em; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);}",
         ".slide-content .slide-button {text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 14px; padding: 12px 24px; border-radius: 0; min-height: 0; line-height: 1.3;}",
@@ -358,96 +377,13 @@
         "number_desktop_size": 24,
         "number_mobile_size": 16,
         "lookbook_truncate": "1"
-      },
-      "disabled": true
-    },
-    "product_tab_block_aYYmGB": {
-      "type": "product-tab-block",
-      "blocks": {
-        "product_tabs_iREP4c": {
-          "type": "ProductTabs",
-          "settings": {
-            "title": "Elige Tu Prenda",
-            "collection": "personalizados"
-          }
-        }
-      },
-      "block_order": [
-        "product_tabs_iREP4c"
-      ],
-      "settings": {
-        "container": "1170",
-        "padding_full_width": 0,
-        "mg_top_desktop": 50,
-        "mg_top_tablet": 40,
-        "mg_top_mobile": 30,
-        "mg_bottom_desktop": 50,
-        "mg_bottom_tablet": 40,
-        "mg_bottom_mobile": 30,
-        "product_block_layout": "scroll",
-        "product_block_title": "Productos Personalizables",
-        "view_all": "Ver todo",
-        "link_view_all": "shopify://collections/personalizados",
-        "view_all_align": "right",
-        "fontsize_title": 16,
-        "fontsize_title_mb": 16,
-        "mg_bottom_title": 12,
-        "enable_border_title": true,
-        "border_color_title": "#232323",
-        "enable_border_title2": false,
-        "border_color_title2": "#232323",
-        "color_title": "#232323",
-        "title_align": "center",
-        "product_block_limit": 8,
-        "image_behavior": "none",
-        "product_block_per_row": "3",
-        "product_block_infinite_scroll": true,
-        "min_width_button": "10",
-        "product_block_dots": true,
-        "product_block_dots_mb": true,
-        "product_block_arrows": true,
-        "product_block_arrows_mb": false,
-        "product_block_show": "3",
-        "product_block_per_view": "3",
-        "show_half": false,
-        "scroll_height": 4,
-        "scroll_track_bg": "#f1f1f1",
-        "scroll_thumb_color": "#000000",
-        "scroll_thumb_hover_color": "#444444",
-        "enable_hover_drag_icon": true,
-        "position": "left",
-        "width_banner": 20,
-        "tab_title_style": "style_1",
-        "mg_bottom_title_tab": 24,
-        "type_tab_font": "font_1",
-        "separation": false,
-        "style_separation": "style1",
-        "color_separation": "",
-        "enable_scroll_title": true,
-        "fontsize_tab": 14,
-        "fontsize_tab_mb": 14,
-        "font_weight_tab": "700",
-        "font_weight_active_tab": "700",
-        "spacing_between_title": 24,
-        "line_height_tab": 20,
-        "line_height_tab_mobile": 24,
-        "border_tab_radius": 3,
-        "min_width_tab": 5,
-        "border_width_tab": 3,
-        "color_tab": "#232323",
-        "border_color_tab": "",
-        "bg_color_tab": "#ffffff",
-        "bg_color_gradient_tab": "",
-        "color_tab_active": "#232323",
-        "bg_color_tab_active": "#f8f8f8",
-        "bg_color_gradient_tab_active": ""
       }
     },
     "custom_liquid_N3GbXi": {
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "custom_liquid": "<style>#shopify-section-template--22505753903139__custom_liquid_N3GbXi{background-color:#F5EFE0;}</style>"
+        "custom_liquid": "<div style=\"background:#FEF9D9;padding:28px 20px;text-align:center\">\n  <p style=\"font-family:sans-serif;font-size:16px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8B7E6A;margin:0 0 24px\">¿Cómo funcionan nuestros bordados personalizados?</p>\n\n  <div style=\"max-width:480px;margin:0 auto\">\n\n    <div style=\"display:table;width:100%;margin-bottom:16px\">\n      <div style=\"display:table-cell;vertical-align:top;width:38px\">\n        <div style=\"width:28px;height:28px;border-radius:50%;background:#2C2A26;color:#fff;font-size:12px;font-weight:600;text-align:center;line-height:28px\">1</div>\n      </div>\n      <div style=\"display:table-cell;vertical-align:top;text-align:left\">\n        <p style=\"font-size:15px;font-weight:600;color:#2C2A26;margin:0 0 3px\">Elige la prenda y el color</p>\n        <p style=\"font-size:14px;color:#7A7060;margin:0\">Babero o muselina disponibles en varios tonos</p>\n      </div>\n    </div>\n\n    <div style=\"display:table;width:100%;margin-bottom:16px\">\n      <div style=\"display:table-cell;vertical-align:top;width:38px\">\n        <div style=\"width:28px;height:28px;border-radius:50%;background:#2C2A26;color:#fff;font-size:12px;font-weight:600;text-align:center;line-height:28px\">2</div>\n      </div>\n      <div style=\"display:table-cell;vertical-align:top;text-align:left\">\n        <p style=\"font-size:15px;font-weight:600;color:#2C2A26;margin:0 0 3px\">Configura el bordado</p>\n        <p style=\"font-size:14px;color:#7A7060;margin:0\">Nombre · 7 tipografías · 6 colores de hilo</p>\n      </div>\n    </div>\n\n    <div style=\"display:table;width:100%;margin-bottom:0\">\n      <div style=\"display:table-cell;vertical-align:top;width:38px\">\n        <div style=\"width:28px;height:28px;border-radius:50%;background:#2C2A26;color:#fff;font-size:12px;font-weight:600;text-align:center;line-height:28px\">3</div>\n      </div>\n      <div style=\"display:table-cell;vertical-align:top;text-align:left\">\n        <p style=\"font-size:15px;font-weight:600;color:#2C2A26;margin:0 0 3px\">Recíbela en 3–5 días</p>\n        <p style=\"font-size:14px;color:#7A7060;margin:0\">Bordado listo para regalar o estrenar</p>\n      </div>\n    </div>\n\n  </div>\n\n  <div style=\"margin-top:24px\">\n    <a href=\"https://drive.google.com/file/d/1aC64bvKFZIhLWIrEAo3zSdwPzYXo8TvH/preview\" target=\"_blank\" style=\"display:inline-block;border:1px solid #C4B99A;color:#8B7E6A;padding:9px 20px;border-radius:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none\">Ver guía de tipografías e hilos</a>\n  </div>\n</div>"
       }
     },
     "spotlight_categorias": {
@@ -744,6 +680,89 @@
         "enable_content_border": false,
         "content_border_color": "#e2e2e2"
       }
+    },
+    "product_tab_block_aYYmGB": {
+      "type": "product-tab-block",
+      "blocks": {
+        "product_tabs_iREP4c": {
+          "type": "ProductTabs",
+          "settings": {
+            "title": "Elige Tu Prenda",
+            "collection": "personalizados"
+          }
+        }
+      },
+      "block_order": [
+        "product_tabs_iREP4c"
+      ],
+      "settings": {
+        "container": "1170",
+        "padding_full_width": 0,
+        "mg_top_desktop": 50,
+        "mg_top_tablet": 40,
+        "mg_top_mobile": 30,
+        "mg_bottom_desktop": 50,
+        "mg_bottom_tablet": 40,
+        "mg_bottom_mobile": 30,
+        "product_block_layout": "scroll",
+        "product_block_title": "Productos Personalizables",
+        "view_all": "Ver todo",
+        "link_view_all": "shopify://collections/personalizados",
+        "view_all_align": "right",
+        "fontsize_title": 16,
+        "fontsize_title_mb": 16,
+        "mg_bottom_title": 12,
+        "enable_border_title": true,
+        "border_color_title": "#232323",
+        "enable_border_title2": false,
+        "border_color_title2": "#232323",
+        "color_title": "#232323",
+        "title_align": "center",
+        "product_block_limit": 8,
+        "image_behavior": "none",
+        "product_block_per_row": "3",
+        "product_block_infinite_scroll": true,
+        "min_width_button": "10",
+        "product_block_dots": true,
+        "product_block_dots_mb": true,
+        "product_block_arrows": true,
+        "product_block_arrows_mb": false,
+        "product_block_show": "3",
+        "product_block_per_view": "3",
+        "show_half": false,
+        "scroll_height": 4,
+        "scroll_track_bg": "#f1f1f1",
+        "scroll_thumb_color": "#000000",
+        "scroll_thumb_hover_color": "#444444",
+        "enable_hover_drag_icon": true,
+        "position": "left",
+        "width_banner": 20,
+        "tab_title_style": "style_1",
+        "mg_bottom_title_tab": 24,
+        "type_tab_font": "font_1",
+        "separation": false,
+        "style_separation": "style1",
+        "color_separation": "",
+        "enable_scroll_title": true,
+        "fontsize_tab": 14,
+        "fontsize_tab_mb": 14,
+        "font_weight_tab": "700",
+        "font_weight_active_tab": "700",
+        "spacing_between_title": 24,
+        "line_height_tab": 20,
+        "line_height_tab_mobile": 24,
+        "border_tab_radius": 3,
+        "min_width_tab": 5,
+        "border_width_tab": 3,
+        "color_tab": "#232323",
+        "border_color_tab": "",
+        "bg_color_tab": "#ffffff",
+        "bg_color_gradient_tab": "",
+        "color_tab_active": "#232323",
+        "bg_color_tab_active": "#f8f8f8",
+        "bg_color_gradient_tab_active": ""
+      },
+      "disabled": true
     },
     "image_banner_3nRmLM": {
       "type": "image-banner",
@@ -1866,17 +1885,20 @@
         "mg_bottom_mobile": 30
       }
     },
-    "banner_animado": {
-      "type": "banner-animado",
-      "settings": {}
+    "banner_personalizados": {
+      "type": "banner-dividido",
+      "settings": {
+        "link": "shopify://collections/personalizados"
+      }
     }
   },
   "order": [
     "banner_animado",
     "16321237356a896dad",
-    "product_tab_block_aYYmGB",
     "custom_liquid_N3GbXi",
     "spotlight_categorias",
+    "banner_personalizados",
+    "product_tab_block_aYYmGB",
     "image_banner_3nRmLM",
     "17096559936b8f96b3",
     "product_tab_block_MtHttt",
