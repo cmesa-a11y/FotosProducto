@@ -1988,9 +1988,6 @@
         "content_border_color": "#e2e2e2"
       },
       "custom_css": [
-        ".spotlight-item .image-zoom.adaptive_height {padding-top: 60% !important;}",
-        ".spotlight-item .adaptive_height img {object-fit: cover;}",
-        ".spotlight-item .not_img {height: auto !important; aspect-ratio: 5 / 3;}",
         ".spotlight-inner .title.custom-text-style {font-family: var(--font-heading-family); text-transform: none; letter-spacing: 0; line-height: 1.25; max-width: 420px; margin: 18px auto 0;}",
         ".spotlight-inner .des {max-width: 420px; margin-left: auto; margin-right: auto;}"
       ]
