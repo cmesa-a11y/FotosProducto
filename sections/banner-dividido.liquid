@@ -1,5 +1,5 @@
 {%- comment -%}
-  Banner dividido: foto a un lado, texto centrado al otro sobre un fondo de
+  Banner dividido: foto o video a un lado, texto centrado al otro sobre un fondo de
   color, con margaritas ilustradas, decoración de bordado (marco de puntadas y costura bajo el
   titular) y/o manchas orgánicas. En móvil la foto va arriba y el texto debajo.
   Clases con prefijo bd- para no chocar con las del tema.
@@ -11,7 +11,7 @@
   #bd-{{ section.id }} .bd-wrap{display:grid;grid-template-columns:1fr 1fr;background:var(--bd-bg);overflow:hidden}
   #bd-{{ section.id }}.bd--derecha .bd-media{order:2}
   #bd-{{ section.id }} .bd-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:#f3ece4}
-  #bd-{{ section.id }} .bd-media img,#bd-{{ section.id }} .bd-media svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ s.foco }}}
+  #bd-{{ section.id }} .bd-media img,#bd-{{ section.id }} .bd-media svg,#bd-{{ section.id }} .bd-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ s.foco }}}
   #bd-{{ section.id }} .bd-text{position:relative;display:flex;align-items:center;justify-content:center;padding:48px 32px;text-align:center;color:var(--bd-ink)}
   #bd-{{ section.id }} .bd-blobs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
   #bd-{{ section.id }} .bd-blobs path{fill:var(--bd-blob)}
@@ -52,7 +52,9 @@
 <div id="bd-{{ section.id }}" class="bd{% if s.lado_foto == 'derecha' %} bd--derecha{% endif %}">
   <div class="bd-wrap">
     <a class="bd-media"{% if s.link != blank %} href="{{ s.link }}"{% endif %} tabindex="-1" aria-hidden="true">
-      {%- if s.imagen != blank -%}
+      {%- if s.video != blank -%}
+        {{ s.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1400x', class: 'bd-video' }}
+      {%- elsif s.imagen != blank -%}
         {%- if s.imagen_mb != blank -%}
           <picture>
             <source media="(max-width: 749px)" srcset="{{ s.imagen_mb | image_url: width: 900 }}">
@@ -106,6 +108,23 @@
 </div>
 
 
+{%- if s.video != blank -%}
+<script>
+  (function(){
+    var v=document.querySelector('#bd-{{ section.id }} video');
+    if(!v) return;
+    v.muted=true;
+    var quieto=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var ahorro=navigator.connection&&navigator.connection.saveData;
+    if(quieto||ahorro){v.removeAttribute('autoplay');v.pause();return;}
+    if(!('IntersectionObserver' in window)){v.play&&v.play().catch(function(){});return;}
+    new IntersectionObserver(function(e){
+      if(e[0].isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else{v.pause();}
+    },{threshold:.2}).observe(v);
+  })();
+</script>
+{%- endif -%}
+
 {% schema %}
 {
   "name": "Banner dividido",
@@ -113,6 +132,7 @@
   "class": "banner-dividido",
   "settings": [
     { "type": "header", "content": "Imagen" },
+    { "type": "video", "id": "video", "label": "Video (opcional)", "info": "Se reproduce solo, sin sonido y en bucle. Si hay video, sustituye a la foto. Horizontal 4:3, menos de 5 MB." },
     { "type": "image_picker", "id": "imagen", "label": "Foto", "info": "Horizontal 4:3, por ejemplo 1400 × 1050 px." },
     { "type": "image_picker", "id": "imagen_mb", "label": "Foto para móvil (opcional)" },
     { "type": "select", "id": "lado_foto", "label": "Lado de la foto", "default": "izquierda",
