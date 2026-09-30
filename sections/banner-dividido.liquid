@@ -1,6 +1,6 @@
 {%- comment -%}
   Banner dividido: foto a un lado, texto centrado al otro sobre un fondo de
-  color, con decoración de bordado (marco de puntadas y costura bajo el
+  color, con margaritas ilustradas, decoración de bordado (marco de puntadas y costura bajo el
   titular) y/o manchas orgánicas. En móvil la foto va arriba y el texto debajo.
   Clases con prefijo bd- para no chocar con las del tema.
 {%- endcomment -%}
@@ -23,6 +23,11 @@
   #bd-{{ section.id }} .bd-btn{display:inline-block;padding:11px 19px;border:1px solid var(--bd-ink);color:var(--bd-ink);background:transparent;
     font-size:13px;line-height:1.2;letter-spacing:0;text-transform:none;text-decoration:none;transition:background .2s,color .2s}
   #bd-{{ section.id }} .bd-btn:hover{background:var(--bd-ink);color:var(--bd-bg)}
+  /* Decoración "margaritas": flores planas grandes cortadas por los bordes */
+  #bd-{{ section.id }} .bd-daisies{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  #bd-{{ section.id }} .bd-daisies .bd-petals{fill:{{ s.color_petalos }}}
+  #bd-{{ section.id }} .bd-daisies .bd-core{fill:{{ s.color_centro }}}
+  #bd-{{ section.id }} .bd-daisies .bd-dots{fill:{{ s.color_centro | color_darken: 12 }}}
   /* Decoración "bordado": marco de puntadas y costura bajo el titular */
   #bd-{{ section.id }}{--bd-hilo:{{ s.color_hilo }}}
   #bd-{{ section.id }} .bd-stitch{position:absolute;inset:22px;pointer-events:none;
@@ -69,6 +74,23 @@
           <path d="M378 506c-18-44-18-88 16-102 34-14 84-4 128 0 56 6 104 26 120 60 6 14 8 28 8 42H378Z"/>
         </svg>
       {%- endif -%}
+      {%- if s.margaritas -%}
+        <svg class="bd-daisies" viewBox="0 0 670 506" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <g id="bd-daisy-{{ section.id }}">
+              <g class="bd-petals"><ellipse cx="0" cy="-60" rx="17" ry="40" transform="rotate(0)"/><ellipse cx="0" cy="-60" rx="15" ry="36" transform="rotate(30)"/><ellipse cx="0" cy="-60" rx="17" ry="40" transform="rotate(60)"/><ellipse cx="0" cy="-60" rx="15" ry="36" transform="rotate(90)"/><ellipse cx="0" cy="-60" rx="17" ry="40" transform="rotate(120)"/><ellipse cx="0" cy="-60" rx="15" ry="36" transform="rotate(150)"/><ellipse cx="0" cy="-60" rx="17" ry="40" transform="rotate(180)"/><ellipse cx="0" cy="-60" rx="15" ry="36" transform="rotate(210)"/><ellipse cx="0" cy="-60" rx="17" ry="40" transform="rotate(240)"/><ellipse cx="0" cy="-60" rx="15" ry="36" transform="rotate(270)"/><ellipse cx="0" cy="-60" rx="17" ry="40" transform="rotate(300)"/><ellipse cx="0" cy="-60" rx="15" ry="36" transform="rotate(330)"/></g>
+              <circle class="bd-core" r="26"/>
+              <g class="bd-dots"><circle cx="-8" cy="-7" r="2.6"/><circle cx="7" cy="-9" r="2.2"/><circle cx="10" cy="6" r="2.6"/><circle cx="-4" cy="9" r="2.2"/><circle cx="0" cy="-1" r="2"/><circle cx="-12" cy="4" r="1.8"/></g>
+            </g>
+          </defs>
+          <use href="#bd-daisy-{{ section.id }}" transform="translate(150 -18) scale(1.1) rotate(8)"/>
+          <use href="#bd-daisy-{{ section.id }}" transform="translate(700 165) scale(1.45) rotate(-12)"/>
+          <use href="#bd-daisy-{{ section.id }}" transform="translate(4 385) scale(1.3) rotate(20)"/>
+          <use href="#bd-daisy-{{ section.id }}" transform="translate(525 560) scale(1.2) rotate(-4)"/>
+          <use href="#bd-daisy-{{ section.id }}" transform="translate(612 395) scale(.34) rotate(15)"/>
+          <use href="#bd-daisy-{{ section.id }}" transform="translate(66 150) scale(.3) rotate(-10)"/>
+        </svg>
+      {%- endif -%}
       {%- if s.bordado -%}
         <span class="bd-stitch" aria-hidden="true"></span>
       {%- endif -%}
@@ -105,7 +127,10 @@
     { "type": "url", "id": "link", "label": "Enlace" },
     { "type": "header", "content": "Estilo" },
     { "type": "color", "id": "color_fondo", "label": "Fondo", "default": "#FDF3DA" },
-    { "type": "checkbox", "id": "bordado", "label": "Decoración de bordado", "info": "Marco de puntadas y costura bajo el titular.", "default": true },
+    { "type": "checkbox", "id": "margaritas", "label": "Margaritas ilustradas", "default": true },
+    { "type": "color", "id": "color_petalos", "label": "Color de los pétalos", "default": "#F9CDB8" },
+    { "type": "color", "id": "color_centro", "label": "Color del centro", "default": "#F2B36A" },
+    { "type": "checkbox", "id": "bordado", "label": "Decoración de bordado", "info": "Marco de puntadas y costura bajo el titular.", "default": false },
     { "type": "color", "id": "color_hilo", "label": "Color del hilo", "default": "#B77E86" },
     { "type": "checkbox", "id": "manchas", "label": "Mostrar manchas decorativas", "default": false },
     { "type": "color", "id": "color_manchas", "label": "Color de las manchas", "default": "#F9C6AE" },
