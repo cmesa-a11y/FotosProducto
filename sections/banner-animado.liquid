@@ -73,17 +73,26 @@
     #hm-{{ section.id }}{padding-left:0;padding-right:0}
     #hm-{{ section.id }} .hm-hero{aspect-ratio:4/5;border-radius:0}
     #hm-{{ section.id }} .hm-hello,#hm-{{ section.id }} .hm-line{display:none}
-    #hm-{{ section.id }} .hm-hero .hm-logo{left:6%;top:4%;width:22%}
-    #hm-{{ section.id }} .hm-title{left:5%;top:15%;width:90%;font-size:clamp(24px,7.5vw,34px)}
+    #hm-{{ section.id }} .hm-hero .hm-logo{left:38%;top:9%;width:24%}
+    #hm-{{ section.id }} .hm-title{left:5%;top:23%;width:90%;font-size:clamp(24px,7.5vw,34px)}
     #hm-{{ section.id }} .hm-girl{left:22%;top:auto;bottom:-2%;width:95%}
     #hm-{{ section.id }} .hm-mascot{left:-10%;bottom:-3%;width:52%}
-    #hm-{{ section.id }} .hm-btn{left:50%;top:36%;bottom:auto;font-size:clamp(12px,3.4vw,15px);padding:.7em 1.6em}
+    #hm-{{ section.id }} .hm-btn{left:50%;top:43%;bottom:auto;font-size:clamp(12px,3.4vw,15px);padding:.7em 1.6em}
   }
-  {%- comment -%} La cabecera móvil flota sobre el banner, sin franja blanca; su logo sustituye al del banner. {%- endcomment -%}
+  {%- comment -%}
+    La cabecera móvil flota sobre el banner, sin franja blanca. En celular el logo
+    centrado del banner reemplaza al de la cabecera; en tableta el del banner
+    quedaría debajo del botón del menú, así que se oculta ese.
+  {%- endcomment -%}
   {%- if s.cabecera_sobre_banner -%}
   @media (max-width:1024px){
     .section-header-mobile{height:0}
     .section-header-mobile .header-mobile{position:absolute;top:0;left:0;right:0;background:transparent;box-shadow:none}
+  }
+  @media (max-width:749px){
+    .section-header-mobile .header-mobile__item--logo > *{visibility:hidden}
+  }
+  @media (min-width:750px) and (max-width:1024px){
     #hm-{{ section.id }} .hm-hero .hm-logo{display:none}
   }
   {%- endif -%}
@@ -140,7 +149,7 @@
     { "type": "image_picker", "id": "nina", "label": "Niña (PNG sin fondo)" },
     { "type": "image_picker", "id": "oso", "label": "Oso (PNG sin fondo)" },
     { "type": "checkbox", "id": "mostrar_logo", "label": "Mostrar logo dentro del banner", "default": true },
-    { "type": "checkbox", "id": "cabecera_sobre_banner", "label": "Cabecera del celular sobre el banner", "info": "Quita la franja blanca de arriba. En celular se oculta el logo del banner porque ya lo muestra la cabecera.", "default": true },
+    { "type": "checkbox", "id": "cabecera_sobre_banner", "label": "Cabecera del celular sobre el banner", "info": "Quita la franja blanca de arriba. En celular se usa el logo del banner en lugar del de la cabecera.", "default": true },
     { "type": "image_picker", "id": "logo", "label": "Logo (PNG sin fondo)" },
     { "type": "header", "content": "Estilo" },
     { "type": "color", "id": "color_texto", "label": "Color de texto y botón", "default": "#70202c" },
