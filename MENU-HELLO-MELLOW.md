@@ -67,10 +67,10 @@ arriba, según lo que había en la tienda:
 - **Por edad**: no existen `3-anos-en-adelante` y `6-12-meses` está vacía. Quedó
   `0-12 meses` (handle `0-6-meses`, 90 productos), `1-2 años`, `3-6 años` y `6-10 años`.
 - **Personalizados**: falta "Cómo funciona"; la página no existe todavía.
-- **Esenciales**: solo Para comer (Baberos) y Para cargar (Fulares Kargo). No hay colecciones
-  de cobijas, muselinas ni toallas, y ningún producto lleva `tipo:cobija`, `tipo:muselina`
-  ni `tipo:toalla`.
+- **Esenciales**: completo. Las colecciones automáticas `cobijas`, `muselinas` y `toallas`
+  (por etiqueta `tipo:cobija`, `tipo:muselina` y `tipo:toalla`) se crearon vacías; se llenan
+  solas al etiquetar los productos.
 - **Marcas**: la pestaña enlaza a `/collections/marcas-especiales`. Se incluyó Un libro para
-  siempre (la colección existe). Falta Piesh Kids: hay 18 productos con ese proveedor, pero
-  no tiene colección.
+  siempre (la colección existe) y Piesh Kids (colección automática nueva `piesh-kids`, por
+  proveedor = `Piesh Kids`).
 - Se quitó el ítem anterior "Bebé 0-18 Meses".
