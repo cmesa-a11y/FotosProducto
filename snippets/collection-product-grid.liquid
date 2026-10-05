@@ -26,7 +26,7 @@
     assign has_sidebar = false
     assign show_sidebar = section.settings.show_sidebar
     assign show_filter = section.settings.show_filter
-    assign filter_type = section.settings.filter_type
+    assign filter_type = section.settings.filter_type | default: 'storefront'
     assign sidebar_type = section.settings.sidebar_type
     assign sidebar_position = section.settings.sidebar_position
     assign show_sidebar_collapse = section.settings.show_sidebar_collapse
