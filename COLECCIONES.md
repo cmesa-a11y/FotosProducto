@@ -48,7 +48,7 @@ el enlace queda roto.
 | Baby shower | `baby-shower` | Etiqueta = `ocasion:baby-shower` |
 | Cumpleaños | `cumpleanos` | Etiqueta = `ocasion:cumpleanos` |
 | Bautizo | `bautizo` | Etiqueta = `ocasion:bautizo` |
-| 0-6 meses | `0-6-meses` | Etiqueta = `edad:0-6m` |
+| 0-12 meses | `0-12-meses` (antes `0-6-meses`, redirige) | Etiqueta = `edad:0-12m` |
 | 6-12 meses | `6-12-meses` | Etiqueta = `edad:6-12m` |
 | 1-2 años | `1-2-anos` | Etiqueta = `edad:1-2a` |
 | 3 años en adelante | `3-anos-en-adelante` | Etiqueta = `edad:3a-mas` |
