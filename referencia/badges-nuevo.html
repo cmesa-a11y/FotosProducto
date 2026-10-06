@@ -1,0 +1,35 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Badge Nuevo</title>
+<style>
+body{margin:0;padding:28px;background:#fff;font-family:Arial,sans-serif;color:#232323}
+h1{font-size:18px;margin:0 0 18px}
+.row{display:flex;gap:28px}
+.card{width:230px}
+.img{position:relative;height:250px;background:#f3f3f3;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:13px}
+.t{font-size:13px;text-align:center;margin-top:10px;text-transform:uppercase}
+.p{font-size:14px;text-align:center;margin-top:6px}
+.lab{font-weight:bold;margin:0 0 8px;font-size:14px}
+.halo-productBadges{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column}
+.badge{font-size:12px;line-height:20px;padding:0 8px}
+/* A */
+.a .badge.new-badge{background:#70202c!important;color:#F5F2E1!important;border-radius:999px!important;padding:3px 12px!important;font-size:0!important;box-shadow:0 2px 6px rgba(112,32,44,.3);position:relative;overflow:hidden}
+.a .badge.new-badge::after{content:"✿ Nuevo";font-size:12px;font-weight:700;letter-spacing:.04em;line-height:18px}
+.a .badge.new-badge::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:hmShine 3s infinite}
+@keyframes hmShine{0%,60%{left:-60%}100%{left:130%}}
+/* B */
+.b .halo-productBadges{top:8px;left:8px}
+.b .badge.new-badge{width:64px;height:64px;padding:0!important;border-radius:50%!important;background:#F9CDB8!important;color:#70202c!important;font-size:0!important;display:flex!important;align-items:center;justify-content:center;transform:rotate(-12deg);box-shadow:0 0 0 3px #F9CDB8,inset 0 0 0 2px #fff;outline:1.5px dashed #70202c;outline-offset:-7px}
+.b .badge.new-badge::after{content:"Nuevo";font-size:13px;font-weight:700;letter-spacing:.02em}
+/* C */
+.c .img{overflow:hidden}
+.c .halo-productBadges{top:0;left:0}
+.c .badge.new-badge{display:block!important;text-align:center;position:absolute;top:24px;left:-38px;width:150px;transform:rotate(-45deg);background:#70202c!important;color:#fff!important;font-size:0!important;padding:4px 0!important;box-shadow:0 2px 4px rgba(0,0,0,.2);border-top:1px dashed #F9CDB8;border-bottom:1px dashed #F9CDB8}
+.c .badge.new-badge::after{content:"NUEVO";font-size:11px;font-weight:700;letter-spacing:.15em}
+.now .badge.new-badge{background:#fff;color:#232323}
+</style></head><body>
+<h1>Opciones de badge "Nuevo" — Hello Mellow</h1>
+<div class="row">
+ <div class="card now"><p class="lab">Actual</p><div class="img">foto producto<div class="halo-productBadges"><span class="badge new-badge">New</span></div></div><div class="t">Gamuza Classic - Chai</div><div class="p">$69.000</div></div>
+ <div class="card a"><p class="lab">A · Pastilla vino con brillo</p><div class="img">foto producto<div class="halo-productBadges"><span class="badge new-badge">New</span></div></div><div class="t">Gamuza Classic - Chai</div><div class="p">$69.000</div></div>
+ <div class="card b"><p class="lab">B · Sello margarita</p><div class="img">foto producto<div class="halo-productBadges"><span class="badge new-badge">New</span></div></div><div class="t">Gamuza Classic - Chai</div><div class="p">$69.000</div></div>
+ <div class="card c"><p class="lab">C · Cinta en la esquina</p><div class="img">foto producto<div class="halo-productBadges"><span class="badge new-badge">New</span></div></div><div class="t">Gamuza Classic - Chai</div><div class="p">$69.000</div></div>
+</div></body></html>
