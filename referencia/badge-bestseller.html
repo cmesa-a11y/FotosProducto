@@ -1,0 +1,16 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Best Seller</title><style>
+body{margin:0;padding:24px;font-family:Arial,sans-serif;background:#fff}
+.row{display:flex;gap:24px}.card{width:220px}.img{position:relative;height:230px;background:#f3f3f3}
+.t{font-size:13px;text-align:center;margin-top:8px;text-transform:uppercase}
+.halo-productBadges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;align-items:flex-start}
+.badge{font-size:12px;line-height:20px;padding:0 8px;font-style:italic;background:#fff}
+.halo-productBadges .badge + .badge{margin-top:5px}
+.halo-productBadges .badge.new-badge{background:#70202c!important;color:#F5F2E1!important;border-radius:99px!important;padding:3px 12px!important;font-size:0!important;font-style:normal!important;position:relative;overflow:hidden;box-shadow:0 2px 6px rgba(112,32,44,.3)}
+.halo-productBadges .badge.new-badge:after{content:"✿ Nuevo";font-size:12px;font-weight:700;line-height:18px}
+.halo-productBadges .badge.custom-badge{background:#F2B36A!important;color:#70202c!important;border-radius:99px!important;padding:3px 12px!important;font-size:0!important;font-style:normal!important;box-shadow:0 2px 6px rgba(242,179,106,.45);border:1px solid #fff}
+.halo-productBadges .badge.custom-badge:after{content:"★ Best Seller";font-size:12px;font-weight:700;line-height:16px}
+</style></head><body><div class="row">
+<div class="card"><div class="img"><div class="halo-productBadges"><span class="badge custom-badge">Custom Label</span></div></div><div class="t">Gamuza Classic - Palo Rosa</div></div>
+<div class="card"><div class="img"><div class="halo-productBadges"><span class="badge new-badge">New</span><span class="badge custom-badge">Custom Label</span></div></div><div class="t">Camiseta Retro Plum</div></div>
+<div class="card"><div class="img"><div class="halo-productBadges"><span class="badge new-badge">New</span></div></div><div class="t">Gamuza Classic - Chai</div></div>
+</div></body></html>
