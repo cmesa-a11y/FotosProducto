@@ -1,0 +1,145 @@
+{%- comment -%}
+  Hello Mellow · Personalización de bordado (reemplaza Infinite Options)
+  Se muestra solo en productos con la etiqueta "personalizable".
+  Los datos viajan al carrito/pedido como propiedades de línea:
+  Personalizado, Nombre a bordar, Color de hilo, Tipografía.
+  Uso: {% render 'hm-personalizacion', product: product %}
+{%- endcomment -%}
+{%- if product.tags contains 'personalizable' -%}
+{%- liquid
+  assign hm_colores = 'Plateado:#B9B3B5,Dorado:#E9DC93,Palo de Rosa:#E7B2B6,Café:#6B3B3B,Rosado Claro:#F3A6C0,Blanco:#FFFFFF'
+  assign hm_fuentes = 'Clásica:Playfair Display:700,Script:Great Vibes:400,Redonda:Baloo 2:700,Moderna:Montserrat:600'
+  assign hm_max = 12
+-%}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Great+Vibes&family=Montserrat:wght@600&family=Playfair+Display:wght@700&display=swap">
+<style>
+  .hmp{--v:#70202c;--c:#F5F2E1;--d:#F2B36A;--l:#e3d9cb;border:1px solid var(--l);border-radius:18px;background:#fff;padding:18px 16px;margin:18px 0;color:#2b2b2b}
+  .hmp *{box-sizing:border-box}
+  .hmp-h{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--v);font-size:16px;margin:0 0 12px}
+  .hmp-l{display:block;font-weight:700;font-size:13px;letter-spacing:.02em;margin:16px 0 8px;color:#3a3a3a}
+  .hmp-l small{font-weight:400;color:#8a7f74}
+  .hmp-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .hmp-toggle button,.hmp-font{appearance:none;border:1.5px solid var(--l);background:#fff;border-radius:999px;padding:11px 10px;font-size:14px;cursor:pointer;color:#2b2b2b;transition:.15s}
+  .hmp-toggle button[aria-pressed=true]{border-color:var(--v);background:var(--v);color:var(--c);font-weight:700}
+  .hmp-body{display:none}
+  .hmp.is-on .hmp-body{display:block}
+  .hmp-in{width:100%;border:1.5px solid var(--l);border-radius:12px;padding:12px 14px;font-size:16px;background:var(--c)}
+  .hmp-in:focus{outline:none;border-color:var(--v)}
+  .hmp-count{float:right;font-weight:400;color:#8a7f74}
+  .hmp-sw{display:flex;flex-wrap:wrap;gap:10px}
+  .hmp-sw button{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;width:62px;font-size:11.5px;color:#4a4a4a;position:relative}
+  .hmp-dot{width:38px;height:38px;border-radius:50%;border:1px solid rgba(0,0,0,.12);box-shadow:inset 0 -3px 6px rgba(0,0,0,.08);transition:.15s}
+  .hmp-sw button[aria-pressed=true] .hmp-dot{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--v)}
+  .hmp-sw button[aria-pressed=true]::after{content:attr(data-n);position:absolute;top:-4px;right:6px;background:var(--v);color:#fff;font-size:10px;font-weight:700;width:17px;height:17px;border-radius:50%;line-height:17px;text-align:center}
+  .hmp-fonts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .hmp-font{border-radius:14px;padding:10px 8px;line-height:1.1}
+  .hmp-font b{display:block;font-size:20px;font-weight:inherit;color:var(--v)}
+  .hmp-font span{display:block;font-size:11.5px;font-weight:500;color:#8a7f74;margin-top:4px}
+  .hmp-font[aria-pressed=true]{border-color:var(--v);background:var(--c)}
+  .hmp-prev{margin-top:16px;border-radius:14px;background:var(--c);padding:16px 12px;text-align:center}
+  .hmp-prev small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8a7f74;margin-bottom:6px}
+  .hmp-prev div{font-size:30px;line-height:1.25;min-height:38px;word-break:break-word}
+  .hmp-note{font-size:12px;color:#8a7f74;margin:10px 0 0}
+  .hmp-err{display:none;margin-top:12px;background:#fdecec;color:#9b1c1c;border-radius:10px;padding:10px 12px;font-size:13px}
+  .hmp.has-err .hmp-err{display:block}
+</style>
+<div class="hmp" data-hmp data-max="{{ hm_max }}">
+  <p class="hmp-h">✨ ¿Quieres personalizarlo?</p>
+  <div class="hmp-toggle" role="group" aria-label="¿Quieres personalizarlo?">
+    <button type="button" data-hmp-opt="no" aria-pressed="true">No, gracias</button>
+    <button type="button" data-hmp-opt="si" aria-pressed="false">Sí, bordarlo 🧵</button>
+  </div>
+  <div class="hmp-body">
+    <label class="hmp-l" for="hmp-name-{{ product.id }}">Nombre a bordar <span class="hmp-count" data-hmp-count>0/{{ hm_max }}</span></label>
+    <input class="hmp-in" id="hmp-name-{{ product.id }}" type="text" maxlength="{{ hm_max }}" autocomplete="off" placeholder="Ej: Sofía" data-hmp-name>
+
+    <span class="hmp-l">Color de hilo <small>· escoge 2</small></span>
+    <div class="hmp-sw" data-hmp-colors>
+      {%- assign lista = hm_colores | split: ',' -%}
+      {%- for c in lista -%}
+        {%- assign p = c | split: ':' -%}
+        <button type="button" aria-pressed="false" data-color="{{ p[0] }}" data-hex="{{ p[1] }}"><span class="hmp-dot" style="background:{{ p[1] }}"></span>{{ p[0] }}</button>
+      {%- endfor -%}
+    </div>
+
+    <span class="hmp-l">Tipografía</span>
+    <div class="hmp-fonts" data-hmp-fonts>
+      {%- assign fl = hm_fuentes | split: ',' -%}
+      {%- for f in fl -%}
+        {%- assign p = f | split: ':' -%}
+        <button type="button" class="hmp-font" aria-pressed="false" data-font="{{ p[0] }}" data-family="{{ p[1] }}" data-weight="{{ p[2] }}"><b style="font-family:'{{ p[1] }}',serif;font-weight:{{ p[2] }}">Abc</b><span>{{ p[0] }}</span></button>
+      {%- endfor -%}
+    </div>
+
+    <div class="hmp-prev" aria-live="polite">
+      <small>Así se verá</small>
+      <div data-hmp-preview>Tu nombre</div>
+    </div>
+    <p class="hmp-note">La vista previa es una referencia; el bordado final puede variar levemente.</p>
+  </div>
+  <div class="hmp-err" data-hmp-err></div>
+
+  <input type="hidden" data-hmp-prop="Personalizado" value="">
+  <input type="hidden" data-hmp-prop="Nombre a bordar" value="">
+  <input type="hidden" data-hmp-prop="Color de hilo" value="">
+  <input type="hidden" data-hmp-prop="Tipografía" value="">
+</div>
+<script>
+(function(){
+  var root=document.currentScript.previousElementSibling; if(!root||!root.hasAttribute('data-hmp'))return;
+  var max=+root.dataset.max, on=false, colors=[], font=null;
+  var $=function(s){return root.querySelector(s)}, $$=function(s){return [].slice.call(root.querySelectorAll(s))};
+  var name=$('[data-hmp-name]'), prev=$('[data-hmp-preview]'), err=$('[data-hmp-err]'), count=$('[data-hmp-count]');
+  var props={}; $$('[data-hmp-prop]').forEach(function(i){props[i.dataset.hmpProp]=i;});
+  function setProp(k,v){var i=props[k]; if(on&&v){i.name='properties['+k+']';i.value=v;}else{i.removeAttribute('name');i.value='';}}
+  function sync(){
+    setProp('Personalizado', on?'Sí':'');
+    setProp('Nombre a bordar', name.value.trim());
+    setProp('Color de hilo', colors.join(' + '));
+    setProp('Tipografía', font?font.dataset.font:'');
+    var t=name.value.trim()||'Tu nombre'; prev.textContent=t;
+    if(font){prev.style.fontFamily="'"+font.dataset.family+"'";prev.style.fontWeight=font.dataset.weight;}
+    var c1=colors[0]?$('[data-color="'+colors[0]+'"]').dataset.hex:'#70202c', c2=colors[1]?$('[data-color="'+colors[1]+'"]').dataset.hex:c1;
+    prev.style.color=c1; prev.style.textShadow=colors[1]?'1px 1px 0 '+c2:'none';
+    if(c1.toUpperCase()==='#FFFFFF'){prev.style.webkitTextStroke='0.6px #c9bfb3';}else{prev.style.webkitTextStroke='0';}
+    count.textContent=name.value.length+'/'+max;
+    var f=document.querySelector('form[data-type="add-to-cart-form"]');
+    if(f&&f.id){Object.keys(props).forEach(function(k){props[k].setAttribute('form',f.id);});}
+    if(root.classList.contains('has-err'))validate();
+  }
+  function validate(){
+    if(!on){root.classList.remove('has-err');return true;}
+    var m=[];
+    if(!name.value.trim())m.push('escribe el nombre a bordar');
+    if(colors.length!==2)m.push('escoge 2 colores de hilo');
+    if(!font)m.push('elige una tipografía');
+    if(m.length){err.textContent='Para continuar, '+m.join(', ')+'.';root.classList.add('has-err');return false;}
+    root.classList.remove('has-err');return true;
+  }
+  $$('[data-hmp-opt]').forEach(function(b){b.addEventListener('click',function(){
+    on=b.dataset.hmpOpt==='si'; $$('[data-hmp-opt]').forEach(function(x){x.setAttribute('aria-pressed',x===b);});
+    root.classList.toggle('is-on',on); if(!on)root.classList.remove('has-err'); sync();
+  });});
+  $$('[data-hmp-colors] button').forEach(function(b){b.addEventListener('click',function(){
+    var c=b.dataset.color, i=colors.indexOf(c);
+    if(i>-1)colors.splice(i,1); else{ if(colors.length===2)colors.shift(); colors.push(c); }
+    $$('[data-hmp-colors] button').forEach(function(x){var k=colors.indexOf(x.dataset.color);x.setAttribute('aria-pressed',k>-1);x.dataset.n=k>-1?k+1:'';});
+    sync();
+  });});
+  $$('[data-hmp-fonts] button').forEach(function(b){b.addEventListener('click',function(){
+    font=b; $$('[data-hmp-fonts] button').forEach(function(x){x.setAttribute('aria-pressed',x===b);}); sync();
+  });});
+  name.addEventListener('input',sync);
+  /* bloquear "agregar al carrito" y "comprar ya" si falta algo */
+  function guard(e){
+    var t=e.target.closest&&e.target.closest('[data-btn-addToCart],.shopify-payment-button,[name="add"],.product-form__submit');
+    if(!t||!on||validate())return;
+    e.preventDefault();e.stopImmediatePropagation();
+    root.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  window.addEventListener('click',guard,true);
+  window.addEventListener('submit',function(e){if(on&&e.target.matches&&e.target.matches('form[action*="/cart/add"]')&&!validate()){e.preventDefault();e.stopImmediatePropagation();root.scrollIntoView({behavior:'smooth',block:'center'});}},true);
+  sync();
+})();
+</script>
+{%- endif -%}
