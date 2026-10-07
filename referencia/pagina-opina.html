@@ -1,10 +1,48 @@
-<div style="text-align:center;max-width:560px;margin:0 auto;color:#70202c">
-<p style="font-size:18px">¡Gracias por visitarnos! 💛</p>
-<p>Tu opinión nos ayuda a seguir creciendo y a que más familias nos conozcan. Toca el botón <strong>“Escribir una reseña”</strong> y cuéntanos cómo te fue en la tienda.</p>
-<p style="background:#F2B36A;color:#70202c;display:inline-block;padding:6px 16px;border-radius:99px;font-weight:700">🎁 Al enviar tu reseña recibes un 15% de descuento para tu próxima compra</p>
+<style>
+.hm-op{max-width:520px;margin:0 auto;color:#70202c;text-align:center}
+.hm-op p{margin:0 0 12px}
+.hm-card{background:#F5F2E1;border-radius:20px;padding:22px 18px;margin-top:16px;text-align:left}
+.hm-card label{display:block;font-weight:700;margin:14px 0 6px}
+.hm-card input[type=text],.hm-card input[type=email],.hm-card textarea{width:100%;box-sizing:border-box;border:1px solid #d9cfc0;border-radius:12px;padding:12px;font-size:16px;background:#fff;color:#222}
+.hm-card textarea{min-height:110px;resize:vertical}
+.hm-stars{display:flex;flex-direction:row-reverse;justify-content:center;gap:6px}
+.hm-stars input{position:absolute;opacity:0;width:1px;height:1px}
+.hm-stars label{font-size:44px;line-height:1;color:#d9cfc0;cursor:pointer;margin:0;font-weight:400}
+.hm-stars input:checked~label,.hm-stars label:hover,.hm-stars label:hover~label{color:#F2B36A}
+.hm-btn{display:block;width:100%;margin-top:18px;background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:15px;font-size:17px;font-weight:700;cursor:pointer}
+.hm-btn[disabled]{opacity:.6}
+.hm-err{color:#b00020;font-size:14px;margin-top:8px;display:none;text-align:center}
+.hm-pill{background:#F2B36A;display:inline-block;padding:6px 16px;border-radius:99px;font-weight:700}
+.template-page .jdgm-write-rev-link,.template-page .jdgm-rev-widg__header .jdgm-write-rev-link,.template-page [class*="write-review-button"],.template-page [class*="jdgm-write-review"]{display:none!important}
+</style>
+<div class="hm-op">
+<p style="font-size:20px;font-weight:700">¡Gracias por visitarnos! 💛</p>
+<p>Tu opinión nos ayuda a seguir creciendo y a que más familias nos conozcan.</p>
+<p class="hm-pill">🎁 Deja tu reseña y recibe 15% de descuento en tu próxima compra</p>
+<form id="hm-form" class="hm-card" method="post" action="/contact#hm-form" accept-charset="UTF-8">
+<input type="hidden" name="form_type" value="contact"><input type="hidden" name="utf8" value="✓">
+<input type="hidden" name="contact[tags]" value="resena-tienda">
+<input type="hidden" name="contact[body]" id="hm-body">
+<label style="text-align:center">¿Cómo calificarías tu visita?</label>
+<div class="hm-stars">
+<input type="radio" name="hm-r" id="hm-r5" value="5"><label for="hm-r5" title="5">★</label>
+<input type="radio" name="hm-r" id="hm-r4" value="4"><label for="hm-r4" title="4">★</label>
+<input type="radio" name="hm-r" id="hm-r3" value="3"><label for="hm-r3" title="3">★</label>
+<input type="radio" name="hm-r" id="hm-r2" value="2"><label for="hm-r2" title="2">★</label>
+<input type="radio" name="hm-r" id="hm-r1" value="1"><label for="hm-r1" title="1">★</label>
+</div>
+<label for="hm-txt">Cuéntanos tu experiencia</label>
+<textarea id="hm-txt" placeholder="¿Qué fue lo que más te gustó?" required></textarea>
+<label for="hm-name">Tu nombre</label>
+<input type="text" id="hm-name" name="contact[name]" required>
+<label for="hm-email">Tu correo</label>
+<input type="email" id="hm-email" name="contact[email]" required placeholder="No se publicará">
+<button type="submit" class="hm-btn" id="hm-send">Enviar reseña</button>
+<div class="hm-err" id="hm-err"></div>
+</form>
 </div>
 <div id="hm-cupon" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px">
-<div style="background:#F5F2E1;color:#70202c;max-width:380px;width:100%;border-radius:20px;padding:28px 22px;text-align:center;font-family:inherit;box-shadow:0 10px 40px rgba(0,0,0,.3)">
+<div style="background:#F5F2E1;color:#70202c;max-width:380px;width:100%;border-radius:20px;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3)">
 <div style="font-size:40px;line-height:1">🎁</div>
 <p style="font-size:22px;font-weight:700;margin:10px 0 6px">¡Gracias por tu opinión!</p>
 <p style="margin:0 0 16px">Aquí tienes tu regalo: <strong>15% de descuento</strong> en tu próxima compra en hellomellow.com.co</p>
@@ -17,25 +55,25 @@
 <script>
 (function(){
   var c=[71,82,65,67,73,65,83,77,69,76,76,79,87].map(function(n){return String.fromCharCode(n)}).join('');
-  var re=/gracias por tu rese(ñ|n)a|rese(ñ|n)a enviada|tu rese(ñ|n)a se publicar|thank you for your review|review submitted/i;
-  var done=false, armed=false, box=document.getElementById('hm-cupon');
-  function show(){if(done)return;done=true;document.getElementById('hm-code').textContent=c;box.style.display='flex';}
-  function later(){setTimeout(show,1500);}
-  function isRev(u,m,b){u=String(u||'');m=String(m||'GET').toUpperCase();if(m!=='POST')return false;if(!/judge|jdgm/i.test(u))return false;if(/vote|helpful|impression|event|track|analytic|question|metric|log|upload|media/i.test(u))return false;return /review/i.test(u)||/review/i.test(String(b||'').slice(0,3000));}
-  /* fetch */
-  if(window.fetch){var of=window.fetch;window.fetch=function(a,o){var u=(a&&a.url)||a,m=(o&&o.method)||(a&&a.method),b=o&&o.body,hit=false;try{hit=isRev(u,m,typeof b==='string'?b:'')}catch(e){}var r=of.apply(this,arguments);if(hit)r.then(function(x){if(x&&x.ok)later();}).catch(function(){});return r;};}
-  /* XHR */
-  var X=XMLHttpRequest.prototype,oo=X.open,os=X.send;
-  X.open=function(m,u){this._hm=[m,u];return oo.apply(this,arguments);};
-  X.send=function(b){var x=this;try{if(x._hm&&isRev(x._hm[1],x._hm[0],typeof b==='string'?b:'')){x.addEventListener('load',function(){if(x.status>=200&&x.status<300)later();});}}catch(e){}return os.apply(this,arguments);};
-  /* mensajes de iframes de Judge.me */
-  window.addEventListener('message',function(e){try{if(!/judge\.me|judgeme/i.test(e.origin||''))return;var d=typeof e.data==='string'?e.data:JSON.stringify(e.data);if(/review/i.test(d)&&/submit|success|created|complete/i.test(d))later();}catch(x){}});
-  /* respaldo: mensaje de gracias visible en pantalla despues de escribir */
-  document.addEventListener('input',function(e){var t=(e.composedPath&&e.composedPath()[0])||e.target;if(t&&/TEXTAREA|INPUT/.test(t.nodeName))armed=true;},true);
-  function vis(el){if(!el)return false;if(el.checkVisibility&&!el.checkVisibility({opacityProperty:true,visibilityProperty:true}))return false;var r=el.getBoundingClientRect();if(r.width<2||r.height<2)return false;if(r.bottom<0||r.right<0||r.top>innerHeight||r.left>innerWidth)return false;var cs=getComputedStyle(el);return cs.visibility!=='hidden'&&cs.opacity!=='0'&&cs.display!=='none';}
-  function find(n,d){if(!n||d>80)return false;if(n.nodeType===3)return re.test(n.nodeValue)&&vis(n.parentElement);if(n.id==='hm-cupon'||/SCRIPT|STYLE|NOSCRIPT|TEMPLATE/.test(n.nodeName))return false;if(n.shadowRoot&&find(n.shadowRoot,d+1))return true;for(var k=n.firstChild;k;k=k.nextSibling)if(find(k,d+1))return true;return false;}
+  var f=document.getElementById('hm-form'),box=document.getElementById('hm-cupon'),err=document.getElementById('hm-err');
+  function show(){document.getElementById('hm-code').textContent=c;box.style.display='flex';}
   document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
   document.getElementById('hm-close').onclick=function(){box.style.display='none'};
-  var t=setInterval(function(){if(done){clearInterval(t);return}if(armed&&find(document.body,0))show();},700);
+  var ok=false;try{ok=sessionStorage.getItem('hmSent')==='1'}catch(e){}
+  if(/contact_posted=true/.test(location.search)&&ok){show();f.innerHTML='<p style="text-align:center;font-weight:700;margin:0">¡Recibimos tu reseña! 💛</p>';try{sessionStorage.removeItem('hmSent')}catch(e){}}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var r=f.querySelector('input[name=hm-r]:checked'),t=document.getElementById('hm-txt').value.trim(),n=document.getElementById('hm-name').value.trim(),m=document.getElementById('hm-email').value.trim();
+    if(!r){err.textContent='Elige de 1 a 5 estrellas ⭐';err.style.display='block';return;}
+    if(t.length<3){err.textContent='Cuéntanos un poquito de tu experiencia';err.style.display='block';return;}
+    err.style.display='none';var btn=document.getElementById('hm-send');btn.disabled=true;btn.textContent='Enviando…';
+    document.getElementById('hm-body').value='RESEÑA TIENDA FÍSICA\nCalificación: '+r.value+' de 5 '+'★★★★★'.slice(0,r.value)+'\nNombre: '+n+'\nCorreo: '+m+'\n\n'+t;
+    try{sessionStorage.setItem('hmSent','1')}catch(x){}
+    /* tambien se envia a Judge.me para que se publique en la tienda */
+    var p=new URLSearchParams({shop_domain:'hello-mellow-25.myshopify.com',platform:'shopify',id:'7291611742243',name:n,email:m,rating:r.value,title:t.split(/[.!?\n]/)[0].slice(0,60),body:t});
+    var done=false;function go(){if(done)return;done=true;f.submit();}
+    try{fetch('https://judge.me/api/v1/reviews',{method:'POST',mode:'no-cors',keepalive:true,body:p}).then(go,go);}catch(x){}
+    setTimeout(go,2500);
+  });
 })();
 </script>
