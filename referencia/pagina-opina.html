@@ -16,14 +16,14 @@
 .template-page .jdgm-write-rev-link,.template-page .jdgm-rev-widg__header .jdgm-write-rev-link,.template-page [class*="write-review-button"],.template-page [class*="jdgm-write-review"]{display:none!important}
 </style>
 <div class="hm-op">
-<p style="font-size:20px;font-weight:700">¡Gracias por visitarnos! 💛</p>
-<p>Tu opinión nos ayuda a seguir creciendo y a que más familias nos conozcan.</p>
-<p class="hm-pill">🎁 Deja tu reseña y recibe 15% de descuento en tu próxima compra</p>
+<p style="font-size:22px;font-weight:700">¡Hola, familia Mellow! 💛</p>
+<p>Nos encantó tenerte en la tienda. Cuéntanos cómo te fue: tu opinión ayuda a otras familias a encontrarnos y a nosotros a consentirte cada vez mejor.</p>
+<p class="hm-pill">🎁 Tu opinión tiene premio: 15% OFF en tu próxima compra</p>
 <form id="hm-form" class="hm-card" method="post" action="/contact#hm-form" accept-charset="UTF-8">
 <input type="hidden" name="form_type" value="contact"><input type="hidden" name="utf8" value="✓">
 <input type="hidden" name="contact[tags]" value="resena-tienda">
 <input type="hidden" name="contact[body]" id="hm-body">
-<label style="text-align:center">¿Cómo calificarías tu visita?</label>
+<label style="text-align:center">¿Qué tan Mellow fue tu visita?</label>
 <div class="hm-stars">
 <input type="radio" name="hm-r" id="hm-r5" value="5"><label for="hm-r5" title="5">★</label>
 <input type="radio" name="hm-r" id="hm-r4" value="4"><label for="hm-r4" title="4">★</label>
@@ -32,12 +32,12 @@
 <input type="radio" name="hm-r" id="hm-r1" value="1"><label for="hm-r1" title="1">★</label>
 </div>
 <label for="hm-txt">Cuéntanos tu experiencia</label>
-<textarea id="hm-txt" placeholder="¿Qué fue lo que más te gustó?" required></textarea>
+<textarea id="hm-txt" placeholder="¿Qué te enamoró? ¿Un producto, la atención, el espacio…?" required></textarea>
 <label for="hm-name">Tu nombre</label>
 <input type="text" id="hm-name" name="contact[name]" required>
 <label for="hm-email">Tu correo</label>
 <input type="email" id="hm-email" name="contact[email]" required placeholder="No se publicará">
-<button type="submit" class="hm-btn" id="hm-send">Enviar reseña</button>
+<button type="submit" class="hm-btn" id="hm-send">Enviar mi reseña y recibir mi regalo 🎁</button>
 <div class="hm-err" id="hm-err"></div>
 </form>
 </div>
@@ -59,8 +59,6 @@
   function show(){document.getElementById('hm-code').textContent=c;box.style.display='flex';}
   document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
   document.getElementById('hm-close').onclick=function(){box.style.display='none'};
-  var ok=false;try{ok=sessionStorage.getItem('hmSent')==='1'}catch(e){}
-  if(/contact_posted=true/.test(location.search)&&ok){show();f.innerHTML='<p style="text-align:center;font-weight:700;margin:0">¡Recibimos tu reseña! 💛</p>';try{sessionStorage.removeItem('hmSent')}catch(e){}}
   f.addEventListener('submit',function(e){
     e.preventDefault();
     var r=f.querySelector('input[name=hm-r]:checked'),t=document.getElementById('hm-txt').value.trim(),n=document.getElementById('hm-name').value.trim(),m=document.getElementById('hm-email').value.trim();
@@ -68,12 +66,14 @@
     if(t.length<3){err.textContent='Cuéntanos un poquito de tu experiencia';err.style.display='block';return;}
     err.style.display='none';var btn=document.getElementById('hm-send');btn.disabled=true;btn.textContent='Enviando…';
     document.getElementById('hm-body').value='RESEÑA TIENDA FÍSICA\nCalificación: '+r.value+' de 5 '+'★★★★★'.slice(0,r.value)+'\nNombre: '+n+'\nCorreo: '+m+'\n\n'+t;
-    try{sessionStorage.setItem('hmSent','1')}catch(x){}
-    /* tambien se envia a Judge.me para que se publique en la tienda */
+    var fd=new FormData(f);
     var p=new URLSearchParams({shop_domain:'hello-mellow-25.myshopify.com',platform:'shopify',id:'7291611742243',name:n,email:m,rating:r.value,title:t.split(/[.!?\n]/)[0].slice(0,60),body:t});
-    var done=false;function go(){if(done)return;done=true;f.submit();}
-    try{fetch('https://judge.me/api/v1/reviews',{method:'POST',mode:'no-cors',keepalive:true,body:p}).then(go,go);}catch(x){}
-    setTimeout(go,2500);
+    var done=false;function fin(){if(done)return;done=true;f.innerHTML='<p style="text-align:center;font-weight:700;margin:0">¡Recibimos tu reseña! 💛</p>';show();}
+    var jobs=[];
+    try{jobs.push(fetch('https://judge.me/api/v1/reviews',{method:'POST',mode:'no-cors',keepalive:true,body:p}).catch(function(){}));}catch(x){}
+    try{jobs.push(fetch('/contact',{method:'POST',body:fd,credentials:'same-origin',keepalive:true}).catch(function(){}));}catch(x){}
+    Promise.all(jobs).then(fin,fin);
+    setTimeout(fin,3000);
   });
 })();
 </script>
