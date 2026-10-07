@@ -19,10 +19,21 @@
   var c=[71,82,65,67,73,65,83,77,69,76,76,79,87].map(function(n){return String.fromCharCode(n)}).join('');
   var re=/gracias por tu rese(ñ|n)a|rese(ñ|n)a enviada|tu rese(ñ|n)a se publicar|thank you for your review|review submitted/i;
   var done=false, armed=false, box=document.getElementById('hm-cupon');
-  document.addEventListener('input',function(e){var t=(e.composedPath&&e.composedPath()[0])||e.target;if(t&&t.id!=='hm-code'&&/TEXTAREA|INPUT/.test(t.nodeName))armed=true;},true);
+  function show(){if(done)return;done=true;document.getElementById('hm-code').textContent=c;box.style.display='flex';}
+  function later(){setTimeout(show,1500);}
+  function isRev(u,m,b){u=String(u||'');m=String(m||'GET').toUpperCase();if(m!=='POST')return false;if(!/judge|jdgm/i.test(u))return false;if(/vote|helpful|impression|event|track|analytic|question|metric|log|upload|media/i.test(u))return false;return /review/i.test(u)||/review/i.test(String(b||'').slice(0,3000));}
+  /* fetch */
+  if(window.fetch){var of=window.fetch;window.fetch=function(a,o){var u=(a&&a.url)||a,m=(o&&o.method)||(a&&a.method),b=o&&o.body,hit=false;try{hit=isRev(u,m,typeof b==='string'?b:'')}catch(e){}var r=of.apply(this,arguments);if(hit)r.then(function(x){if(x&&x.ok)later();}).catch(function(){});return r;};}
+  /* XHR */
+  var X=XMLHttpRequest.prototype,oo=X.open,os=X.send;
+  X.open=function(m,u){this._hm=[m,u];return oo.apply(this,arguments);};
+  X.send=function(b){var x=this;try{if(x._hm&&isRev(x._hm[1],x._hm[0],typeof b==='string'?b:'')){x.addEventListener('load',function(){if(x.status>=200&&x.status<300)later();});}}catch(e){}return os.apply(this,arguments);};
+  /* mensajes de iframes de Judge.me */
+  window.addEventListener('message',function(e){try{if(!/judge\.me|judgeme/i.test(e.origin||''))return;var d=typeof e.data==='string'?e.data:JSON.stringify(e.data);if(/review/i.test(d)&&/submit|success|created|complete/i.test(d))later();}catch(x){}});
+  /* respaldo: mensaje de gracias visible en pantalla despues de escribir */
+  document.addEventListener('input',function(e){var t=(e.composedPath&&e.composedPath()[0])||e.target;if(t&&/TEXTAREA|INPUT/.test(t.nodeName))armed=true;},true);
   function vis(el){if(!el)return false;if(el.checkVisibility&&!el.checkVisibility({opacityProperty:true,visibilityProperty:true}))return false;var r=el.getBoundingClientRect();if(r.width<2||r.height<2)return false;if(r.bottom<0||r.right<0||r.top>innerHeight||r.left>innerWidth)return false;var cs=getComputedStyle(el);return cs.visibility!=='hidden'&&cs.opacity!=='0'&&cs.display!=='none';}
   function find(n,d){if(!n||d>80)return false;if(n.nodeType===3)return re.test(n.nodeValue)&&vis(n.parentElement);if(n.id==='hm-cupon'||/SCRIPT|STYLE|NOSCRIPT|TEMPLATE/.test(n.nodeName))return false;if(n.shadowRoot&&find(n.shadowRoot,d+1))return true;for(var k=n.firstChild;k;k=k.nextSibling)if(find(k,d+1))return true;return false;}
-  function show(){done=true;document.getElementById('hm-code').textContent=c;box.style.display='flex';}
   document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
   document.getElementById('hm-close').onclick=function(){box.style.display='none'};
   var t=setInterval(function(){if(done){clearInterval(t);return}if(armed&&find(document.body,0))show();},700);
