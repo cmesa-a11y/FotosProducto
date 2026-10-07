@@ -7,12 +7,18 @@
 {%- endcomment -%}
 {%- if product.tags contains 'personalizable' -%}
 {%- liquid
-  assign hm_colores = 'Plateado:#B9B3B5,Dorado:#E9DC93,Palo de Rosa:#E7B2B6,Café:#6B3B3B,Rosado Claro:#F3A6C0,Blanco:#FFFFFF'
-  assign hm_fuentes = 'Clásica:Playfair Display:700,Script:Great Vibes:400,Redonda:Baloo 2:700,Moderna:Montserrat:600'
+  assign hm_colores = 'Plateado:#C9C9CE,Dorado:#D9C186,Palo de rosa:#D0A7A1,Café:#8C6D51,Rosa pastel:#EDC1C8,Blanco:#FFFFFF'
+  assign hm_fuentes = '01 Inicial Serif:hm-serif:400:1:P,02 Inicial Floral:hm-floral:400:1:A,03 Clemente:hm-clemente:400:12:clemente,04 Serena:hm-serena:400:12:serena,05 Avril:hm-avril:400:12:avril,06 Monograma:hm-monograma:400:3:JRC,07 Lucas:hm-lucas:700:12:LUCAS'
   assign hm_max = 12
 -%}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Great+Vibes&family=Montserrat:wght@600&family=Playfair+Display:wght@700&display=swap">
 <style>
+  @font-face{font-family:'hm-serif';src:url({{ 'hm-font-serif.woff2' | asset_url }}) format('woff2');font-display:swap}
+  @font-face{font-family:'hm-floral';src:url({{ 'hm-font-floral.woff2' | asset_url }}) format('woff2');font-display:swap}
+  @font-face{font-family:'hm-clemente';src:url({{ 'hm-font-clemente.woff2' | asset_url }}) format('woff2');font-display:swap}
+  @font-face{font-family:'hm-serena';src:url({{ 'hm-font-serena.woff2' | asset_url }}) format('woff2');font-display:swap}
+  @font-face{font-family:'hm-avril';src:url({{ 'hm-font-avril.woff2' | asset_url }}) format('woff2');font-display:swap}
+  @font-face{font-family:'hm-monograma';src:url({{ 'hm-font-monograma.woff2' | asset_url }}) format('woff2');font-display:swap}
+  @font-face{font-family:'hm-lucas';src:url({{ 'hm-font-lucas.woff2' | asset_url }}) format('woff2');font-weight:700;font-display:swap}
   .hmp{--v:#70202c;--c:#F5F2E1;--d:#F2B36A;--l:#e3d9cb;border:1px solid var(--l);border-radius:18px;background:#fff;padding:18px 16px;margin:18px 0;color:#2b2b2b}
   .hmp *{box-sizing:border-box}
   .hmp-h{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--v);font-size:16px;margin:0 0 12px}
@@ -33,12 +39,19 @@
   .hmp-sw button[aria-pressed=true]::after{content:attr(data-n);position:absolute;top:-4px;right:6px;background:var(--v);color:#fff;font-size:10px;font-weight:700;width:17px;height:17px;border-radius:50%;line-height:17px;text-align:center}
   .hmp-fonts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .hmp-font{border-radius:14px;padding:10px 8px;line-height:1.1}
-  .hmp-font b{display:block;font-size:20px;font-weight:inherit;color:var(--v)}
+  .hmp-font b{display:block;font-size:24px;font-weight:inherit;color:var(--v);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hmp-flor{font-style:normal;font-family:sans-serif;font-size:13px;color:#d98fa0;margin-left:2px;vertical-align:top}
+  .hmp-fonts .hmp-font:last-child:nth-child(odd){grid-column:1/-1}
   .hmp-font span{display:block;font-size:11.5px;font-weight:500;color:#8a7f74;margin-top:4px}
   .hmp-font[aria-pressed=true]{border-color:var(--v);background:var(--c)}
   .hmp-prev{margin-top:16px;border-radius:14px;background:var(--c);padding:16px 12px;text-align:center}
   .hmp-prev small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8a7f74;margin-bottom:6px}
-  .hmp-prev div{font-size:30px;line-height:1.25;min-height:38px;word-break:break-word}
+  .hmp-prev div{font-size:40px;line-height:1.25;min-height:50px;word-break:break-word}
+  .hmp-real{display:block;margin-top:12px;border:1px solid var(--l);border-radius:14px;padding:10px;text-align:center;text-decoration:none;color:inherit;background:#fff}
+  .hmp-real[hidden]{display:none}
+  .hmp-real small{display:block;font-size:12px;font-weight:700;color:var(--v);margin-bottom:8px}
+  .hmp-real img{width:100%;max-height:260px;object-fit:contain;border-radius:8px;display:block}
+  .hmp-zoom{display:block;font-size:11px;color:#8a7f74;margin-top:6px}
   .hmp-note{font-size:12px;color:#8a7f74;margin:10px 0 0}
   .hmp-err{display:none;margin-top:12px;background:#fdecec;color:#9b1c1c;border-radius:10px;padding:10px 12px;font-size:13px}
   .hmp.has-err .hmp-err{display:block}
@@ -50,7 +63,17 @@
     <button type="button" data-hmp-opt="si" aria-pressed="false">Sí, bordarlo 🧵</button>
   </div>
   <div class="hmp-body">
-    <label class="hmp-l" for="hmp-name-{{ product.id }}">Nombre a bordar <span class="hmp-count" data-hmp-count>0/{{ hm_max }}</span></label>
+    <span class="hmp-l">Tipografía</span>
+    <div class="hmp-fonts" data-hmp-fonts>
+      {%- assign fl = hm_fuentes | split: ',' -%}
+      {%- for f in fl -%}
+        {%- assign p = f | split: ':' -%}
+        {%- assign hm_num = p[0] | slice: 0, 2 -%}
+        <button type="button" class="hmp-font" aria-pressed="false" data-img="{{ 'hm-muestra-' | append: hm_num | append: '.jpg' | asset_url }}" data-font="{{ p[0] }}" data-family="{{ p[1] }}" data-weight="{{ p[2] }}" data-max="{{ p[3] }}"><b style="font-family:'{{ p[1] }}',serif;font-weight:{{ p[2] }}">{{ p[4] }}{% if p[1] == 'hm-floral' %}<i class="hmp-flor">✿</i>{% endif %}</b><span>{{ p[0] }}</span></button>
+      {%- endfor -%}
+    </div>
+
+    <label class="hmp-l" for="hmp-name-{{ product.id }}"><span data-hmp-nl>Nombre a bordar</span> <span class="hmp-count" data-hmp-count>0/{{ hm_max }}</span></label>
     <input class="hmp-in" id="hmp-name-{{ product.id }}" type="text" maxlength="{{ hm_max }}" autocomplete="off" placeholder="Ej: Sofía" data-hmp-name>
 
     <span class="hmp-l">Color de hilo <small>· escoge 2</small></span>
@@ -62,20 +85,16 @@
       {%- endfor -%}
     </div>
 
-    <span class="hmp-l">Tipografía</span>
-    <div class="hmp-fonts" data-hmp-fonts>
-      {%- assign fl = hm_fuentes | split: ',' -%}
-      {%- for f in fl -%}
-        {%- assign p = f | split: ':' -%}
-        <button type="button" class="hmp-font" aria-pressed="false" data-font="{{ p[0] }}" data-family="{{ p[1] }}" data-weight="{{ p[2] }}"><b style="font-family:'{{ p[1] }}',serif;font-weight:{{ p[2] }}">Abc</b><span>{{ p[0] }}</span></button>
-      {%- endfor -%}
-    </div>
-
     <div class="hmp-prev" aria-live="polite">
       <small>Así se verá</small>
       <div data-hmp-preview>Tu nombre</div>
     </div>
-    <p class="hmp-note">La vista previa es una referencia; el bordado final puede variar levemente.</p>
+    <a class="hmp-real" data-hmp-real href="#" target="_blank" rel="noopener" hidden>
+      <small>📸 Así queda bordado de verdad · <span data-hmp-realname></span></small>
+      <img alt="Muestra real del bordado" loading="lazy" data-hmp-realimg>
+      <span class="hmp-zoom">Toca para ver en grande</span>
+    </a>
+    <p class="hmp-note">La vista previa es una referencia; el bordado final puede variar levemente. El bordado suma 3 a 5 días hábiles al envío. <a href="https://drive.google.com/file/d/1aC64bvKFZIhLWIrEAo3zSdwPzYXo8TvH/preview" target="_blank" rel="noopener" style="color:var(--v);font-weight:700">Ver catálogo completo de bordados →</a></p>
   </div>
   <div class="hmp-err" data-hmp-err></div>
 
@@ -97,11 +116,11 @@
     setProp('Nombre a bordar', name.value.trim());
     setProp('Color de hilo', colors.join(' + '));
     setProp('Tipografía', font?font.dataset.font:'');
-    var t=name.value.trim()||'Tu nombre'; prev.textContent=t;
+    var t=name.value.trim()||(max===1?'A':max===3?'ABC':'Tu nombre'); prev.textContent=t;
     if(font){prev.style.fontFamily="'"+font.dataset.family+"'";prev.style.fontWeight=font.dataset.weight;}
     var c1=colors[0]?$('[data-color="'+colors[0]+'"]').dataset.hex:'#70202c', c2=colors[1]?$('[data-color="'+colors[1]+'"]').dataset.hex:c1;
     prev.style.color=c1; prev.style.textShadow=colors[1]?'1px 1px 0 '+c2:'none';
-    if(c1.toUpperCase()==='#FFFFFF'){prev.style.webkitTextStroke='0.6px #c9bfb3';}else{prev.style.webkitTextStroke='0';}
+    if(['#FFFFFF','#C9C9CE'].indexOf(c1.toUpperCase())>-1){prev.style.webkitTextStroke='0.6px #c9bfb3';}else{prev.style.webkitTextStroke='0';}
     count.textContent=name.value.length+'/'+max;
     var f=document.querySelector('form[data-type="add-to-cart-form"]');
     if(f&&f.id){Object.keys(props).forEach(function(k){props[k].setAttribute('form',f.id);});}
@@ -110,9 +129,9 @@
   function validate(){
     if(!on){root.classList.remove('has-err');return true;}
     var m=[];
-    if(!name.value.trim())m.push('escribe el nombre a bordar');
+    if(!name.value.trim())m.push(max===1?'escribe la inicial':max===3?'escribe las iniciales':'escribe el nombre a bordar');
     if(colors.length!==2)m.push('escoge 2 colores de hilo');
-    if(!font)m.push('elige una tipografía');
+    if(!font)m.unshift('elige una tipografía');
     if(m.length){err.textContent='Para continuar, '+m.join(', ')+'.';root.classList.add('has-err');return false;}
     root.classList.remove('has-err');return true;
   }
@@ -127,9 +146,18 @@
     sync();
   });});
   $$('[data-hmp-fonts] button').forEach(function(b){b.addEventListener('click',function(){
-    font=b; $$('[data-hmp-fonts] button').forEach(function(x){x.setAttribute('aria-pressed',x===b);}); sync();
+    font=b; $$('[data-hmp-fonts] button').forEach(function(x){x.setAttribute('aria-pressed',x===b);});
+    var rl=$('[data-hmp-real]'); rl.hidden=false; rl.href=b.dataset.img; $('[data-hmp-realimg]').src=b.dataset.img; $('[data-hmp-realname]').textContent=b.dataset.font.replace(/^\d+ /,'');
+    max=+b.dataset.max||12; name.maxLength=max;
+    var nl=$('[data-hmp-nl]');
+    if(max===1){nl.textContent='Inicial a bordar';name.placeholder='Ej: S';}
+    else if(max===3){nl.textContent='Iniciales del monograma';name.placeholder='Ej: SMG';}
+    else{nl.textContent='Nombre a bordar';name.placeholder='Ej: Sofía';}
+    if(name.value.length>max)name.value=name.value.slice(0,max);
+    if(max<=3)name.value=name.value.toUpperCase();
+    sync();
   });});
-  name.addEventListener('input',sync);
+  name.addEventListener('input',function(){if(max<=3)name.value=name.value.toUpperCase();sync();});
   /* bloquear "agregar al carrito" y "comprar ya" si falta algo */
   function guard(e){
     var t=e.target.closest&&e.target.closest('[data-btn-addToCart],.shopify-payment-button,[name="add"],.product-form__submit');
