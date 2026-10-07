@@ -1,0 +1,28 @@
+<div style="text-align:center;max-width:560px;margin:0 auto;color:#70202c">
+<p style="font-size:18px">¡Gracias por visitarnos! 💛</p>
+<p>Tu opinión nos ayuda a seguir creciendo y a que más familias nos conozcan. Toca el botón <strong>“Escribir una reseña”</strong> y cuéntanos cómo te fue en la tienda.</p>
+<p style="background:#F2B36A;color:#70202c;display:inline-block;padding:6px 16px;border-radius:99px;font-weight:700">🎁 Al enviar tu reseña recibes un 15% de descuento para tu próxima compra</p>
+</div>
+<div id="hm-cupon" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px">
+<div style="background:#F5F2E1;color:#70202c;max-width:380px;width:100%;border-radius:20px;padding:28px 22px;text-align:center;font-family:inherit;box-shadow:0 10px 40px rgba(0,0,0,.3)">
+<div style="font-size:40px;line-height:1">🎁</div>
+<p style="font-size:22px;font-weight:700;margin:10px 0 6px">¡Gracias por tu opinión!</p>
+<p style="margin:0 0 16px">Aquí tienes tu regalo: <strong>15% de descuento</strong> en tu próxima compra en hellomellow.com.co</p>
+<div id="hm-code" style="border:2px dashed #70202c;border-radius:12px;padding:12px;font-size:24px;font-weight:700;letter-spacing:2px;background:#fff"></div>
+<button type="button" id="hm-copy" style="margin-top:14px;background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:12px 24px;font-size:15px;font-weight:700;cursor:pointer">Copiar código</button>
+<p style="font-size:12px;margin:14px 0 0;opacity:.8">Válido una vez por cliente. Toma una captura para no perderlo.</p>
+<button type="button" id="hm-close" style="margin-top:10px;background:none;border:0;color:#70202c;text-decoration:underline;cursor:pointer">Cerrar</button>
+</div>
+</div>
+<script>
+(function(){
+  var c=[71,82,65,67,73,65,83,77,69,76,76,79,87].map(function(n){return String.fromCharCode(n)}).join('');
+  var re=/gracias por tu rese(ñ|n)a|rese(ñ|n)a enviada|tu rese(ñ|n)a se publicar|thank you for your review|review submitted/i;
+  var done=false, box=document.getElementById('hm-cupon');
+  function txt(n,d){var s='';if(!n||d>80)return s;if(n.nodeType===3)return n.nodeValue;if(n.id==='hm-cupon'||n.nodeName==='SCRIPT'||n.nodeName==='STYLE'||n.nodeName==='NOSCRIPT')return s;if(n.shadowRoot)s+=txt(n.shadowRoot,d+1);for(var k=n.firstChild;k;k=k.nextSibling)s+=txt(k,d+1);return s+' ';}
+  function show(){done=true;document.getElementById('hm-code').textContent=c;box.style.display='flex';try{localStorage.setItem('hmCupon','1')}catch(e){}}
+  document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
+  document.getElementById('hm-close').onclick=function(){box.style.display='none'};
+  var t=setInterval(function(){if(done){clearInterval(t);return}if(re.test(txt(document.body,0)))show();},800);
+})();
+</script>
