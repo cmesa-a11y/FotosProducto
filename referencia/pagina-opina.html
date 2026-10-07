@@ -18,11 +18,13 @@
 (function(){
   var c=[71,82,65,67,73,65,83,77,69,76,76,79,87].map(function(n){return String.fromCharCode(n)}).join('');
   var re=/gracias por tu rese(ñ|n)a|rese(ñ|n)a enviada|tu rese(ñ|n)a se publicar|thank you for your review|review submitted/i;
-  var done=false, box=document.getElementById('hm-cupon');
-  function txt(n,d){var s='';if(!n||d>80)return s;if(n.nodeType===3)return n.nodeValue;if(n.id==='hm-cupon'||n.nodeName==='SCRIPT'||n.nodeName==='STYLE'||n.nodeName==='NOSCRIPT')return s;if(n.shadowRoot)s+=txt(n.shadowRoot,d+1);for(var k=n.firstChild;k;k=k.nextSibling)s+=txt(k,d+1);return s+' ';}
-  function show(){done=true;document.getElementById('hm-code').textContent=c;box.style.display='flex';try{localStorage.setItem('hmCupon','1')}catch(e){}}
+  var done=false, armed=false, box=document.getElementById('hm-cupon');
+  document.addEventListener('input',function(e){var t=(e.composedPath&&e.composedPath()[0])||e.target;if(t&&t.id!=='hm-code'&&/TEXTAREA|INPUT/.test(t.nodeName))armed=true;},true);
+  function vis(el){if(!el)return false;if(el.checkVisibility&&!el.checkVisibility({opacityProperty:true,visibilityProperty:true}))return false;var r=el.getBoundingClientRect();if(r.width<2||r.height<2)return false;if(r.bottom<0||r.right<0||r.top>innerHeight||r.left>innerWidth)return false;var cs=getComputedStyle(el);return cs.visibility!=='hidden'&&cs.opacity!=='0'&&cs.display!=='none';}
+  function find(n,d){if(!n||d>80)return false;if(n.nodeType===3)return re.test(n.nodeValue)&&vis(n.parentElement);if(n.id==='hm-cupon'||/SCRIPT|STYLE|NOSCRIPT|TEMPLATE/.test(n.nodeName))return false;if(n.shadowRoot&&find(n.shadowRoot,d+1))return true;for(var k=n.firstChild;k;k=k.nextSibling)if(find(k,d+1))return true;return false;}
+  function show(){done=true;document.getElementById('hm-code').textContent=c;box.style.display='flex';}
   document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
   document.getElementById('hm-close').onclick=function(){box.style.display='none'};
-  var t=setInterval(function(){if(done){clearInterval(t);return}if(re.test(txt(document.body,0)))show();},800);
+  var t=setInterval(function(){if(done){clearInterval(t);return}if(armed&&find(document.body,0))show();},700);
 })();
 </script>
