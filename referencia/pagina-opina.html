@@ -19,10 +19,7 @@
 <p style="font-size:22px;font-weight:700">¡Hola, familia Mellow! 💛</p>
 <p>Nos encantó tenerte en la tienda. Cuéntanos cómo te fue: tu opinión ayuda a otras familias a encontrarnos y a nosotros a consentirte cada vez mejor.</p>
 <p class="hm-pill">🎁 Tu opinión tiene premio: 15% OFF en tu próxima compra</p>
-<form id="hm-form" class="hm-card" method="post" action="/contact#hm-form" accept-charset="UTF-8">
-<input type="hidden" name="form_type" value="contact"><input type="hidden" name="utf8" value="✓">
-<input type="hidden" name="contact[tags]" value="resena-tienda">
-<input type="hidden" name="contact[body]" id="hm-body">
+<div id="hm-form" class="hm-card">
 <label style="text-align:center">¿Qué tan Mellow fue tu visita?</label>
 <div class="hm-stars">
 <input type="radio" name="hm-r" id="hm-r5" value="5"><label for="hm-r5" title="5">★</label>
@@ -32,14 +29,14 @@
 <input type="radio" name="hm-r" id="hm-r1" value="1"><label for="hm-r1" title="1">★</label>
 </div>
 <label for="hm-txt">Cuéntanos tu experiencia</label>
-<textarea id="hm-txt" placeholder="¿Qué te enamoró? ¿Un producto, la atención, el espacio…?" required></textarea>
+<textarea id="hm-txt" placeholder="¿Qué te enamoró? ¿Un producto, la atención, el espacio…?"></textarea>
 <label for="hm-name">Tu nombre</label>
-<input type="text" id="hm-name" name="contact[name]" required>
+<input type="text" id="hm-name" autocomplete="name">
 <label for="hm-email">Tu correo</label>
-<input type="email" id="hm-email" name="contact[email]" required placeholder="No se publicará">
-<button type="submit" class="hm-btn" id="hm-send">Enviar mi reseña y recibir mi regalo 🎁</button>
+<input type="email" id="hm-email" autocomplete="email" placeholder="No se publicará">
+<button type="button" class="hm-btn" id="hm-send">Enviar mi reseña y recibir mi regalo 🎁</button>
 <div class="hm-err" id="hm-err"></div>
-</form>
+</div>
 </div>
 <div id="hm-cupon" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px">
 <div style="background:#F5F2E1;color:#70202c;max-width:380px;width:100%;border-radius:20px;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3)">
@@ -59,19 +56,23 @@
   function show(){document.getElementById('hm-code').textContent=c;box.style.display='flex';}
   document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
   document.getElementById('hm-close').onclick=function(){box.style.display='none'};
-  f.addEventListener('submit',function(e){
-    e.preventDefault();
+  var sending=false;
+  document.getElementById('hm-send').addEventListener('click',function(e){
+    e.preventDefault();if(sending)return;
     var r=f.querySelector('input[name=hm-r]:checked'),t=document.getElementById('hm-txt').value.trim(),n=document.getElementById('hm-name').value.trim(),m=document.getElementById('hm-email').value.trim();
-    if(!r){err.textContent='Elige de 1 a 5 estrellas ⭐';err.style.display='block';return;}
-    if(t.length<3){err.textContent='Cuéntanos un poquito de tu experiencia';err.style.display='block';return;}
-    err.style.display='none';var btn=document.getElementById('hm-send');btn.disabled=true;btn.textContent='Enviando…';
-    document.getElementById('hm-body').value='RESEÑA TIENDA FÍSICA\nCalificación: '+r.value+' de 5 '+'★★★★★'.slice(0,r.value)+'\nNombre: '+n+'\nCorreo: '+m+'\n\n'+t;
-    var fd=new FormData(f);
-    var p=new URLSearchParams({shop_domain:'hello-mellow-25.myshopify.com',platform:'shopify',id:'7291611742243',name:n,email:m,rating:r.value,title:t.split(/[.!?\n]/)[0].slice(0,60),body:t});
+    function bad(x){err.textContent=x;err.style.display='block';}
+    if(!r)return bad('Elige de 1 a 5 estrellas ⭐');
+    if(t.length<3)return bad('Cuéntanos un poquito de tu experiencia');
+    if(!n)return bad('Escribe tu nombre');
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return bad('Escribe un correo válido');
+    err.style.display='none';sending=true;var btn=this;btn.disabled=true;btn.textContent='Enviando…';
+    var body='RESEÑA TIENDA FÍSICA\nCalificación: '+r.value+' de 5 '+'★★★★★'.slice(0,r.value)+'\nNombre: '+n+'\nCorreo: '+m+'\n\n'+t;
+    var cp=new URLSearchParams();cp.append('form_type','contact');cp.append('utf8','✓');cp.append('contact[name]',n);cp.append('contact[email]',m);cp.append('contact[tags]','resena-tienda');cp.append('contact[body]',body);
+    var jp=new URLSearchParams({shop_domain:'hello-mellow-25.myshopify.com',platform:'shopify',id:'7291611742243',name:n,email:m,rating:r.value,title:t.split(/[.!?\n]/)[0].slice(0,60),body:t});
     var done=false;function fin(){if(done)return;done=true;f.innerHTML='<p style="text-align:center;font-weight:700;margin:0">¡Recibimos tu reseña! 💛</p>';show();}
     var jobs=[];
-    try{jobs.push(fetch('https://judge.me/api/v1/reviews',{method:'POST',mode:'no-cors',keepalive:true,body:p}).catch(function(){}));}catch(x){}
-    try{jobs.push(fetch('/contact',{method:'POST',body:fd,credentials:'same-origin',keepalive:true}).catch(function(){}));}catch(x){}
+    try{jobs.push(fetch('https://judge.me/api/v1/reviews',{method:'POST',mode:'no-cors',keepalive:true,body:jp}).catch(function(){}));}catch(x){}
+    try{jobs.push(fetch('/contact',{method:'POST',body:cp,credentials:'same-origin',keepalive:true}).catch(function(){}));}catch(x){}
     Promise.all(jobs).then(fin,fin);
     setTimeout(fin,3000);
   });
