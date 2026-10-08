@@ -68,7 +68,7 @@
     if(!n)return bad('Escribe tu nombre');
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return bad('Escribe un correo válido');
     err.style.display='none';dbg.textContent='';sending=true;var btn=this;btn.disabled=true;btn.textContent='Enviando…';
-    var jp=new URLSearchParams({url:'hello-mellow-25.myshopify.com',shop_domain:'hello-mellow-25.myshopify.com',platform:'shopify',id:'7291611742243',name:n,email:m,rating:r.value,title:t.split(/[.!?\n]/)[0].slice(0,60),body:t});
+    var jp=new URLSearchParams({url:'uyuguj-2n.myshopify.com',shop_domain:'uyuguj-2n.myshopify.com',platform:'shopify',id:'7291611742243',name:n,email:m,rating:r.value,title:t.split(/[.!?\n]/)[0].slice(0,60),body:t});
     function ok(note){f.innerHTML='<p style="text-align:center;font-weight:700;margin:0">¡Recibimos tu reseña! 💛</p>'+(note?'<p class="hm-dbg" style="text-align:center">'+note+'</p>':'');show();}
     function fail(x){sending=false;btn.disabled=false;btn.textContent='Enviar mi reseña y recibir mi regalo 🎁';bad('No pudimos enviar tu reseña. Intenta de nuevo o muéstrale esta pantalla a nuestro equipo.');dbg.textContent=x;}
     fetch('https://judge.me/api/v1/reviews',{method:'POST',body:jp}).then(function(res){
