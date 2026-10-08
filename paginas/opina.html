@@ -1,0 +1,27 @@
+<style>
+.hm-op{max-width:520px;margin:0 auto;color:#70202c;text-align:center}
+.hm-op p{margin:0 0 12px}
+.hm-pill{background:#F2B36A;display:inline-block;padding:6px 16px;border-radius:99px;font-weight:700}
+.hm-btn{display:block;width:100%;max-width:420px;margin:18px auto 0;background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:15px;font-size:17px;font-weight:700;cursor:pointer}
+.template-page .jdgm-write-rev-link{background:#70202c!important;color:#F5F2E1!important;border-color:#70202c!important;border-radius:99px!important}
+</style>
+<div class="hm-op">
+<p style="font-size:22px;font-weight:700">¡Hola, familia Mellow! 💛</p>
+<p>Nos encantó tenerte en la tienda. Cuéntanos cómo te fue: tu opinión ayuda a otras familias a encontrarnos y a nosotros a consentirte cada vez mejor.</p>
+<p class="hm-pill">🎁 Tu opinión tiene premio: 15% OFF en tu próxima compra</p>
+<button type="button" class="hm-btn" id="hm-open">Escribir mi reseña ⭐</button>
+</div>
+<script>
+(function(){
+  function open(scroll){
+    var l=document.querySelector('.jdgm-write-rev-link');
+    if(!l)return false;
+    var f=document.querySelector('.jdgm-form-wrapper,.jdgm-form');
+    if(!f||f.offsetParent===null)l.click();
+    if(scroll)(document.querySelector('.jdgm-form-wrapper,.jdgm-form')||l).scrollIntoView({behavior:'smooth',block:'start'});
+    return true;
+  }
+  document.getElementById('hm-open').addEventListener('click',function(){open(true)});
+  var n=0,t=setInterval(function(){if(open(false)||++n>40)clearInterval(t)},250);
+})();
+</script>
