@@ -11,6 +11,17 @@
 <p class="hm-pill">🎁 Tu opinión tiene premio: 15% OFF en tu próxima compra</p>
 <button type="button" class="hm-btn" id="hm-open">Escribir mi reseña ⭐</button>
 </div>
+<div id="hm-cupon" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px">
+<div style="background:#F5F2E1;color:#70202c;max-width:380px;width:100%;border-radius:20px;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3)">
+<div style="font-size:40px;line-height:1">🎁</div>
+<p style="font-size:22px;font-weight:700;margin:10px 0 6px">¡Gracias por tu opinión!</p>
+<p style="margin:0 0 16px">Aquí tienes tu regalo: <strong>15% de descuento</strong> en tu próxima compra en hellomellow.com.co</p>
+<div id="hm-code" style="border:2px dashed #70202c;border-radius:12px;padding:12px;font-size:24px;font-weight:700;letter-spacing:2px;background:#fff"></div>
+<button type="button" id="hm-copy" style="margin-top:14px;background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:12px 24px;font-size:15px;font-weight:700;cursor:pointer">Copiar código</button>
+<p style="font-size:12px;margin:14px 0 0;opacity:.8">Válido una vez por cliente. Toma una captura para no perderlo.</p>
+<button type="button" id="hm-close" style="margin-top:10px;background:none;border:0;color:#70202c;text-decoration:underline;cursor:pointer">Cerrar</button>
+</div>
+</div>
 <script>
 (function(){
   function open(scroll){
@@ -21,6 +32,29 @@
     if(scroll)(document.querySelector('.jdgm-form-wrapper,.jdgm-form')||l).scrollIntoView({behavior:'smooth',block:'start'});
     return true;
   }
+  var c=[71,82,65,67,73,65,83,77,69,76,76,79,87].map(function(n){return String.fromCharCode(n)}).join('');
+  var box=document.getElementById('hm-cupon'),shown=false;
+  function show(){if(shown)return;shown=true;document.getElementById('hm-code').textContent=c;box.style.display='flex';}
+  document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
+  document.getElementById('hm-close').onclick=function(){box.style.display='none'};
+  var sent=0;
+  function vis(e){return e&&e.offsetParent!==null}
+  document.addEventListener('click',function(e){
+    if(!e.target.closest||!e.target.closest('.jdgm-submit-rev,.jdgm-form [type=submit]'))return;
+    sent=Date.now();
+    [1500,3000,5000].forEach(function(ms){setTimeout(function(){
+      var f=document.querySelector('.jdgm-form');
+      var err=document.querySelector('.jdgm-form .jdgm-form__fieldset--error,.jdgm-form .jdgm-error:not(:empty)');
+      if(err&&vis(err))return;
+      if(!vis(f))show();
+    },ms)});
+  },true);
+  new MutationObserver(function(ms){
+    if(!sent||Date.now()-sent>15000)return;
+    ms.forEach(function(m){m.addedNodes.forEach(function(n){
+      var t=(n.textContent||'');if(/gracias|thank you|enviad|submitted|recibid/i.test(t))show();
+    })});
+  }).observe(document.body,{childList:true,subtree:true});
   document.getElementById('hm-open').addEventListener('click',function(){open(true)});
   var n=0,t=setInterval(function(){if(open(false)||++n>40)clearInterval(t)},250);
 })();
