@@ -1,0 +1,166 @@
+{%- comment -%}
+  Banner animado hello mellow (opción B).
+  La niña entra y saluda, el oso asoma, se inclina y guiña; ella da un saltito.
+  El intercambio se repite cada 7 s. Con "reducir movimiento" activado en el
+  sistema se muestra estático.
+
+  Las imágenes por defecto viven en assets/hm-banner-*.{jpg,png}; cualquiera
+  se puede sustituir desde el editor sin tocar código.
+  Todas las clases llevan prefijo hm- porque el tema ya usa .title, .btn y .logo.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  if s.fondo != blank
+    assign fondo_url = s.fondo | image_url: width: 2000
+  else
+    assign fondo_url = 'hm-banner-fondo.jpg' | asset_url
+  endif
+  if s.logo != blank
+    assign logo_url = s.logo | image_url: width: 300
+  else
+    assign logo_url = 'hm-banner-logo.png' | asset_url
+  endif
+  if s.nina != blank
+    assign nina_url = s.nina | image_url: width: 1400
+  else
+    assign nina_url = 'hm-banner-nina.png' | asset_url
+  endif
+  if s.oso != blank
+    assign oso_url = s.oso | image_url: width: 900
+  else
+    assign oso_url = 'hm-banner-oso.png' | asset_url
+  endif
+-%}
+{%- if s.cargar_poppins -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap">
+{%- endif -%}
+<style>
+  #hm-{{ section.id }}{--peach:{{ s.color_fondo }};--cream:#F5F2E1;--ink:#2a2a2a;--bur:{{ s.color_texto }};
+    padding:{{ s.mg_top }}px {{ s.padding_lados }}px {{ s.mg_bottom }}px}
+  #hm-{{ section.id }} .hm-hero{position:relative;width:100%;aspect-ratio:1349/568;overflow:hidden;
+    background:var(--peach) url({{ fondo_url }}) center/cover;border-radius:{{ s.radio }}px;
+    font-family:Poppins,Arial,sans-serif;max-width:{{ s.ancho_max }}px;margin:0 auto}
+  #hm-{{ section.id }} .hm-hero > *{position:absolute}
+  #hm-{{ section.id }} .hm-hero img{display:block;height:auto;max-width:none}
+  #hm-{{ section.id }} .hm-girl img,#hm-{{ section.id }} .hm-mascot img{width:100%}
+  #hm-{{ section.id }} .hm-logo{left:2.7%;top:5%;width:9.9%;opacity:0;animation:hmFade .8s .6s ease-out forwards}
+
+  #hm-{{ section.id }} .hm-girl{left:49.7%;top:12.3%;width:52.6%;transform-origin:50% 100%;opacity:0;transform:translateX(30px);
+    animation:hmSlide .9s .9s ease-out forwards,hmHop 7s 3.5s ease-in-out infinite}
+  #hm-{{ section.id }} .hm-hello{right:4.2%;top:8.5%;color:var(--bur);font-weight:500;font-size:clamp(11px,1.63vw,22px);opacity:0;animation:hmFade .5s 2s ease-out forwards}
+  #hm-{{ section.id }} .hm-line{right:7.7%;top:15%;width:8.7%;height:36%;overflow:visible}
+  #hm-{{ section.id }} .hm-line path{stroke:var(--bur);stroke-width:1;fill:none;stroke-dasharray:300;stroke-dashoffset:300;animation:hmDraw .8s 1.8s ease-out forwards}
+
+  #hm-{{ section.id }} .hm-mascot{left:7%;bottom:-1%;width:31%;transform-origin:50% 100%;transform:translateY(112%) rotate(4deg);
+    animation:hmPop 1s 2.3s cubic-bezier(.34,1.45,.64,1) forwards,hmLean 7s 3.5s ease-in-out infinite}
+  #hm-{{ section.id }} .hm-wink{position:absolute;left:61.5%;top:60.5%;width:9%;height:9%;opacity:0;animation:hmWink 7s 3.5s ease-in-out infinite}
+  #hm-{{ section.id }} .hm-wink circle{fill:var(--cream)}
+  #hm-{{ section.id }} .hm-wink path{stroke:var(--ink);stroke-width:8;stroke-linecap:round;fill:none}
+
+  #hm-{{ section.id }} .hm-title{left:22%;top:10%;width:50%;text-align:center;color:var(--bur);font-family:inherit;font-weight:700;
+    font-size:clamp(15px,2.7vw,36px);line-height:1.15;letter-spacing:0;text-transform:none;margin:0;padding:0;
+    opacity:0;transform:translateY(14px);animation:hmRise .8s .2s ease-out forwards}
+  #hm-{{ section.id }} .hm-btn{left:51%;bottom:6%;transform:translateX(-50%) scale(.85);background:var(--bur);color:var(--cream);
+    text-decoration:none;font-weight:500;font-size:clamp(8px,1vw,14px);line-height:1.2;padding:.65em 1.4em;border-radius:999px;white-space:nowrap;
+    opacity:0;animation:hmBtn .6s 3.4s cubic-bezier(.34,1.5,.64,1) forwards;transition:filter .2s}
+  #hm-{{ section.id }} .hm-btn:hover{filter:brightness(1.2);color:var(--cream)}
+  #hm-{{ section.id }} .hm-link{inset:0}
+  #hm-{{ section.id }} .hm-logo,#hm-{{ section.id }} .hm-girl,#hm-{{ section.id }} .hm-mascot,#hm-{{ section.id }} .hm-line,#hm-{{ section.id }} .hm-hello,#hm-{{ section.id }} .hm-title{pointer-events:none}
+
+  @media (max-width:749px){
+    #hm-{{ section.id }}{padding-left:0;padding-right:0}
+    #hm-{{ section.id }} .hm-hero{aspect-ratio:4/5;border-radius:0}
+    #hm-{{ section.id }} .hm-hello,#hm-{{ section.id }} .hm-line{display:none}
+    #hm-{{ section.id }} .hm-hero .hm-logo{left:38%;top:9%;width:24%}
+    #hm-{{ section.id }} .hm-title{left:5%;top:23%;width:90%;font-size:clamp(24px,7.5vw,34px)}
+    #hm-{{ section.id }} .hm-girl{left:22%;top:auto;bottom:-2%;width:95%}
+    #hm-{{ section.id }} .hm-mascot{left:-10%;bottom:-3%;width:52%}
+    #hm-{{ section.id }} .hm-btn{left:50%;top:43%;bottom:auto;font-size:clamp(12px,3.4vw,15px);padding:.7em 1.6em}
+  }
+  {%- comment -%}
+    La cabecera móvil flota sobre el banner, sin franja blanca. En celular el logo
+    centrado del banner reemplaza al de la cabecera; en tableta el del banner
+    quedaría debajo del botón del menú, así que se oculta ese.
+  {%- endcomment -%}
+  {%- if s.cabecera_sobre_banner -%}
+  @media (max-width:1024px){
+    .section-header-mobile{height:0}
+    .section-header-mobile .header-mobile{position:absolute;top:0;left:0;right:0;background:transparent;box-shadow:none}
+  }
+  @media (max-width:749px){
+    .section-header-mobile .header-mobile__item--logo > *{visibility:hidden}
+  }
+  @media (min-width:750px) and (max-width:1024px){
+    #hm-{{ section.id }} .hm-hero .hm-logo{display:none}
+  }
+  {%- endif -%}
+
+
+  @keyframes hmFade{to{opacity:1}}
+  @keyframes hmRise{to{opacity:1;transform:none}}
+  @keyframes hmSlide{to{opacity:1;transform:none}}
+  @keyframes hmPop{to{transform:translateY(0) rotate(0)}}
+  @keyframes hmBtn{to{opacity:1;transform:translateX(-50%) scale(1)}}
+  @keyframes hmDraw{to{stroke-dashoffset:0}}
+  @keyframes hmLean{0%,3%{transform:translateY(0) rotate(0)}8%,14%{transform:translateY(-2%) rotate(5deg)}22%{transform:translateY(0) rotate(0)}55%{transform:translateY(0) rotate(0)}60%{transform:translateY(-1%) rotate(-1.5deg)}65%,100%{transform:translateY(0) rotate(0)}}
+  @keyframes hmWink{0%,5%{opacity:0}7%,13%{opacity:1}15%,100%{opacity:0}}
+  @keyframes hmHop{0%,13%{transform:none}16%{transform:translateY(-2.5%) rotate(-2deg)}19%{transform:translateY(0) rotate(1deg)}22%{transform:translateY(-1.2%) rotate(-1deg)}25%,100%{transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    #hm-{{ section.id }} .hm-hero *{animation:none!important;opacity:1!important;transform:none!important}
+    #hm-{{ section.id }} .hm-line path{stroke-dashoffset:0}
+    #hm-{{ section.id }} .hm-wink{opacity:0!important}
+    #hm-{{ section.id }} .hm-btn{transform:translateX(-50%)!important}
+  }
+</style>
+<div id="hm-{{ section.id }}">
+  <div class="hm-hero" role="img" aria-label="{{ s.titulo | escape }}">
+    {%- if s.link != blank -%}<a class="hm-link" href="{{ s.link }}" tabindex="-1" aria-hidden="true"></a>{%- endif -%}
+    {%- if s.mostrar_logo -%}
+      <img class="hm-logo" src="{{ logo_url }}" alt="{{ shop.name | escape }}" width="400" height="216">
+    {%- endif -%}
+    <div class="hm-girl"><img src="{{ nina_url }}" alt="" width="710" height="498" fetchpriority="high"></div>
+    <svg class="hm-line" viewBox="0 0 117 205" preserveAspectRatio="none" aria-hidden="true"><path d="M117 0 L2 205"/></svg>
+    {%- if s.saludo != blank -%}<span class="hm-hello">{{ s.saludo | escape }}</span>{%- endif -%}
+    <div class="hm-mascot"><img src="{{ oso_url }}" alt="" width="700" height="710">
+      <svg class="hm-wink" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18"/><path d="M8 24 Q20 8 32 24"/></svg>
+    </div>
+    <h2 class="hm-title">{{ s.titulo | escape | newline_to_br }}</h2>
+    {%- if s.boton != blank -%}
+      <a class="hm-btn" href="{{ s.link | default: '/collections/all' }}">{{ s.boton | escape }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Banner animado",
+  "tag": "section",
+  "class": "banner-animado",
+  "settings": [
+    { "type": "header", "content": "Textos" },
+    { "type": "textarea", "id": "titulo", "label": "Titular", "info": "Pulsa Intro para partir la línea.", "default": "Todos los regalos\npara bebés y niños" },
+    { "type": "text", "id": "saludo", "label": "Saludo de la niña", "default": "HELLO!" },
+    { "type": "text", "id": "boton", "label": "Texto del botón", "default": "Ver todos los productos" },
+    { "type": "url", "id": "link", "label": "Enlace", "default": "/collections/all" },
+    { "type": "header", "content": "Imágenes", "info": "Si las dejas vacías se usan las del diseño original." },
+    { "type": "image_picker", "id": "fondo", "label": "Fondo (1349 × 568)" },
+    { "type": "image_picker", "id": "nina", "label": "Niña (PNG sin fondo)" },
+    { "type": "image_picker", "id": "oso", "label": "Oso (PNG sin fondo)" },
+    { "type": "checkbox", "id": "mostrar_logo", "label": "Mostrar logo dentro del banner", "default": true },
+    { "type": "checkbox", "id": "cabecera_sobre_banner", "label": "Cabecera del celular sobre el banner", "info": "Quita la franja blanca de arriba. En celular se usa el logo del banner en lugar del de la cabecera.", "default": true },
+    { "type": "image_picker", "id": "logo", "label": "Logo (PNG sin fondo)" },
+    { "type": "header", "content": "Estilo" },
+    { "type": "color", "id": "color_texto", "label": "Color de texto y botón", "default": "#70202c" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo (si no hay imagen)", "default": "#F6DDD0" },
+    { "type": "checkbox", "id": "cargar_poppins", "label": "Usar tipografía Poppins", "default": true },
+    { "type": "range", "id": "ancho_max", "label": "Ancho máximo", "min": 1000, "max": 2000, "step": 50, "unit": "px", "default": 2000 },
+    { "type": "range", "id": "padding_lados", "label": "Margen lateral", "min": 0, "max": 50, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "radio", "label": "Esquinas redondeadas", "min": 0, "max": 30, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "mg_top", "label": "Espacio arriba", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 0 },
+    { "type": "range", "id": "mg_bottom", "label": "Espacio abajo", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 0 }
+  ],
+  "presets": [{ "name": "Banner animado" }]
+}
+{% endschema %}
