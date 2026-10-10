@@ -11,4 +11,4 @@
 - `lifestyle-2-foto` (1080×1350): la foto original enmarcada.
 - `story-hora-de-sol` (1080×1920): historia con arco rosa.
 
-**Limitaciones:** la foto de origen mide 800 px, así que el recorte tiene unos 1100 px de ancho (se ve algo suave) y quedan pequeñas imperfecciones en el borde cerca del puente. En el retoque de los lentes se quitó la marca impresa "UV400 / CE". Cuando llegue el producto, fotografíalo tú para tener la versión definitiva.
+**Limitaciones:** la foto de origen mide 800 px, así que el recorte tiene unos 1100 px de ancho. Los lentes se redibujaron limpios (en la foto original reflejaban el texto del papel), por lo que son una aproximación y no muestran la marca impresa UV400 / CE. Quedan pequeñas imperfecciones en el borde de la montura cerca del puente. Cuando llegue el producto, fotografíalo tú para tener la versión definitiva.
