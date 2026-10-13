@@ -1,0 +1,38 @@
+{% comment %}
+  Hello Mellow · iconos de confianza bajo el botón de compra
+  Cómo usarlo (Personalizar tema > Productos > Plantilla por defecto):
+  1) En la sección de producto, "Agregar bloque" > "Liquid personalizado".
+  2) Pega TODO este código.
+  3) Arrastra el bloque para que quede justo debajo de "Botones de compra".
+  Textos editables en las 4 variables de abajo.
+{% endcomment %}
+{% assign hm_t1 = 'Envío gratis desde $250.000' %}
+{% assign hm_t2 = 'Cambios y devoluciones gratis' %}
+{% assign hm_t3 = 'Compra segura y protegida' %}
+{% assign hm_t4 = 'Entrega express en Medellín' %}
+
+<style>
+.hm-tr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0 6px;padding:0;list-style:none;text-align:center}
+.hm-tr li{display:flex;flex-direction:column;align-items:center;gap:8px;color:#70202c;font-size:12px;font-weight:600;line-height:1.25;text-transform:uppercase;letter-spacing:.02em}
+.hm-tr .hm-ic{width:48px;height:48px;border-radius:50%;background:#F5F2E1;display:flex;align-items:center;justify-content:center}
+.hm-tr svg{width:26px;height:26px;stroke:#70202c;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:480px){.hm-tr{gap:4px}.hm-tr li{font-size:10px}.hm-tr .hm-ic{width:42px;height:42px}.hm-tr svg{width:22px;height:22px}}
+</style>
+<ul class="hm-tr">
+  <li>
+    <span class="hm-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6.5h11v9H2z"/><path d="M13 9.5h4l3 3v3h-7"/><circle cx="6.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg></span>
+    <span>{{ hm_t1 }}</span>
+  </li>
+  <li>
+    <span class="hm-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/><path d="M9 12.2l2 2 4-4"/></svg></span>
+    <span>{{ hm_t2 }}</span>
+  </li>
+  <li>
+    <span class="hm-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8-7.5 9.5-4.3-1.5-7.5-5-7.5-9.5V6z"/><path d="M8.8 12l2.4 2.4 4-4.4"/></svg></span>
+    <span>{{ hm_t3 }}</span>
+  </li>
+  <li>
+    <span class="hm-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></svg></span>
+    <span>{{ hm_t4 }}</span>
+  </li>
+</ul>
