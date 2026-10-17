@@ -132,6 +132,21 @@ Añadidos `preconnect` + `dns-prefetch` a `clarity.ms` y `s3.amazonaws.com` (Add
 `templates/index.json`: el primer `product-tab-block` cargaba **20 productos**; sumado a
 los otros 4 bloques eran ~52 fichas de producto en el home. Bajado a 8.
 
+### 16. Hero del home escondido por la animación de entrada (LCP)
+`sections/slide-show.liquid`
+
+Con `settings.banner_animation = effect_fade_up` el contenedor del slideshow y cada
+`images-contain` llevaban `scroll-trigger animate--fade-in`. Esa clase deja el elemento en
+`opacity: .01` hasta que `animations.js` (defer) se ejecuta, el IntersectionObserver lo
+dispara y luego lo anima 600 ms. Para el hero del home (la imagen que es el LCP) eso añade
+el tiempo de descarga/ejecución del JS más la animación antes de que se vea. Ahora, si el
+slideshow es la primera sección de la página (`section.index <= 1`), no lleva esas clases.
+Los demás slideshows conservan la animación.
+
+Pendiente en el editor del tema (no es código): desactivar la pantalla de precarga
+(Ajustes del tema > `enable_preloading_screen`), que tapa la página con un fondo blanco a
+pantalla completa hasta `DOMContentLoaded`.
+
 ---
 
 ## P2 — SEO y robustez
