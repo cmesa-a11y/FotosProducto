@@ -147,6 +147,18 @@ Pendiente en el editor del tema (no es código): desactivar la pantalla de preca
 (Ajustes del tema > `enable_preloading_screen`), que tapa la página con un fondo blanco a
 pantalla completa hasta `DOMContentLoaded`.
 
+### 17. Fuentes de Google con `@import` (FCP)
+`snippets/variable.liquid`
+
+Con `type_font_2 = google_fonts` (Cormorant Garamond) el tema inyectaba
+`@import url('https://fonts.googleapis.com/css?family=...')` dentro de un `<style>` inline.
+Un `@import` es render-blocking: el navegador no pinta nada hasta bajar ese CSS desde
+fonts.googleapis.com (DNS + TLS + descarga), y además pedía 12 variantes por familia
+(300 a 800 y cursivas). Ahora las URLs se acumulan en `hm_gf_urls` y se cargan después del
+`<style>` con `<link rel="stylesheet" media="print" onload="this.media='all'">` (no
+bloquea el primer pintado), con `preconnect` a fonts.googleapis.com y fonts.gstatic.com,
+`<noscript>` de respaldo y solo 5 variantes: 400, 400i, 500, 600 y 700.
+
 ---
 
 ## P2 — SEO y robustez
