@@ -1,0 +1,277 @@
+marca,sku,nombre,cantidad,costo
+Supi,SP-ACCACRIL,ACCESORIO ACRILICO,6,6555
+Supi,SP-ACCMORRAL,ACCESORIO MORRAL,5,6555
+Supi,SP505,CANGURO FOIL Y ROSA,2,60029
+Supi,SP506,CANGURO FOIL Y MORADO,2,60029
+Supi,SP-PIN3,PACK PIN X 3,8,8193
+POMBO Y LOLA,PM-VERANO,Tapete de Juego Dia de Verano,1,90756
+Kings & Rebels,KR26GGCIN24M,Gamuza Gripper Cinnamon 24M,1,40530
+Kings & Rebels,KR26GCCHA3M,Gamuza Classic Chai 3M,1,40530
+Kings & Rebels,KR26GCCIN6M,Gamuza Classic Cinnamon 6M,2,40530
+Kings & Rebels,KR26GCCIN3M,Gamuza Classic Cinnamon 3M,1,40530
+Kings & Rebels,KR26GCCHA6M,Gamuza Classic Chai 6M,3,40530
+Kings & Rebels,KR26GGCRN12M,Gamuza Gripper Cranberry 12M,3,40530
+Kings & Rebels,KR26GGCIN18M,Gamuza Gripper Cinnamon 18M,1,40530
+Kings & Rebels,KR26GGCHA24M,Gamuza Gripper Chai 24M,1,40530
+Kings & Rebels,KR26GCCRN6M,Gamuza Classic Cranberry 6M,3,40530
+Kings & Rebels,KR26GCCRN3M,Gamuza Classic Cranberry 3M,1,40530
+Kings & Rebels,KR26GGCHA12M,Gamuza Gripper Chai 12M,1,40530
+Libros,LB-GORILA,GORILA ANTHONY BROWNE,1,0
+POMBO Y LOLA,CAJA-EMPAQUE-GR,CAJA GRANDE- POMBO,6,2521
+Lobster,CL-SRP-1T,SHORTS RETRO PLUM,1,49865
+ebaby,BEBABYKIENPI18-2,Bebaby Kid Pijama Enteriza Piel de Durazno 18-24 meses,1,55462
+ebaby,RATÓNPEREZKI2VE4-5,Ratón Perez Kid Pijama 2 Piezas Velvet 4-5 años,1,75630
+ebaby,BABYFLAMINGKIENVE9-12,BabyFlamingo Kid Pijama Enteriza Velvet 9-12 meses,1,70588
+ebaby,HADADELOSKI2VE6-7,Hada de los Dientes Kid Pijama 2 Piezas Velvet 6-7 años,1,80672
+ebaby,BABYANIMALKIENPI9-12,Baby Animals Kid Pijama Enteriza Piel de Durazno 9-12 meses,1,55462
+ebaby,BAILARINASKIENPI12-1,Bailarinas Kid Pijama Enteriza Piel de Durazno 12-18 meses,1,55462
+ebaby,BOSQUEENCAKI2PI18M,Bosque encantado Kid Pijama 2 Piezas Piel de Durazno 18M,1,65546
+ebaby,BOSQUEENCAKI2PI2-3,Bosque encantado Kid Pijama 2 Piezas Piel de Durazno 2-3 años,1,65546
+ebaby,BABYANIMALKIENPI3-6,Baby Animals Kid Pijama Enteriza Piel de Durazno 3-6 meses,1,55462
+ebaby,BOSQUEENCAKI2VE12M,Bosque encantado Kid Pijama 2 Piezas Velvet 12M,1,75630
+ebaby,GRANJAKIENVE3-6,Granja Kid Pijama Enteriza Velvet 3-6 meses,1,70588
+ebaby,GRANJAKI2VE12M,Granja Kid Pijama 2 Piezas Velvet 12M,1,75630
+ebaby,PINGUINOSKIENVE9-12,Pinguinos Kid Pijama Enteriza Velvet 9-12 meses,1,70588
+ebaby,BABYFLAMINGKIENVE18-2,BabyFlamingo Kid Pijama Enteriza Velvet 18-24 meses,1,70588
+ebaby,BABYFLAMINGKIENVE12-1,BabyFlamingo Kid Pijama Enteriza Velvet 12-18 meses,1,70588
+ebaby,BABYUNIVERSKI2PI18M,BabyUniverse Kid Pijama 2 Piezas Piel de Durazno 18M,1,65546
+ebaby,BEBABYKIENPI6-9,Bebaby Kid Pijama Enteriza Piel de Durazno 6-9 meses,1,55462
+ebaby,BABYANIMALKIENPI12-1,Baby Animals Kid Pijama Enteriza Piel de Durazno 12-18 meses,1,55462
+ebaby,GRANJAKIENVE0-3,Granja Kid Pijama Enteriza Velvet 0-3 meses,1,70588
+ebaby,BEBABYKIENPI0-3,Bebaby Kid Pijama Enteriza Piel de Durazno 0-3 meses,1,0
+ebaby,PINGUINOSKIENVE0-3,Pinguinos Kid Pijama Enteriza Velvet 0-3 meses,1,70588
+ebaby,BAILARINASKIENPI9-12,Bailarinas Kid Pijama Enteriza Piel de Durazno 9-12 meses,1,55462
+ebaby,PINGUINOSKIENVE6-9,Pinguinos Kid Pijama Enteriza Velvet 6-9 meses,1,70588
+ebaby,BABYANIMALKI2PI6-7,Baby Animals Kid Pijama 2 Piezas Piel de Durazno 6-7 años,1,65546
+ebaby,BAILARINASKI2PI18M,Bailarinas Kid Pijama 2 Piezas Piel de Durazno 18M,1,65546
+ebaby,BABYANIMALKIENPI0-3,Baby Animals Kid Pijama Enteriza Piel de Durazno 0-3 meses,1,55462
+ebaby,GRANJAKI2VE4-5,Granja Kid Pijama 2 Piezas Velvet 4-5 años,1,75630
+ebaby,BABYFLAMINGKIENVE3-6,BabyFlamingo Kid Pijama Enteriza Velvet 3-6 meses,1,70588
+ebaby,BABYANIMALKIENPI6-9,Baby Animals Kid Pijama Enteriza Piel de Durazno 6-9 meses,1,55462
+ebaby,PINGUINOSKIENVE3-6,Pinguinos Kid Pijama Enteriza Velvet 3-6 meses,1,70588
+ebaby,BABYANIMALKI2PI18M,Baby Animals Kid Pijama 2 Piezas Piel de Durazno 18M,1,65546
+ebaby,GRANJAKIENVE18-2,Granja Kid Pijama Enteriza Velvet 18-24 meses,1,70588
+ebaby,BABYUNIVERSKI2PI12M,BabyUniverse Kid Pijama 2 Piezas Piel de Durazno 12M,1,65546
+ebaby,BEBABYKI2PI12M,Bebaby Kid Pijama 2 Piezas Piel de Durazno 12M,1,65546
+ebaby,BABYUNIVERSKI2PI4-5,BabyUniverse Kid Pijama 2 Piezas Piel de Durazno 4-5 años,1,65546
+ebaby,BEBABYKIENPI12-1,Bebaby Kid Pijama Enteriza Piel de Durazno 12-18 meses,1,55462
+ebaby,GRANJAKI2VE2-3,Granja Kid Pijama 2 Piezas Velvet 2-3 años,1,75630
+ebaby,RATÓNPEREZKI2VE6-7,Ratón Perez Kid Pijama 2 Piezas Velvet 6-7 años,2,80672
+ebaby,BAILARINASKI2PI12M,Bailarinas Kid Pijama 2 Piezas Piel de Durazno 12M,1,65546
+ebaby,PINGUINOSKIENVE18-2,Pinguinos Kid Pijama Enteriza Velvet 18-24 meses,1,70588
+ebaby,BEBABYKIENPI9-12,Bebaby Kid Pijama Enteriza Piel de Durazno 9-12 meses,1,55462
+ebaby,PINGUINOSKIENVE12-1,Pinguinos Kid Pijama Enteriza Velvet 12-18 meses,1,70588
+ebaby,BABYANIMALKI2PI12M,Baby Animals Kid Pijama 2 Piezas Piel de Durazno 12M,1,65546
+ebaby,BAILARINASKIENPI18-2,Bailarinas Kid Pijama Enteriza Piel de Durazno 18-24 meses,1,55462
+ebaby,BAILARINASKI2PI6-7,Bailarinas Kid Pijama 2 Piezas Piel de Durazno 6-7 años,1,65546
+ebaby,BEBABYKI2PI18M,Bebaby Kid Pijama 2 Piezas Piel de Durazno 18M,1,65546
+ebaby,GRANJAKIENVE12-1,Granja Kid Pijama Enteriza Velvet 12-18 meses,1,0
+ebaby,BOSQUEENCAKI2PI6-7,Bosque encantado Kid Pijama 2 Piezas Piel de Durazno 6-7 años,1,65546
+ebaby,GRANJAKIENVE9-12,Granja Kid Pijama Enteriza Velvet 9-12 meses,1,70588
+ebaby,GRANJAKIENVE6-9,Granja Kid Pijama Enteriza Velvet 6-9 meses,1,70588
+Productos,HM-BAB-NIO-FNE,Babero Niño Fondo Entero,18,6151.61
+Productos,HM-MAN-MUS-RSA,Manta Muselina Encaje - Rosa,1,57439
+Productos,HM-BAB-NIA-FNE,Babero Niña Fondo Entero,8,7063.24
+Productos,HM-BAB-MUS-MAN,Babero Muselina - Mandarina,2,5377
+Fulares,MEBB,MOCHILA BALANCE BLUSH,1,196584
+Kindred,KIN-BWL-MELI-DRZ,Bowl Snack Melié Durazno,2,22639
+Kindred,KIN-CUB-SERR-GRY,Cubiertos Serra Grey,1,25160
+Kindred,KIN-HLD-CONE-AZL,Holder Linni - Conejo Azul,3,12555
+Kindred,KIN-SET-BERI-BLU,Set Alimentación Béri Blue,1,106563
+Kindred,KIN-MOR-MOA-UNI,Mordedor Ma,3,37393.25
+Kindred,KIN-API-NOKI-UNI,Apilable Nki,2,27681
+Kindred,KIN-SON-NIBB-UNI,Sonajero Nibbi,8,17596.29
+Kindred,KIN-RPC-BRUN-UNI,Rompecabezas Bruni,2,32723
+Kindred,KIN-PLT-BERI-BLU,Plato Béri Blue,2,80571
+Kindred,KIN-VAS-NUPP-BLU,Vaso Nuppa Blue,1,58739.33
+Kindred,KIN-API-LIMO-UNI,Apilable Limora,2,55361
+Kindred,KIN-CUB-SERR-BLU,Cubiertos Serra Blue,2,50319
+Kindred,KIN-SET-BERI-GRN,Set Alimentación Béri Green,1,106563
+Kindred,KIN-CUB-SERR-PNK,Cubiertos Serra Pink,2,25160
+Kindred,KIN-PLT-BERI-BGE,Plato Béri Beige,2,40286
+Kindred,KIN-VAS-NUPP-GRY,Vaso Nuppa Grey,1,35244
+Kindred,KIN-VAS-NUPP-GRN,Vaso Nuppa Green,2,35244
+Kindred,KIN-RPC-MARE-UNI,Rompecabezas Marelé,2,32723
+Kindred,KIN-PLT-BERI-GRY,Plato Béri Grey,1,40286
+Kindred,KIN-API-BERL-MOR,Apilable Berli Morado,2,75546
+Kindred,KIN-HLD-OSO-RSA,Holder Linni - Oso Rosa,2,12555
+Kindred,KIN-API-BERL-PNK,Apilable Berli Pink,3,45328
+Kindred,KIN-POCKOU-GRS,Pockou Gris,2,17596.67
+Kindred,KIN-SEN-AVOE-UNI,Juguete Sensorial Ave,3,28185
+Kindred,KIN-VAS-NUPP-PNK,Vaso Nuppa Pink,4,35244
+Kindred,KIN-PLT-BERI-GRN,Plato Béri Green,3,80571
+Kindred,KIN-HLD-CONE-BGE,Holder Linni - Conejo Beige,2,12555
+Kindred,KIN-MOR-NUMI-UNI,Mordedor Nmi,4,15076
+Kindred,KIN-BAB-DRAP-GRY,Babero Drapeau Grey,2,35193
+Kindred,KIN-POCKOU-MST,Pockou Mostaza,2,17597
+Kindred,KIN-HLD-COCO-VRD,Holder Linni - Cocodrilo Verde,3,12555
+Kindred,KIN-BAB-DRAP-GRN,Babero Drapeau Green,1,35193
+Kindred,KIN-BWL-MELI-MST,Bowl Snack Melié Mostaza,2,33958
+Kindred,KIN-BAB-DRAP-ARE,Babero Drapeau Arena,1,35193
+Kindred,KIN-CUB-SERR-GRN,Cubiertos Serra Green,3,50319
+Kindred,KIN-PLT-BERI-PNK,Plato Béri Pink,2,40286
+Kindred,KIN-BAB-DRAP-BLU,Babero Drapeau Blue,3,52790
+Kindred,KIN-BAB-DRAP-PNK,Babero Drapeau Pink,3,52790
+POMBO Y LOLA,TC-BGVERANO,TOALLA CAPUCHA BEIGE DIA DE VERANO,2,49916
+Productos,cam-wh-78t,camiseta whip cream 7.8t,1,20899
+HUGO,HUGO-LIBRO-SE,El Universo de Hugo - Libro Sin Empacar,4,52270.83
+POMBO Y LOLA,CB-VERANO,Cambiador día de verano,1,42857
+POMBO Y LOLA,BPMU-VERANOX2,Babero muselina día de verano pack x2,2,26278
+WEBO,WDC25-22ROSEGOLD,WEBO DRIFT ROSE GOLD - 22,1,93782
+WEBO,WDC25-24SAND,WEBO DRIFT DUNE - 24,3,93782
+WEBO,WDC25-24ROSEGOLD,WEBO DRIFT ROSE GOLD - 24,4,93782
+WEBO,WDC25-26ROSEGOLD,WEBO DRIFT ROSE GOLD - 26,1,93782
+WEBO,WDC25-26VAINILLA,WEBO DRIFT CLOUD - 26,1,93782
+WEBO,WDC25-28VAINILLA,WEBO DRIFT CLOUD - 28,3,93782
+WEBO,WDC25-30ROSEGOLD,WEBO DRIFT ROSE GOLD - 30,1,93782
+WEBO,WDC25-24VAINILLA,WEBO DRIFT CLOUD - 24,2,93782
+WEBO,WDC25-28SAND,WEBO DRIFT DUNE - 28,3,93782
+WEBO,WDC25-30SAND,WEBO DRIFT DUNE - 30,2,93782
+WEBO,WDC25-22VAINILLA,WEBO DRIFT CLOUD - 22,2,93782
+WEBO,WDC25-28ROSEGOLD,WEBO DRIFT ROSE GOLD - 28,3,93782
+WEBO,WDC25-26SAND,WEBO DRIFT DUNE - 26,4,93782
+WEBO,WDC25-30VAINILLA,WEBO DRIFT CLOUD - 30,1,93782
+Igor,183TAUPE21,Sandalias,1,0
+Igor,183TAUPE25,Sandalias,1,69936
+Igor,183TAUPE26,Sandalias,1,69936
+Igor,225OCEANO26,Sandalias,2,69936
+Igor,183TAUPE23,Sandalias,1,69936
+Igor,183TAUPE24,Sandalias,1,69936
+Igor,225OCEANO20,Sandalias,1,69936
+Lobster,CSTMIXHOBLXL,Camiseta Blanco Nube Hombre - XL,1,65500
+Lobster,CSTMIXMUAZXSS,Camiseta Azul Espacial Mujer - XS/S,2,65499.5
+Lobster,CST-MIXHOCAFXL,Camiseta Cafe Explorador Hombre - XL,4,65500
+Lobster,CSTMIXMUCAFXSS,Camiseta Café Explorador Mujer - XS/S,2,65500
+Lobster,CSTMIXHOAZSM,Camiseta Azul Espacial Hombre - S/M,1,65496
+Lobster,CSTMIXMUAZML,Camiseta Azul Espacial Mujer - M/L,3,65500.57
+Lobster,CSTMIXHOCAFSM,Camiseta Cafe Explorador Hombre - S/M,1,65496
+Lobster,CSTMIXMUCAFML,Camiseta Café Explorador Mujer - M/L,1,65500
+Lobster,CSTMIXHOCAFL,Camiseta Cafe Explorador Hombre - L,1,65496
+Lobster,CSTMIXHOAZXL,Camiseta Azul Espacial Hombre - XL,2,65498
+Lobster,CAJA-PIZZA,CAJA PIZZA LOBSTER,723,7491.84
+Fulares,MEBLEO,MOCHILA BALANCE LEOPARDO,1,196584
+Supi,SP404,CANGURO Lila,1,211947.79
+Lobster,GAF,GAFAS,1,29411
+POMBO Y LOLA,O-CAMELLOS,Organizador de cuna camellos,2,45378
+POMBO Y LOLA,MEBL,MOCHILA ERGONOMICA BALANCE LEOPARDO,1,0
+Fulares,MEBD,MOCHILA ERGONOMICA BALANCE DENIM,2,196584
+Supi,SP299,PIN ACRILICO,21,10134.02
+Lobster,BZ-AL-LB-BE-T6,buzo-ladybug,1,119904.33
+Lobster,BZ-AL-LB-BE-T5,buzo-ladybug,1,105798
+Lobster,BZ-AL-LB-BE-T8,buzo-ladybug,1,148117
+Lobster,PNT-AL-LB-BE-T5,pantalon-ladybug,1,126957.5
+Lobster,SH-AL-RE-VE-T8,shorts-retroclover,1,83109
+Lobster,PNT-AL-TR-BE-T5,pantalon-trebol,2,105798
+Lobster,PNT-AL-LB-BE-T6,pantalon-ladybug,1,105798
+Kings & Rebels,KR25CCPLM3M,Gamuza Classic Plum 3M,2,57983
+Lobster,503864894753853T,Camiseta Hoy Será3T,1,0
+Lobster,50387281084729,Vestido Mantelito 6T,1,94050
+Lobster,SALE8,Camisetas Sale AdultoU,26,50420
+Lobster,SALE1,Camisetas SaleU,11,30795.03
+Lobster,50143565775161,Camiseta Mixer Verde Matcha 7-8T,1,41798
+Lobster,50386498650425,Vestido French Toast6T,1,119904.33
+Lobster,50386498683193,Vestido French Toast7-8T,1,105798
+Lobster,SALE4,Buzos y Chaquetas SaleU,15,40015.31
+Lobster,48924610789689,Camiseta Mixer Verde Salvia 6T,1,0
+Lobster,SALE5,Pantalones- Shorts y Faldas SaleU,108,29420.47
+Lobster,SALE2,Vestidos SaleU,42,34619.37
+Lobster,50054845956409,Camiseta Juego 2T,1,29258
+Lobster,50402039529785,Legging Cocoa7-8T,1,83109
+Lobster,50054846021945,Camiseta Juego 4T,4,39011.57
+Lobster,50062765228345,Pijama Formas6T,1,76409.5
+Lobster,50386508742969,Short French Toast7-8T,1,83109
+Lobster,50054845923641,Camiseta Juego 1T,1,29258
+Lobster,50054868074809,Camiseta Barcos 6T,1,29258
+Lobster,48924608659769,Camiseta Mixer oso pardo 6T,1,0
+Lobster,50387516817721,Legging Cocoa1T,1,62454.5
+Lobster,50386508710201,Short French Toast6T,1,83109
+Lobster,50054868042041,Camiseta Barcos 5T,1,29258
+Lobster,50401730855225,Buzo Tejido Buenos días 7-8T,1,151176
+Lobster,50402216378681,Vestido Croissants6T,1,105798
+Lobster,50402216345913,Vestido Croissants5T,1,105798
+Lobster,50401730822457,Buzo Tejido Buenos días 6T,2,151176
+Lobster,50071547478329,Camiseta Humano Favorito 2.0 4T,2,62697.42
+Lobster,50143570755897,Camiseta Mixer Azul Espacial 7-8T,1,41798
+Lobster,50143589433657,Camiseta Mixer Café Explorador 5T,2,41798
+Lobster,50386489540921,Camiseta Hoy Será6T,1,37154.33
+Lobster,50071547543865,Camiseta Humano Favorito 2.0 6T,2,27865.33
+Lobster,50386508579129,Short French Toast2T,1,116352
+Lobster,50054846120249,Camiseta Juego 7-8T,2,39011.5
+Lobster,50062765195577,Pijama Formas 5T,1,76410.6
+Lobster,50071547576633,Camiseta Humano Favorito 2.0 7-8T,6,55731.08
+Lobster,50143579930937,Camiseta Mixer Roja Marte 7-8T,1,41798
+Lobster,50143589368121,Camiseta Mixer Café Explorador 3T,1,41798
+Lobster,50386489508153,Camiseta Hoy Será5T,1,0
+Lobster,50054846087481,Camiseta Juego 6T,2,48765
+Lobster,50143565742393,Camiseta Mixer Verde Matcha 6T,2,50268.45
+Lobster,50143565709625,Camiseta Mixer Verde Matcha 5T,2,41798
+Lobster,50143591989561,Camiseta Mixer Sol Tostado 6T,1,41798
+Lobster,50054846054713,Camiseta Juego 5T,5,40962.2
+Lobster,50393910214969,Camiseta Mixer Sol Tostado 7-8T,2,41798
+Lobster,50143591956793,Camiseta Mixer Sol Tostado 5T,1,59442.43
+Lobster,50143591891257,Camiseta Mixer Sol Tostado 3T,1,41798
+Un Libro para Siempre,LIBRO-AMARILLO,UN LIBRO PARA SIEMPRE AMARILLO,4,128375
+Un Libro para Siempre,LIBRO-ROJO,UN LIBRO PARA SIEMPRE ROJO,5,127400
+Supi,TABLEROROLLO,Tablero Rollo,3,0
+Supi,ACCESORIOS4,IMPRESION 3D,22,10084.61
+Supi,ACCESORIOS3,PIN MORRAL X3,41,11743.23
+TOY,123203003,TU LIBRO FAVORITO MAMA PHOTBOOK,2,59940
+TOY,123203005,TU LIBRO FAVORITO PAPA PHOTOBOOK,2,59940
+TOY,123203026,SOMOS INSTANTES,3,47940
+TOY,123217038,LAS COSAS BONITAS DE LA VIDA - CARTAS,3,36756
+TOY,123203012,CIEN GRACIAS PARA TI PAPA Y GENERICO,1,56940
+TOY,123203025,NUESTRA HISTORIA,7,59940
+TOY,123203028,JOURNAL DE GRATITUD,7,48000
+Supi,IMPO-9,CAJA DE FRUTAS BON APPETIT,2,50336
+Supi,SP108,Escalerita,5,196638.04
+Supi,SP117,Silla 5+,3,383192.25
+Supi,SP112,Organizador Toy Tidy x 8,1,1915966
+Supi,SP056,Casa repisa,1,0
+Supi,SP016,Cocodrilo,1,695798.16
+Supi,SP110,Organizador Toy Tidy x 3,2,998319
+Supi,SP111,Organizador Toy Tidy x 6,1,1613445
+Supi,SP028,Mesa Ovalada,3,453781
+Supi,SP007,Cocina Small,1,448739
+Supi,SP127,Oveja,1,0
+Supi,SP023,Mesa Small 60cm,1,0
+Supi,SP109,Banquito Tocador,1,0
+Supi,SP020,Cancha Basket,1,0
+Supi,SP014,Nube Small,2,121008
+Supi,SP004,Repisa L - Shelf L,1,302520.33
+Supi,SP005,Repisa Small 60cm,2,141176.16
+Supi,SP022,Arcoiris,5,161344
+Supi,SP012,Silla,4,181512.09
+Picaboo,BBeige,Bucket Beige,2,61750
+Libros,LB-ARRE,Arre Borriquita,1,59000
+Libros,LB-FORMAS,El juego de las formas,1,48000
+Kings & Rebels,KR19GGCAF12MP,Gamuza Gripper Café Petit 12M,4,57982.91
+Kings & Rebels,KR19FGGRY24M,Fleece Gripper Gris 24M,7,57983
+Kings & Rebels,KR19FGGRY18M,Fleece Gripper Gris 18M,5,57983
+Kings & Rebels,KR25CCBLR6M,Algodón Classic Blue Pop Remix 6M,2,57983.17
+Kings & Rebels,KR19FGGRY12M,Fleece Gripper Gris 12M,6,57983
+Kings & Rebels,KR19FCGRY6M,Fleece Classic Gris 6M,3,57983.21
+POMBO Y LOLA,CD-06,Cojín Decorativo Dino,1,45378
+POMBO Y LOLA,PM-06,Tapete de Juego Selva,1,90756
+POMBO Y LOLA,CP-APRINT,Cambiador animal print,1,56886.5
+POMBO Y LOLA,PM-07,Tapete de Juego Jardín Mágico,1,90756
+POMBO Y LOLA,CD-00,Cojín Decorativo Crudo,1,45378
+POMBO Y LOLA,CBD-Mar,Cobija Borrego Deluxe Mar,1,67226
+POMBO Y LOLA,BPMU-SAFARIx2,Babero muselina safari pack x2,2,26258
+POMBO Y LOLA,PM-09,Tapete de Juego Mar,2,98319.12
+POMBO Y LOLA,CP-GRANJA,Cambiador Granja,1,49914.46
+POMBO Y LOLA,OS,Organizador Sirenas,2,16806.61
+POMBO Y LOLA,PM-15,Tapete de juego safari,1,90756
+POMBO Y LOLA,OA,Organizador Antartida,1,33613
+POMBO Y LOLA,BPMU-HADASx2,Babero muselina hadas pack x2,2,26278
+POMBO Y LOLA,CP-08,Cambiador Mar,1,42857
+POMBO Y LOLA,CP-10,Cambiador Selva,1,42857
+POMBO Y LOLA,BPMU-MARx2,Babero muselina mar pack x2,2,26218
+POMBO Y LOLA,BPMU-SELVAx2,Babero muselina selva pack x2,1,29436.62
+POMBO Y LOLA,BPMU-SAFARI,Babero muselina safari,1,47899
+POMBO Y LOLA,BPMU-GRANJAx2,Babero muselina granja pack x2,2,26258
+POMBO Y LOLA,BPMU-JMx2,Babero muselina JM pack x2,3,26258
+POMBO Y LOLA,BPMU-BOSQUEx2,Babero muselina bosque pack x2,2,26218
+POMBO Y LOLA,MAMU-VA,Manta Muselina Verde Azul,1,75088
+POMBO Y LOLA,CP-13,Cambiador Hadas,1,42857
+Fulares,CVS,CANGURO VERDE SELVA,1,100789
+Fulares,MEG,MOCHILA ERGONOMICA GRIS,1,174735
