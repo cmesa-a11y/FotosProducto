@@ -41,7 +41,7 @@
 </style>
 <div class="hm-rg">
 <p style="font-size:22px;font-weight:700">¿Qué regalamos? 🎁</p>
-<p>Dinos cuánto quieres gastar y para quién es. Te armamos ideas de regalo con 1, 2 o 3 productos de distintos precios, listas para agregar al carrito.</p>
+<p>Dinos cuánto quieres gastar y para quién es. Te armamos ideas de regalo de 1 a 4 productos de distintos precios, listas para agregar al carrito.</p>
 <div class="hm-gift"><div class="e">🎁</div><div><b>Recibe tu regalo listo para entregar</b><span>Va empacado y con tarjeta, sin que tengas que hacer nada más.</span></div></div>
 <div class="hm-box">
 <h3>1. Tu presupuesto</h3>
@@ -201,7 +201,7 @@
       if(!ok){msg.textContent='No pudimos cargar los productos. Recarga la página o escríbenos por WhatsApp.';return}
       var P=pool(B);disc=(B===300000||B===400000);
       if(!P.length){msg.textContent='No encontramos productos con esos filtros. Prueba con otra edad u ocasión, o sube un poco el presupuesto.';$('hm-out').innerHTML='';$('hm-more').style.display='none';return}
-      var plans=B>=400000?[['Dúo perfecto',[0.6,0.4]],['Trío completo',[0.5,0.3,0.2]],['Regalo premium',[0.4,0.25,0.2,0.15]]]:[['Un regalo especial',[1]],['Dúo perfecto',[0.6,0.4]],['Trío completo',[0.5,0.3,0.2]]],opts=[];
+      var plans=B>=300000?[['Dúo perfecto',[0.6,0.4]],['Trío completo',[0.5,0.3,0.2]],['Regalo premium',[0.4,0.25,0.2,0.15]]]:[['Un regalo especial',[1]],['Dúo perfecto',[0.6,0.4]],['Trío completo',[0.5,0.3,0.2]]],opts=[];
       plans.forEach(function(pl){
         var it=null,t=0;while(!it&&t<12){it=build(P,B,pl[1]);t++}
         if(it)opts.push({name:pl[0],items:it});
