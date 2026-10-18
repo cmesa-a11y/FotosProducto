@@ -16,7 +16,6 @@
 .hm-gift .e svg{width:28px;height:28px}
 .hm-gift b{display:block;font-size:17px;color:#70202c}
 .hm-gift span{font-size:14px;color:#70202c}
-.hm-ic{width:1.2em;height:1.2em;vertical-align:-.22em;margin-right:6px;flex:none}
 .hm-wrap{margin-top:10px;font-size:13px;font-weight:700;color:#70202c;background:#F5F2E1;border-radius:10px;padding:7px 10px;text-align:center}
 .hm-back{display:inline-block;color:#70202c;font-weight:700;font-size:15px;text-decoration:none;border:1.5px solid #70202c;border-radius:99px;padding:8px 18px}
 .hm-back:hover{background:#70202c;color:#F5F2E1}
@@ -45,7 +44,7 @@
 </style>
 <div class="hm-rg">
 <div style="text-align:left;margin-bottom:14px"><a class="hm-back" href="/">← Volver al inicio</a></div>
-<p style="font-size:22px;font-weight:700">¿Qué regalamos?</p>
+<p style="font-size:22px;font-weight:700">¿Qué regalamos? 🎁</p>
 <p>Dinos cuánto quieres gastar y para quién es. Te armamos ideas de regalo de 1 a 4 productos de distintos precios, listas para agregar al carrito.</p>
 <div class="hm-gift"><div class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#70202c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M3 7.5h18V11H3z"/><path d="M12 7.5V21"/><path d="M12 7.5C10.7 4.5 7.5 4 7.2 5.8 7 7.2 9.5 7.5 12 7.5zM12 7.5c1.3-3 4.5-3.5 4.8-1.7.2 1.4-2.3 1.7-4.8 1.7z"/><path d="M19.5 2.5V5M18.25 3.75h2.5" stroke-width="1.4"/></svg></div><div><b>Recibe tu regalo listo para entregar</b><span>Va empacado y con tarjeta, sin que tengas que hacer nada más.</span></div></div>
 <div class="hm-box">
@@ -79,18 +78,17 @@
 <button type="button" class="hm-chip" data-v="ocasion:baby-shower">Baby shower</button>
 <button type="button" class="hm-chip" data-v="ocasion:bautizo">Bautizo</button>
 </div>
-<button type="button" class="hm-go" id="hm-go">Armar mis ideas de regalo</button>
-<div class="hm-promo" id="hm-promo" style="display:none"><svg class="hm-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M3 7.5h18V11H3z"/><path d="M12 7.5V21"/><path d="M12 7.5C10.7 4.5 7.5 4 7.2 5.8 7 7.2 9.5 7.5 12 7.5zM12 7.5c1.3-3 4.5-3.5 4.8-1.7.2 1.4-2.3 1.7-4.8 1.7z"/></svg>Con presupuesto de $300.000 o $400.000 tienes 10% de descuento en tu bundle (se aplica automáticamente al agregar al carrito).</div>
+<button type="button" class="hm-go" id="hm-go">Armar mis ideas de regalo ✨</button>
+<div class="hm-promo" id="hm-promo" style="display:none">🎁 Con presupuesto de $300.000 o $400.000 tienes 10% de descuento en tu bundle (se aplica automáticamente al agregar al carrito).</div>
 <div class="hm-msg" id="hm-msg"></div>
 </div>
 <div id="hm-out"></div>
-<button type="button" class="hm-more" id="hm-more" style="display:none"><svg class="hm-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v4.5h-4.5"/></svg>Otras ideas con el mismo presupuesto</button>
+<button type="button" class="hm-more" id="hm-more" style="display:none">🔄 Otras ideas con el mismo presupuesto</button>
 <div style="margin-top:22px"><a class="hm-back" href="/">← Volver al inicio</a></div>
 </div>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
-  var GI='<svg class="hm-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M3 7.5h18V11H3z"/><path d="M12 7.5V21"/><path d="M12 7.5C10.7 4.5 7.5 4 7.2 5.8 7 7.2 9.5 7.5 12 7.5zM12 7.5c1.3-3 4.5-3.5 4.8-1.7.2 1.4-2.3 1.7-4.8 1.7z"/></svg>';
   var sel={edad:'',gen:'',oca:''},all=null,loading=false,seed=1;
   function cop(n){return '$'+Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
   function num(s){return parseInt(String(s).replace(/\D/g,''),10)||0}
@@ -173,12 +171,12 @@
       var d=document.createElement('div');d.className='hm-opt';
       var h='<div class="hm-opt-h"><b>'+o.name+'</b><span class="hm-tag">'+o.items.length+(o.items.length>1?' productos':' producto')+'</span></div><div class="hm-items">';
       o.items.forEach(function(p,j){h+=card(p,i,j)});
-      h+='</div><div class="hm-foot"><div class="hm-total"></div><button type="button" class="hm-add">Agregar todo al carrito</button></div><div class="hm-wrap">'+GI+'Llega empacado para regalo y con tarjeta</div>';
+      h+='</div><div class="hm-foot"><div class="hm-total"></div><button type="button" class="hm-add">Agregar todo al carrito</button></div><div class="hm-wrap">🎀 Llega empacado para regalo y con tarjeta</div>';
       d.innerHTML=h;out.appendChild(d);
       function tot(){
         var t=0;o.items.forEach(function(p,j){t+=parseFloat(p.vs[o.pick[j]].price)});
         var el=d.querySelector('.hm-total');
-        if(disc&&t>=MIN){var f=Math.round(t*0.9);el.innerHTML='Total: <s>'+cop(t)+'</s><b>'+cop(f)+'</b> <small>de '+cop(B)+'</small><span class="hm-save">'+GI+'Ahorras '+cop(t-f)+' (10% en tu bundle)</span>'}
+        if(disc&&t>=MIN){var f=Math.round(t*0.9);el.innerHTML='Total: <s>'+cop(t)+'</s><b>'+cop(f)+'</b> <small>de '+cop(B)+'</small><span class="hm-save">🎁 Ahorras '+cop(t-f)+' (10% en tu bundle)</span>'}
         else el.innerHTML='Total: <b>'+cop(t)+'</b> <small>de '+cop(B)+'</small>';
       }
       tot();
@@ -201,7 +199,7 @@
   function promo(){var v=num($('hm-b').value),pr=$('hm-promo');pr.style.display=(v===300000||v===400000)?'block':'none'}
   function run(){
     var B=num($('hm-b').value),msg=$('hm-msg');
-    if(B<20000){msg.textContent='Escribe o elige un presupuesto desde $20.000';return}
+    if(B<20000){msg.textContent='Escribe o elige un presupuesto desde $20.000 🙂';return}
     msg.textContent='Buscando los mejores regalos…';$('hm-go').disabled=true;
     load(function(ok){
       $('hm-go').disabled=false;
@@ -214,7 +212,7 @@
         if(it)opts.push({name:pl[0],items:it});
       });
       if(!opts.length){msg.textContent='Con ese presupuesto y filtros no logramos armar un regalo. Prueba subiendo un poco el presupuesto.';return}
-      msg.textContent='Estas son nuestras ideas para '+cop(B)+'';
+      msg.textContent='Estas son nuestras ideas para '+cop(B)+' 💛';
       render(opts,B);
     });
   }
