@@ -11,6 +11,11 @@
 .hm-promo{background:#70202c;color:#F5F2E1;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600;margin:12px 0 0}
 .hm-total s{opacity:.6;margin-right:4px}
 .hm-save{display:block;color:#70202c;font-size:13px;font-weight:700}
+.hm-gift{display:flex;align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,#F2B36A,#F5F2E1);border:2px dashed #70202c;border-radius:18px;padding:14px 16px;margin:16px 0 0;text-align:left}
+.hm-gift .e{font-size:34px;line-height:1}
+.hm-gift b{display:block;font-size:17px;color:#70202c}
+.hm-gift span{font-size:14px;color:#70202c}
+.hm-wrap{margin-top:10px;font-size:13px;font-weight:700;color:#70202c;background:#F5F2E1;border-radius:10px;padding:7px 10px;text-align:center}
 .hm-money{display:flex;gap:8px;align-items:center;margin-top:10px}
 .hm-money span{font-weight:700}
 .hm-money input{flex:1;min-width:0;box-sizing:border-box;border:1px solid #d9cfc0;border-radius:12px;padding:12px;font-size:18px;font-weight:700;background:#fff;color:#222}
@@ -37,6 +42,7 @@
 <div class="hm-rg">
 <p style="font-size:22px;font-weight:700">¿Qué regalamos? 🎁</p>
 <p>Dinos cuánto quieres gastar y para quién es. Te armamos ideas de regalo con 1, 2 o 3 productos de distintos precios, listas para agregar al carrito.</p>
+<div class="hm-gift"><div class="e">🎁</div><div><b>Recibe tu regalo listo para entregar</b><span>Va empacado y con tarjeta, sin que tengas que hacer nada más.</span></div></div>
 <div class="hm-box">
 <h3>1. Tu presupuesto</h3>
 <div class="hm-chips" id="hm-pres">
@@ -160,7 +166,7 @@
       var d=document.createElement('div');d.className='hm-opt';
       var h='<div class="hm-opt-h"><b>'+o.name+'</b><span class="hm-tag">'+o.items.length+(o.items.length>1?' productos':' producto')+'</span></div><div class="hm-items">';
       o.items.forEach(function(p,j){h+=card(p,i,j)});
-      h+='</div><div class="hm-foot"><div class="hm-total"></div><button type="button" class="hm-add">Agregar todo al carrito</button></div>';
+      h+='</div><div class="hm-foot"><div class="hm-total"></div><button type="button" class="hm-add">Agregar todo al carrito</button></div><div class="hm-wrap">🎀 Llega empacado para regalo y con tarjeta</div>';
       d.innerHTML=h;out.appendChild(d);
       function tot(){
         var t=0;o.items.forEach(function(p,j){t+=parseFloat(p.vs[o.pick[j]].price)});
