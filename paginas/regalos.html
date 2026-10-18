@@ -16,7 +16,7 @@
 .hm-opt-h{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .hm-opt-h b{font-size:18px}
 .hm-tag{background:#F2B36A;border-radius:99px;padding:4px 12px;font-weight:700;font-size:13px}
-.hm-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.hm-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .hm-it{background:#F5F2E1;border-radius:14px;padding:10px;display:flex;flex-direction:column}
 .hm-it img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:#fff}
 .hm-it a{color:#70202c;font-weight:700;text-decoration:none;font-size:14px;margin-top:8px;line-height:1.25}
@@ -135,7 +135,8 @@
   }
   function card(p,i,j){
     var v=p.vs[0],h='<div class="hm-it">';
-    if(p.img)h+='<img loading="lazy" src="'+p.img+(p.img.indexOf('?')<0?'?':'&')+'width=400" alt="'+p.title.replace(/"/g,'&quot;')+'">';
+    if(p.img){var q=p.img+(p.img.indexOf('?')<0?'?':'&')+'width=';
+      h+='<img loading="lazy" src="'+q+'600" srcset="'+q+'300 300w,'+q+'600 600w,'+q+'900 900w" sizes="(max-width:600px) 45vw, 240px" alt="'+p.title.replace(/"/g,'&quot;')+'">';}
     h+='<a href="/products/'+p.handle+'" target="_blank" rel="noopener">'+p.title+'</a>';
     h+='<div class="pr" data-p="'+i+'-'+j+'">'+cop(parseFloat(v.price))+'</div>';
     if(p.vs.length>1){
