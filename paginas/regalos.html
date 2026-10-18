@@ -6,6 +6,11 @@
 .hm-chips{display:flex;flex-wrap:wrap;gap:8px}
 .hm-chip{border:1.5px solid #70202c;background:#fff;color:#70202c;border-radius:99px;padding:9px 16px;font-size:15px;font-weight:700;cursor:pointer}
 .hm-chip.on{background:#70202c;color:#F5F2E1}
+.hm-off{font-style:normal;font-size:11px;background:#F5F2E1;color:#70202c;border-radius:99px;padding:2px 7px;margin-left:4px}
+.hm-chip.on .hm-off{background:#F5F2E1}
+.hm-promo{background:#70202c;color:#F5F2E1;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600;margin:12px 0 0}
+.hm-total s{opacity:.6;margin-right:4px}
+.hm-save{display:block;color:#70202c;font-size:13px;font-weight:700}
 .hm-money{display:flex;gap:8px;align-items:center;margin-top:10px}
 .hm-money span{font-weight:700}
 .hm-money input{flex:1;min-width:0;box-sizing:border-box;border:1px solid #d9cfc0;border-radius:12px;padding:12px;font-size:18px;font-weight:700;background:#fff;color:#222}
@@ -39,7 +44,8 @@
 <button type="button" class="hm-chip" data-v="100000">$100.000</button>
 <button type="button" class="hm-chip" data-v="150000">$150.000</button>
 <button type="button" class="hm-chip" data-v="200000">$200.000</button>
-<button type="button" class="hm-chip" data-v="300000">$300.000</button>
+<button type="button" class="hm-chip" data-v="300000">$300.000 <i class="hm-off">-10%</i></button>
+<button type="button" class="hm-chip" data-v="400000">$400.000 <i class="hm-off">-10%</i></button>
 </div>
 <div class="hm-money"><span>$</span><input type="text" inputmode="numeric" id="hm-b" placeholder="O escribe tu presupuesto"></div>
 <h3 style="margin-top:18px">2. ¿Para quién?</h3>
@@ -63,6 +69,7 @@
 <button type="button" class="hm-chip" data-v="ocasion:bautizo">Bautizo</button>
 </div>
 <button type="button" class="hm-go" id="hm-go">Armar mis ideas de regalo ✨</button>
+<div class="hm-promo" id="hm-promo" style="display:none">🎁 Con presupuesto de $300.000 o $400.000 tienes 10% de descuento en tu bundle (se aplica automáticamente al agregar al carrito).</div>
 <div class="hm-msg" id="hm-msg"></div>
 </div>
 <div id="hm-out"></div>
@@ -87,10 +94,10 @@
   $('hm-pres').addEventListener('click',function(e){
     var b=e.target.closest('.hm-chip');if(!b)return;
     [].forEach.call($('hm-pres').querySelectorAll('.hm-chip'),function(x){x.classList.remove('on')});
-    b.classList.add('on');$('hm-b').value=cop(b.getAttribute('data-v')).slice(1);
+    b.classList.add('on');$('hm-b').value=cop(b.getAttribute('data-v')).slice(1);promo();
   });
   $('hm-b').addEventListener('input',function(){
-    var n=num(this.value);this.value=n?cop(n).slice(1):'';
+    var n=num(this.value);this.value=n?cop(n).slice(1):'';promo();
     [].forEach.call($('hm-pres').querySelectorAll('.hm-chip'),function(x){x.classList.remove('on')});
   });
   function load(cb){
@@ -157,7 +164,9 @@
       d.innerHTML=h;out.appendChild(d);
       function tot(){
         var t=0;o.items.forEach(function(p,j){t+=parseFloat(p.vs[o.pick[j]].price)});
-        d.querySelector('.hm-total').innerHTML='Total: <b>'+cop(t)+'</b> <small>de '+cop(B)+'</small>';
+        var el=d.querySelector('.hm-total');
+        if(disc&&t>=MIN){var f=Math.round(t*0.9);el.innerHTML='Total: <s>'+cop(t)+'</s><b>'+cop(f)+'</b> <small>de '+cop(B)+'</small><span class="hm-save">🎁 Ahorras '+cop(t-f)+' (10% en tu bundle)</span>'}
+        else el.innerHTML='Total: <b>'+cop(t)+'</b> <small>de '+cop(B)+'</small>';
       }
       tot();
       d.addEventListener('change',function(e){
@@ -169,12 +178,14 @@
         var b=this;b.disabled=true;b.textContent='Agregando…';
         var its=o.items.map(function(p,j){return {id:p.vs[o.pick[j]].id,quantity:1}});
         fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:its})})
-          .then(function(r){if(!r.ok)throw 0;window.location.href='/cart'})
+          .then(function(r){if(!r.ok)throw 0;window.location.href=disc?'/discount/BUNDLE10?redirect=/cart':'/cart'})
           .catch(function(){b.disabled=false;b.textContent='Agregar todo al carrito';alert('Alguno de los productos se agotó. Prueba con otras ideas.')});
       });
     });
     $('hm-more').style.display='block';
   }
+  var disc=false,MIN=200000;
+  function promo(){var v=num($('hm-b').value),pr=$('hm-promo');pr.style.display=(v===300000||v===400000)?'block':'none'}
   function run(){
     var B=num($('hm-b').value),msg=$('hm-msg');
     if(B<20000){msg.textContent='Escribe o elige un presupuesto desde $20.000 🙂';return}
@@ -182,7 +193,7 @@
     load(function(ok){
       $('hm-go').disabled=false;
       if(!ok){msg.textContent='No pudimos cargar los productos. Recarga la página o escríbenos por WhatsApp.';return}
-      var P=pool(B);
+      var P=pool(B);disc=(B===300000||B===400000);
       if(!P.length){msg.textContent='No encontramos productos con esos filtros. Prueba con otra edad u ocasión, o sube un poco el presupuesto.';$('hm-out').innerHTML='';$('hm-more').style.display='none';return}
       var plans=[['Un regalo especial',[1]],['Dúo perfecto',[0.6,0.4]],['Trío completo',[0.5,0.3,0.2]]],opts=[];
       plans.forEach(function(pl){
