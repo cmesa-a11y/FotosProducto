@@ -217,5 +217,11 @@
   }
   $('hm-go').addEventListener('click',function(){seed=Math.floor(Math.random()*1e6)+1;run()});
   $('hm-more').addEventListener('click',function(){seed=Math.floor(Math.random()*1e6)+1;run();$('hm-out').scrollIntoView({behavior:'smooth'})});
+  var qb=(location.search.match(/[?&]b=(\d{4,7})/)||[])[1];
+  if(qb){
+    $('hm-b').value=cop(qb).slice(1);
+    [].forEach.call($('hm-pres').querySelectorAll('.hm-chip'),function(x){x.classList.toggle('on',x.getAttribute('data-v')===String(+qb))});
+    promo();seed=Math.floor(Math.random()*1e6)+1;run();
+  }
 })();
 </script>

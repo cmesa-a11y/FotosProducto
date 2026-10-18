@@ -1,0 +1,37 @@
+{% comment %}
+  Hello Mellow · franja "Regalo Perfecto en 1 minuto" para el home
+  Cómo usarlo (Personalizar tema > Página de inicio):
+  1) Agregar sección > "Liquid personalizado" (o "HTML personalizado").
+  2) Pega TODO este código.
+  3) Arrastra la sección para que quede justo debajo del menú y encima del banner principal.
+  Los chips llevan a /pages/regalos con el presupuesto ya elegido.
+{% endcomment %}
+<style>
+.hm-rh{background:#F5F2E1;color:#70202c;padding:10px 16px;text-align:center;border-bottom:1px solid #eadfce}
+.hm-rh-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:10px 18px;flex-wrap:wrap}
+.hm-rh-t{font-size:16px;font-weight:700;line-height:1.2;display:flex;align-items:center;gap:8px}
+.hm-rh-t small{display:block;font-size:12px;font-weight:500;opacity:.85}
+.hm-rh-c{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.hm-rh-c a{border:1.5px solid #70202c;background:#fff;color:#70202c;border-radius:99px;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none;white-space:nowrap}
+.hm-rh-c a:hover{background:#70202c;color:#F5F2E1}
+.hm-rh-c a i{font-style:normal;font-size:11px;background:#F2B36A;color:#70202c;border-radius:99px;padding:2px 6px;margin-left:4px}
+@media (max-width:600px){
+  .hm-rh{padding:8px 10px}
+  .hm-rh-t{font-size:14px;width:100%;justify-content:center}
+  .hm-rh-t small{display:none}
+  .hm-rh-c{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;width:100%;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .hm-rh-c::-webkit-scrollbar{display:none}
+  .hm-rh-c a{padding:6px 12px;font-size:13px}
+}
+</style>
+<div class="hm-rh">
+  <div class="hm-rh-in">
+    <div class="hm-rh-t"><span aria-hidden="true">🎁</span><span>Regalo Perfecto en 1 minuto<small>Dinos tu presupuesto · va empacado y con tarjeta 🎀</small></span></div>
+    <div class="hm-rh-c">
+      <a href="/pages/regalos?b=100000">$100.000</a>
+      <a href="/pages/regalos?b=200000">$200.000</a>
+      <a href="/pages/regalos?b=300000">$300.000 <i>-10%</i></a>
+      <a href="/pages/regalos?b=400000">$400.000 <i>-10%</i></a>
+    </div>
+  </div>
+</div>
