@@ -16,6 +16,8 @@
 .hm-gift b{display:block;font-size:17px;color:#70202c}
 .hm-gift span{font-size:14px;color:#70202c}
 .hm-wrap{margin-top:10px;font-size:13px;font-weight:700;color:#70202c;background:#F5F2E1;border-radius:10px;padding:7px 10px;text-align:center}
+.hm-back{display:inline-block;color:#70202c;font-weight:700;font-size:15px;text-decoration:none;border:1.5px solid #70202c;border-radius:99px;padding:8px 18px}
+.hm-back:hover{background:#70202c;color:#F5F2E1}
 .hm-money{display:flex;gap:8px;align-items:center;margin-top:10px}
 .hm-money span{font-weight:700}
 .hm-money input{flex:1;min-width:0;box-sizing:border-box;border:1px solid #d9cfc0;border-radius:12px;padding:12px;font-size:18px;font-weight:700;background:#fff;color:#222}
@@ -40,6 +42,7 @@
 .hm-more{background:none;border:1.5px solid #70202c;color:#70202c;border-radius:99px;padding:11px 22px;font-size:15px;font-weight:700;cursor:pointer;margin-top:18px}
 </style>
 <div class="hm-rg">
+<div style="text-align:left;margin-bottom:14px"><a class="hm-back" href="/">← Volver al inicio</a></div>
 <p style="font-size:22px;font-weight:700">¿Qué regalamos? 🎁</p>
 <p>Dinos cuánto quieres gastar y para quién es. Te armamos ideas de regalo de 1 a 4 productos de distintos precios, listas para agregar al carrito.</p>
 <div class="hm-gift"><div class="e">🎁</div><div><b>Recibe tu regalo listo para entregar</b><span>Va empacado y con tarjeta, sin que tengas que hacer nada más.</span></div></div>
@@ -80,6 +83,7 @@
 </div>
 <div id="hm-out"></div>
 <button type="button" class="hm-more" id="hm-more" style="display:none">🔄 Otras ideas con el mismo presupuesto</button>
+<div style="margin-top:22px"><a class="hm-back" href="/">← Volver al inicio</a></div>
 </div>
 <script>
 (function(){
