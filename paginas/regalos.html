@@ -125,6 +125,7 @@
     var vs=(p.variants||[]).filter(function(v){return v.available});
     if(!vs.length)return null;
     var tags=(p.tags||[]);if(typeof tags==='string')tags=tags.split(',').map(function(t){return t.trim()});
+    if(tags.indexOf('empaque')>=0)return null;
     var cat='';tags.forEach(function(t){if(t.indexOf('cat:')===0)cat=t});
     var min=Math.min.apply(null,vs.map(function(v){return parseFloat(v.price)}));
     return {id:p.id,title:p.title,handle:p.handle,type:(p.product_type||cat||p.id)+'',tags:tags,
