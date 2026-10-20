@@ -372,6 +372,7 @@ const EXAMPLE = {
 let S = load() || structuredClone(EXAMPLE);
 ensureCost();
 S.lines.forEach(l=>{ if(!l.id) l.id=uid(); });
+let pendingMeta=null, pendingMult=null;
 let filter = "all", editing = false, blind = false, pendingRows = null, lastTouched = null;
 let sampleFn = null, downloadsNs = null;
 
@@ -743,6 +744,17 @@ function openMapping(rows){
   [["mapCode","code"],["mapEan","ean"],["mapDesc","desc"],["mapQty","qty"],["mapPrice","price"]].forEach(([id,k])=>{ const s=$("#"+id); s.innerHTML=`<option value="-1">— ninguna —</option>`+opts; s.value=String(guess[k]); });
   $("#mapPreview").innerHTML=`<table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${body.slice(0,6).map(r=>`<tr>${cols.map((_,i)=>`<td>${esc(r[i]||"")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
   pendingRows=body;
+  // datos de cabecera (proveedor, número, fecha) en las filas de arriba
+  pendingMeta={}; pendingMult=null;
+  const after=(r,i)=>r.slice(i+1).find(c=>c!=="")||"";
+  (hasHeader?rows.slice(0,hi):[]).forEach(r=>r.forEach((c,i)=>{
+    if(/raz[oó]n social|proveedor/i.test(c) && !pendingMeta.prov) pendingMeta.prov=after(r,i);
+    else if(/remisi[oó]n\s*(n|no|n[°º]|#)\b/i.test(c) && !pendingMeta.num) pendingMeta.num=after(r,i);
+    else if(/fecha/i.test(c) && !pendingMeta.fecha){ const m=after(r,i).match(/(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})/); if(m) pendingMeta.fecha=`${m[3]}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`; }
+  }));
+  // margen de la marca -> multiplicador (40% -> 0,60; 35% -> 0,65)
+  const mc=cols.findIndex(c=>/margen/i.test(c));
+  if(mc>=0){ const v=body.map(r=>money(r[mc])).find(v=>v>0); if(v){ const pct=v<1?v*100:v; const mu=Math.round((100-pct))/100; if(mu===0.6||mu===0.65) pendingMult=mu; } }
   $("#mapping").hidden=false;
   setStatus(`${body.length} filas leídas. Comprueba las columnas y pulsa “Cargar remisión”.`);
 }
@@ -752,7 +764,8 @@ $("#mapGo").onclick=()=>{
   if(q<0){ setStatus("Elige qué columna es la cantidad enviada.", true); return; }
   if(c<0 && e<0 && d<0){ setStatus("Elige al menos la columna de código o de descripción.", true); return; }
   const lines=pendingRows.map(r=>({code:c>=0?r[c]:(e>=0?r[e]:""),ean:e>=0?r[e]:"",desc:d>=0?r[d]:"",sent:num(r[q]),price:pr>=0?money(r[pr]):0})).filter(l=>!isNaN(l.sent) && !/^total/i.test(l.desc+l.code));
-  applyLines(lines);
+  applyLines(lines, pendingMeta);
+  if(pendingMult && S.lines.length){ S.cost.mult=pendingMult; if(S.meta.prov){ const m=loadMults(); m[norm(S.meta.prov)]=pendingMult; try{ localStorage.setItem(MKEY,JSON.stringify(m)); }catch(e){} } save(); render(); }
 };
 $("#fileXls").onchange=async e=>{
   const f=e.target.files[0]; e.target.value=""; if(!f) return;
