@@ -184,26 +184,18 @@ etapa anterior por si te aparece.
 
 ## Filtro "Categoría" en la página de colección
 
-El tema ya pinta un bloque **Categoría** (Ropa · Zapatos · Esenciales) en la barra de
-filtros de la colección, a partir de las etiquetas `cat:`. Las etiquetas se muestran sin
-prefijo (`cat:ropa` → "Ropa").
+Sale del **metacampo de producto `custom.categoria`** (Ropa · Zapatos · Juguetes ·
+Accesorios · Esenciales para bebé, los mismos nombres del menú), igual que Edad y Género.
+Se activa en *Apps → Search & Discovery → Filtros → Añadir filtro → Categoría
+(Metacampo de producto)*, etiqueta del filtro `Categoría`.
 
-Para que aparezca hace falta el filtro de etiquetas en Shopify. **Ya existe**: en
-*Apps → Search & Discovery → Filtros* se llama **"Más filtros"** (origen: Etiquetas).
+**No uses las etiquetas `cat:` para filtrar.** Shopify solo entrega los primeros 100
+valores de cada filtro y la tienda tiene más de 250 etiquetas, así que el filtro por
+etiquetas salía incompleto (solo "Esenciales para bebé").
 
-1. No lo renombres ni agrupes sus valores: el tema lo busca por ese nombre
-   (*Tema → Colección → Filtro → "Etiqueta del grupo de etiquetas"* = `Más filtros`) y
-   por los valores en crudo (`cat:ropa`…). Si algún día lo renombras, cambia también ese ajuste.
-2. Comprueba que esté activado (visible) en la lista de filtros.
-3. Solo aparecen las categorías que tengan productos en esa colección.
+Producto nuevo → llénale el metacampo **Categoría** o no aparecerá en el filtro.
 
-Valores del bloque: `cat:ropa, cat:zapatos, cat:esenciales, cat:accesorios, cat:juguetes`.
-(`cat:empaque` es interna y no se muestra.) En la pantalla de valores de "Más filtros" no marques ni agrupes nada.
-
-El resto de etiquetas (`edad:`, `tipo:`, `buzos`, `Celeste`…) no se muestra: el ajuste
-*Etiquetas ocultas* del filtro vale `*`, que en este tema significa "solo los bloques
-Filtro, nunca el grupo con las demás etiquetas". Si más adelante quieres un filtro por
-**Edad** u **Ocasión**, se añade otro bloque *Filtro* con su lista de etiquetas.
-
-> Si la app USF (Ultimate Search & Filter) está activa, ella pinta los filtros y esto no
-> aplica: el filtro de categoría se configura dentro de USF.
+Si el filtro de etiquetas ("Más filtros") sigue activo, el tema no lo muestra: el ajuste
+*Etiquetas ocultas* vale `*`, que oculta todas las etiquetas que no estén en un bloque
+*Filtro*. Los bloques *Filtro* respetan el orden de su lista y aceptan
+`etiqueta=Nombre` para cambiar el nombre visible.
