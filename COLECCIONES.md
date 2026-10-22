@@ -197,10 +197,13 @@ Para que aparezca hace falta el filtro de etiquetas en Shopify. **Ya existe**: e
 2. Comprueba que esté activado (visible) en la lista de filtros.
 3. Solo aparecen las categorías que tengan productos en esa colección.
 
-El resto de etiquetas (`edad:`, `ocasion:`, `tipo:`, `regalo`, `bordado`) está en la lista
-de etiquetas ocultas del filtro para que no salga un bloque con etiquetas en crudo. Si
-más adelante quieres un filtro por **Edad** u **Ocasión**, se añade otro bloque *Filtro*
-con su lista de etiquetas y se quitan de esa lista de ocultas.
+Valores del bloque: `cat:ropa, cat:zapatos, cat:esenciales, cat:accesorios, cat:juguetes,
+cat:empaque`. En la pantalla de valores de "Más filtros" no marques ni agrupes nada.
+
+El resto de etiquetas (`edad:`, `tipo:`, `buzos`, `Celeste`…) no se muestra: el ajuste
+*Etiquetas ocultas* del filtro vale `*`, que en este tema significa "solo los bloques
+Filtro, nunca el grupo con las demás etiquetas". Si más adelante quieres un filtro por
+**Edad** u **Ocasión**, se añade otro bloque *Filtro* con su lista de etiquetas.
 
 > Si la app USF (Ultimate Search & Filter) está activa, ella pinta los filtros y esto no
 > aplica: el filtro de categoría se configura dentro de USF.

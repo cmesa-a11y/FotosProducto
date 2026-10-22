@@ -98,6 +98,12 @@
                                     if filterLabel == filterLabelAll
                                         assign filter_hidden_tag_list = section.settings.filter_hidden_tag_list | split: ','
                                     endif
+                                    # "*" en etiquetas ocultas: solo se muestran los bloques Filtro, nunca el grupo con el resto de etiquetas
+                                    assign hide_remaining_tags = false
+                                    assign hidden_setting = section.settings.filter_hidden_tag_list | strip
+                                    if filterLabel == filterLabelAll and hidden_setting == '*'
+                                        assign hide_remaining_tags = true
+                                    endif
                                 -%}
                                 {%- if filterLabel == filterLabelAll and filter_by_tags.size > 0 -%}
                                     {%- liquid
@@ -209,7 +215,7 @@
                                         {%- endif -%}
                                     {%- endfor -%}
                                     {%- if countTag > 0 -%}
-                                        {%- if listRemainingTags != blank -%}
+                                        {%- if listRemainingTags != blank and hide_remaining_tags == false -%}
                                             {%- liquid
                                                 assign listTagsRenderSize = listRemainingTags | split: ',' | size
                                                 assign listTagsRenderSize = filter.values.size | minus: listTagsRenderSize
@@ -312,7 +318,7 @@
                                                 {%- endunless -%}
                                             </div>
                                         {%- endif -%}
-                                    {%- else -%}
+                                    {%- elsif hide_remaining_tags == false -%}
                                         <div class="sidebarBlock js-filter {{ filter.label | escape }}" data-index="{{ forloop.index }}" data-type-list="true">
                                             {%- if show_collapse -%}
                                                 <div class="sidebarBlock-headingWrapper">
