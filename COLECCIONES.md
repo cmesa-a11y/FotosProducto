@@ -197,8 +197,8 @@ Para que aparezca hace falta el filtro de etiquetas en Shopify. **Ya existe**: e
 2. Comprueba que esté activado (visible) en la lista de filtros.
 3. Solo aparecen las categorías que tengan productos en esa colección.
 
-Valores del bloque: `cat:ropa, cat:zapatos, cat:esenciales, cat:accesorios, cat:juguetes,
-cat:empaque`. En la pantalla de valores de "Más filtros" no marques ni agrupes nada.
+Valores del bloque: `cat:ropa, cat:zapatos, cat:esenciales, cat:accesorios, cat:juguetes`.
+(`cat:empaque` es interna y no se muestra.) En la pantalla de valores de "Más filtros" no marques ni agrupes nada.
 
 El resto de etiquetas (`edad:`, `tipo:`, `buzos`, `Celeste`…) no se muestra: el ajuste
 *Etiquetas ocultas* del filtro vale `*`, que en este tema significa "solo los bloques
