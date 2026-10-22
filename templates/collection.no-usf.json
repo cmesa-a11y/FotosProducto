@@ -159,7 +159,7 @@
         "filter_rectangle": "Size",
         "filter_display_type": "scroll",
         "max_item_per_filter": 20,
-        "filter_label_all": "Etiquetas",
+        "filter_label_all": "Más filtros",
         "filter_hidden_tag_list": "edad:0-6m,edad:6-12m,edad:1-2a,edad:3a-mas,ocasion:baby-shower,ocasion:cumpleanos,ocasion:bautizo,regalo,bordado,tipo:babero,tipo:muselina,tipo:toalla,tipo:cobija,tipo:fular",
         "show_toolbar": false,
         "show_sorting": false,

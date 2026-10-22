@@ -188,13 +188,14 @@ El tema ya pinta un bloque **Categoría** (Ropa · Zapatos · Esenciales) en la 
 filtros de la colección, a partir de las etiquetas `cat:`. Las etiquetas se muestran sin
 prefijo (`cat:ropa` → "Ropa").
 
-Para que aparezca hay que activar el filtro de etiquetas en Shopify (una sola vez):
+Para que aparezca hace falta el filtro de etiquetas en Shopify. **Ya existe**: en
+*Apps → Search & Discovery → Filtros* se llama **"Más filtros"** (origen: Etiquetas).
 
-1. **Apps → Search & Discovery → Filtros → Añadir filtro → Etiqueta de producto.**
-2. Cambia su **etiqueta (nombre visible) a `Etiquetas`**, exactamente así. El tema busca
-   ese nombre (*Tema → Colección → Filtro → "Etiqueta del grupo de etiquetas"*) para
-   repartir las etiquetas en bloques. Si lo llamas distinto, cambia también ese ajuste.
-3. Guarda. Solo aparecen las categorías que tengan productos en esa colección.
+1. No lo renombres ni agrupes sus valores: el tema lo busca por ese nombre
+   (*Tema → Colección → Filtro → "Etiqueta del grupo de etiquetas"* = `Más filtros`) y
+   por los valores en crudo (`cat:ropa`…). Si algún día lo renombras, cambia también ese ajuste.
+2. Comprueba que esté activado (visible) en la lista de filtros.
+3. Solo aparecen las categorías que tengan productos en esa colección.
 
 El resto de etiquetas (`edad:`, `ocasion:`, `tipo:`, `regalo`, `bordado`) está en la lista
 de etiquetas ocultas del filtro para que no salga un bloque con etiquetas en crudo. Si
