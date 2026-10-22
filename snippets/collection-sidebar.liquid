@@ -13,6 +13,18 @@
         {%- liquid
             assign file_extension = 'png'
             assign filter_by_tags = section.blocks | where: "type", "filter"
+            # En los bloques Filtro, "etiqueta=Nombre" muestra ese nombre en lugar de la etiqueta
+            assign tagNameMap = ','
+            for block in filter_by_tags
+                assign blockEntries = block.settings.list_tags | split: ','
+                for entry in blockEntries
+                    if entry contains '='
+                        assign entryTag = entry | split: '=' | first | strip
+                        assign entryName = entry | split: '=' | last | strip
+                        assign tagNameMap = tagNameMap | append: entryTag | append: '=' | append: entryName | append: ','
+                    endif
+                endfor
+            endfor
             if results.url
                 assign results_url = results.url
             else
@@ -50,7 +62,10 @@
                                     {%- liquid
                                         # Etiquetas con prefijo (cat:ropa) se muestran sin él: "Ropa"
                                         assign facet_label = value.label
-                                        if facet_label contains ':'
+                                        assign facet_key = ',' | append: value.value | append: '='
+                                        if tagNameMap contains facet_key
+                                            assign facet_label = tagNameMap | split: facet_key | last | split: ',' | first
+                                        elsif facet_label contains ':'
                                             assign facet_label = facet_label | split: ':' | last | replace: '-', ' ' | capitalize
                                         endif
                                     -%}
@@ -114,7 +129,13 @@
                                     {%- for block in filter_by_tags -%}
                                         {%- liquid
                                             assign listTagHeading = block.settings.heading | default: filterLabel
-                                            assign listTags = block.settings.list_tags | split: ','
+                                            assign listTags = ''
+                                            assign blockEntries = block.settings.list_tags | split: ','
+                                            for entry in blockEntries
+                                                assign entryTag = entry | split: '=' | first | strip
+                                                assign listTags = listTags | append: entryTag | append: ','
+                                            endfor
+                                            assign listTags = listTags | split: ','
                                             assign listTagsRender = ''
                                             for value in filter.values
                                                 assign item = value.value
@@ -156,8 +177,9 @@
                                                                 assign label = listTagHeading | downcase | handle
                                                                 assign valueIndex = 0
                                                             -%}
+                                                            {%- for blockTag in listTags -%}
                                                             {%- for value in filter.values -%}
-                                                                {%- if listTagsRender contains value.value -%}
+                                                                {%- if value.value == blockTag and listTagsRender contains value.value -%}
                                                                     {%- assign valueIndex = valueIndex | plus: 1 -%}
                                                                     <li class="list-menu__item facets__item {% if valueIndex > maxItemToShow and section.settings.filter_display_type == 'show-more' %}d-none{% endif %}{% if filter_swatch contains label %} facets__item--swatch{% elsif filter_rectangle contains label %} facets__item--rectangle{% endif %}">
                                                                         <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" id="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
@@ -176,7 +198,10 @@
                                                                         {%- else -%}
                                                                             {%- liquid
                                                                                 assign facet_label = value.label
-                                                                                if facet_label contains ':'
+                                                                                assign facet_key = ',' | append: value.value | append: '='
+                                                                                if tagNameMap contains facet_key
+                                                                                    assign facet_label = tagNameMap | split: facet_key | last | split: ',' | first
+                                                                                elsif facet_label contains ':'
                                                                                     assign facet_label = facet_label | split: ':' | last | replace: '-', ' ' | capitalize
                                                                                 endif
                                                                             -%}
@@ -184,6 +209,7 @@
                                                                         {%- endif -%}
                                                                     </li>
                                                                 {%- endif -%}
+                                                            {%- endfor -%}
                                                             {%- endfor -%}
                                                         </ul>
                                                         <a href="{{ filter.url_to_remove }}" class="facets__reset link link-underline js-facet-remove" data-index="{{ indexTag | append: forloop.index }}" {% if countTagActive == 0 %} style="display: none;"{% endif %}><span class="text">{{ 'sections.collection_template.clear_all' | t }}</span></a>

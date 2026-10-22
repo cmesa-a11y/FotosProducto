@@ -62,7 +62,7 @@
           "type": "filter",
           "settings": {
             "heading": "Categoría",
-            "list_tags": "cat:ropa,cat:zapatos,cat:esenciales,cat:accesorios,cat:juguetes"
+            "list_tags": "cat:ropa,cat:zapatos,cat:juguetes,cat:accesorios,cat:esenciales=Esenciales para bebé"
           }
         },
         "ce351101-2c54-4627-b740-b2c592067b4a": {
