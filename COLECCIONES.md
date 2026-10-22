@@ -181,3 +181,25 @@ demás solo los usa el menú de escritorio, que creas tú y puedes apuntar a don
 En la barra inferior móvil quedó un enlace a `shopify://collections/vitamina-local`
 (`halo-toolbar-mobile`). Está desactivado, así que no se ve, pero es otro resto de la
 etapa anterior por si te aparece.
+
+## Filtro "Categoría" en la página de colección
+
+El tema ya pinta un bloque **Categoría** (Ropa · Zapatos · Esenciales) en la barra de
+filtros de la colección, a partir de las etiquetas `cat:`. Las etiquetas se muestran sin
+prefijo (`cat:ropa` → "Ropa").
+
+Para que aparezca hay que activar el filtro de etiquetas en Shopify (una sola vez):
+
+1. **Apps → Search & Discovery → Filtros → Añadir filtro → Etiqueta de producto.**
+2. Cambia su **etiqueta (nombre visible) a `Etiquetas`**, exactamente así. El tema busca
+   ese nombre (*Tema → Colección → Filtro → "Etiqueta del grupo de etiquetas"*) para
+   repartir las etiquetas en bloques. Si lo llamas distinto, cambia también ese ajuste.
+3. Guarda. Solo aparecen las categorías que tengan productos en esa colección.
+
+El resto de etiquetas (`edad:`, `ocasion:`, `tipo:`, `regalo`, `bordado`) está en la lista
+de etiquetas ocultas del filtro para que no salga un bloque con etiquetas en crudo. Si
+más adelante quieres un filtro por **Edad** u **Ocasión**, se añade otro bloque *Filtro*
+con su lista de etiquetas y se quitan de esa lista de ocultas.
+
+> Si la app USF (Ultimate Search & Filter) está activa, ella pinta los filtros y esto no
+> aplica: el filtro de categoría se configura dentro de USF.

@@ -47,7 +47,14 @@
                         <ul class="facets__list--refined list-unstyled" role="list">
                             {%- for filter in results.filters -%}
                                 {%- for value in filter.active_values -%}
-                                    <li><facet-remove><a class="active-facets__button js-facet-remove" href="{{ value.url_to_remove }}"><span class="text">{{ value.label | escape }}</span><span class="close"></span></a></facet-remove></li>
+                                    {%- liquid
+                                        # Etiquetas con prefijo (cat:ropa) se muestran sin él: "Ropa"
+                                        assign facet_label = value.label
+                                        if facet_label contains ':'
+                                            assign facet_label = facet_label | split: ':' | last | replace: '-', ' ' | capitalize
+                                        endif
+                                    -%}
+                                    <li><facet-remove><a class="active-facets__button js-facet-remove" href="{{ value.url_to_remove }}"><span class="text">{{ facet_label | escape }}</span><span class="close"></span></a></facet-remove></li>
                                 {%- endfor -%}
                                 {%- if filter.type == "price_range" -%}
                                     {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
@@ -161,7 +168,13 @@
                                                                         {%- elsif filter_rectangle contains label -%}
                                                                             <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}"><span class="text">{{ value.label | escape }}</span></label>
                                                                         {%- else -%}
-                                                                            <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} form-label--checkbox">{{ value.label | escape }} <span class="count">({{ value.count }})</span></label>
+                                                                            {%- liquid
+                                                                                assign facet_label = value.label
+                                                                                if facet_label contains ':'
+                                                                                    assign facet_label = facet_label | split: ':' | last | replace: '-', ' ' | capitalize
+                                                                                endif
+                                                                            -%}
+                                                                            <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} form-label--checkbox">{{ facet_label | escape }} <span class="count">({{ value.count }})</span></label>
                                                                         {%- endif -%}
                                                                     </li>
                                                                 {%- endif -%}
