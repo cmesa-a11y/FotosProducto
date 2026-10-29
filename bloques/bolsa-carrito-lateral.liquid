@@ -1,0 +1,75 @@
+{% comment %}
+  Hello Mellow · opción "Bolsa de regalo" en el CARRITO LATERAL
+  Cómo usarlo (Personalizar tema > Pie de página):
+  1) En el grupo "Pie de página", Agregar sección > "Liquid personalizado".
+  2) Pega TODO este código. Así funciona en todas las páginas.
+  (Para la página /cart usa el bloque bolsa-carrito.liquid, en la plantilla Carrito.)
+{% endcomment %}
+{%- assign hm_bag = all_products['bolsa-de-regalo-hello-mellow'] -%}
+{%- if hm_bag != blank and hm_bag.available -%}
+{%- assign hm_bag_v = hm_bag.variants.first -%}
+<style>
+.hm-bagS{display:flex;align-items:center;gap:10px;background:#F5F2E1;border:1.5px dashed #70202c;border-radius:12px;padding:6px 10px;margin:6px 0;color:#70202c;cursor:pointer}
+.hm-bagS input{width:18px;height:18px;accent-color:#70202c;flex:none;cursor:pointer}
+.hm-bagS img{width:34px;height:34px;object-fit:cover;border-radius:6px;background:#fff;flex:none}
+.hm-bagS b{display:block;font-size:13px;line-height:1.2}
+.hm-bagS span{display:block;font-size:11px;line-height:1.2;opacity:.9}
+.hm-bagS .hm-bagS-p{margin-left:auto;font-weight:700;font-size:13px;white-space:nowrap}
+.hm-bagS.hm-busy{opacity:.6;pointer-events:none}
+/* carrito lateral más compacto: deja ver los productos */
+#halo-cart-sidebar .previewCart{min-height:150px}
+#halo-cart-sidebar .previewCartTotals{padding-top:3px!important;padding-bottom:3px!important;margin:0!important}
+#halo-cart-sidebar .previewCartTotals.total .previewCartTotals-value{font-size:18px}
+#halo-cart-sidebar .previewCartAction .button{padding-top:10px!important;padding-bottom:10px!important;min-height:0!important;line-height:1.2!important}
+#halo-cart-sidebar .previewCartGroup{gap:8px}
+@media (max-height:700px){.hm-bagS span{display:none}}
+</style>
+<script>
+(function(){
+  var B={id:{{ hm_bag_v.id }},price:{{ hm_bag_v.price }},title:{{ hm_bag.title | json }},url:{{ hm_bag.url | json }},img:{{ hm_bag.featured_image | image_url: width: 110 | json }},label:{{ hm_bag_v.price | money_without_trailing_zeros | json }}};
+  function money(c){return '$'+Math.round(c/100).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+  function hasBag(c){return (c.items||[]).some(function(i){return i.variant_id===B.id})}
+  function patch(c){
+    var s=document.querySelector('#halo-cart-sidebar [data-cart-subtotal]'),t=document.querySelector('#halo-cart-sidebar [data-cart-total-value]');
+    if(s)s.textContent=money(c.original_total_price);
+    if(t){t.textContent=money(c.total_price);t.setAttribute('data-cart-total-value',c.total_price)}
+    [].forEach.call(document.querySelectorAll('[data-cart-count]'),function(e){e.textContent=c.item_count});
+    var list=document.querySelector('#halo-cart-sidebar .previewCartList');
+    if(!list)return;
+    var mine=list.querySelector('li[data-hm-bag]'),theirs=list.querySelector('a[href*="/products/'+B.url.split('/products/')[1]+'"]');
+    if(hasBag(c)){
+      if(!mine&&!theirs){
+        var li=document.createElement('li');li.className='previewCartItem clearfix';li.setAttribute('data-item-row','');li.setAttribute('data-hm-bag','');
+        li.innerHTML='<a href="'+B.url+'" class="previewCartItem-image"><img src="'+B.img+'" width="110" alt=""></a><div class="previewCartItem-content cart-item-block-right"><a class="previewCartItem-name link-underline" href="'+B.url+'"><span class="text">'+B.title+'</span></a><div class="previewCartItem-change"><div class="previewCartItem-price"><span class="price"><span>'+B.label+'</span></span></div></div></div>';
+        list.appendChild(li);
+      }
+    }else{
+      if(mine)mine.remove();
+      if(theirs){var r=theirs.closest('li');if(r)r.remove()}
+    }
+  }
+  function mount(){
+    var info=document.querySelector('#halo-cart-sidebar .previewCartInfo');
+    if(!info||document.getElementById('hm-bagS'))return;
+    var box=document.createElement('label');box.id='hm-bagS';box.className='hm-bagS';
+    box.innerHTML='<input type="checkbox" aria-label="Agregar bolsa de regalo"><img src="'+B.img+'" alt="" width="52" height="52" loading="lazy"><div><b>Agrega la bolsa de regalo</b><span>Tu compra empacada, lista para entregar</span></div><div class="hm-bagS-p">+'+B.label+'</div>';
+    info.parentNode.insertBefore(box,info);
+    var chk=box.querySelector('input');
+    fetch('/cart.js').then(function(r){return r.json()}).then(function(c){chk.checked=hasBag(c)}).catch(function(){});
+    chk.addEventListener('change',function(){
+      box.classList.add('hm-busy');
+      var on=chk.checked;
+      var req=on
+        ?fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:B.id,quantity:1}]})})
+        :fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(B.id),quantity:0})});
+      req.then(function(){return fetch('/cart.js')}).then(function(r){return r.json()}).then(function(c){patch(c);box.classList.remove('hm-busy')})
+        .catch(function(){box.classList.remove('hm-busy');chk.checked=!on});
+    });
+  }
+  var raf=0;
+  function schedule(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;mount()})}
+  new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
+  schedule();
+})();
+</script>
+{%- endif -%}

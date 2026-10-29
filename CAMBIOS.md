@@ -132,6 +132,33 @@ Añadidos `preconnect` + `dns-prefetch` a `clarity.ms` y `s3.amazonaws.com` (Add
 `templates/index.json`: el primer `product-tab-block` cargaba **20 productos**; sumado a
 los otros 4 bloques eran ~52 fichas de producto en el home. Bajado a 8.
 
+### 16. Hero del home escondido por la animación de entrada (LCP)
+`sections/slide-show.liquid`
+
+Con `settings.banner_animation = effect_fade_up` el contenedor del slideshow y cada
+`images-contain` llevaban `scroll-trigger animate--fade-in`. Esa clase deja el elemento en
+`opacity: .01` hasta que `animations.js` (defer) se ejecuta, el IntersectionObserver lo
+dispara y luego lo anima 600 ms. Para el hero del home (la imagen que es el LCP) eso añade
+el tiempo de descarga/ejecución del JS más la animación antes de que se vea. Ahora, si el
+slideshow es la primera sección de la página (`section.index <= 1`), no lleva esas clases.
+Los demás slideshows conservan la animación.
+
+Pendiente en el editor del tema (no es código): desactivar la pantalla de precarga
+(Ajustes del tema > `enable_preloading_screen`), que tapa la página con un fondo blanco a
+pantalla completa hasta `DOMContentLoaded`.
+
+### 17. Fuentes de Google con `@import` (FCP)
+`snippets/variable.liquid`
+
+Con `type_font_2 = google_fonts` (Cormorant Garamond) el tema inyectaba
+`@import url('https://fonts.googleapis.com/css?family=...')` dentro de un `<style>` inline.
+Un `@import` es render-blocking: el navegador no pinta nada hasta bajar ese CSS desde
+fonts.googleapis.com (DNS + TLS + descarga), y además pedía 12 variantes por familia
+(300 a 800 y cursivas). Ahora las URLs se acumulan en `hm_gf_urls` y se cargan después del
+`<style>` con `<link rel="stylesheet" media="print" onload="this.media='all'">` (no
+bloquea el primer pintado), con `preconnect` a fonts.googleapis.com y fonts.gstatic.com,
+`<noscript>` de respaldo y solo 5 variantes: 400, 400i, 500, 600 y 700.
+
 ---
 
 ## P2 — SEO y robustez

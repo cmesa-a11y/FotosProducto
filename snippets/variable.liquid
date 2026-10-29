@@ -1,3 +1,10 @@
+{%- comment -%}
+  FIX FCP: las fuentes de Google se cargaban con @import dentro de este <style>, que es
+  render-blocking (el navegador no pinta hasta bajar ese CSS desde fonts.googleapis.com) y además
+  pedía 12 variantes por familia (300-800 + cursivas). Ahora se cargan con <link> no bloqueante
+  (media=print + onload) y solo las variantes que usa el tema: 400, 400i, 500, 600 y 700.
+{%- endcomment -%}
+{%- assign hm_gf_urls = '' -%}
 <style>
     {%- if settings.type_font_1 == 'shopify_fonts' and settings.type_font_2 == 'shopify_fonts' -%}
         {% assign base_font = settings.type_font_1_font | font_modify: 'weight', '400' %}
@@ -30,17 +37,17 @@
     {%- elsif settings.type_font_1 != 'shopify_fonts' and settings.type_font_2 != 'shopify_fonts' -%}
           {%- assign font_1 = settings.type_font_1_name -%}
           {%- capture font_name_1 -%}
-              {{font_1 | strip | replace: ' ', '+'}}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
+              {{font_1 | strip | replace: ' ', '+'}}:400,400i,500,600,700
           {%- endcapture -%}
-          @import url('https://fonts.googleapis.com/css?family={{font_name_1}}&display=swap');
+          {%- assign hm_gf_urls = hm_gf_urls | append: font_name_1 | append: '|' -%}
                 {% assign fonts_name = font_1 %}
 
           {%- if settings.type_font_1_name != settings.type_font_2_name -%}
               {%- assign font_2 = settings.type_font_2_name -%}
               {%- capture fonts_name_2 -%}
-                  {{font_2 | strip | replace: ' ', '+'}}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
+                  {{font_2 | strip | replace: ' ', '+'}}:400,400i,500,600,700
               {%- endcapture -%}
-              @import url('https://fonts.googleapis.com/css?family={{fonts_name_2}}&display=swap');
+              {%- assign hm_gf_urls = hm_gf_urls | append: fonts_name_2 | append: '|' -%}
                     {% assign fonts_name_2 = font_2 %}
           {%- else -%}
                     {% assign fonts_name_2 = font_1 %}
@@ -61,9 +68,9 @@
           {%- if base_font.family != settings.type_font_2_name -%}
               {%- assign font_2 = settings.type_font_2_name -%}
               {%- capture fonts_name_2 -%}
-                  {{font_2 | strip | replace: ' ', '+'}}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
+                  {{font_2 | strip | replace: ' ', '+'}}:400,400i,500,600,700
               {%- endcapture -%}
-              @import url('https://fonts.googleapis.com/css?family={{fonts_name_2}}&display=swap');
+              {%- assign hm_gf_urls = hm_gf_urls | append: fonts_name_2 | append: '|' -%}
                       {% assign fonts_name_2 = font_2 %}
           {%- else -%}
                     {% assign fonts_name_2 = base_font.family | append: ',' | append: base_font.fallback_families %}
@@ -77,9 +84,9 @@
           {%- if header_font.family != settings.type_font_1_name -%}
               {%- assign font_1 = settings.type_font_1_name -%}
               {%- capture font_name_1 -%}
-                  {{font_1 | strip | replace: ' ', '+'}}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
+                  {{font_1 | strip | replace: ' ', '+'}}:400,400i,500,600,700
               {%- endcapture -%}
-              @import url('https://fonts.googleapis.com/css?family={{font_name_1}}&display=swap');
+              {%- assign hm_gf_urls = hm_gf_urls | append: font_name_1 | append: '|' -%}
                     {% assign fonts_name = font_1 %}
           {%- else -%}
                     {% assign fonts_name = header_font.family | append: ',' | append: header_font.fallback_families %}
@@ -377,3 +384,14 @@
         --product-marquee-background-color: {{ settings.product_marquee_background_color }};--product-marquee-text-color: {{ settings.product_marquee_text_color }};--product-marquee-text-size: {{ settings.product_marquee_text_size | append: 'px' }};--product-marquee-text-mobile-size: {{ settings.product_marquee_text_mobile_size | append: 'px' }};--product-marquee-text-weight: {{ settings.product_marquee_text_weight }};--product-marquee-text-transform: {{ settings.product_marquee_text_transform }};--product-marquee-text-style: {{ settings.product_marquee_text_style }};--product-marquee-speed: {{ settings.product_marquee_speed }}; --product-marquee-line-height: calc(var(--product-marquee-text-mobile-size) * 1.5);
     }
 </style>
+{%- if hm_gf_urls != blank -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {%- assign hm_gf_list = hm_gf_urls | split: '|' -%}
+  {%- for hm_gf in hm_gf_list -%}
+    {%- if hm_gf != blank -%}
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ hm_gf }}&display=swap" media="print" onload="this.media='all'">
+      <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ hm_gf }}&display=swap"></noscript>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

@@ -1,0 +1,83 @@
+<style>
+.hm-op{max-width:520px;margin:0 auto;color:#70202c;text-align:center}
+.hm-op p{margin:0 0 12px}
+.hm-card{background:#F5F2E1;border-radius:20px;padding:22px 18px;margin-top:16px;text-align:left}
+.hm-card label{display:block;font-weight:700;margin:14px 0 6px}
+.hm-card input[type=text],.hm-card input[type=email],.hm-card textarea{width:100%;box-sizing:border-box;border:1px solid #d9cfc0;border-radius:12px;padding:12px;font-size:16px;background:#fff;color:#222}
+.hm-card textarea{min-height:110px;resize:vertical}
+.hm-stars{display:flex;flex-direction:row-reverse;justify-content:center;gap:6px}
+.hm-stars input{position:absolute;opacity:0;width:1px;height:1px}
+.hm-stars label{font-size:44px;line-height:1;color:#d9cfc0;cursor:pointer;margin:0;font-weight:400}
+.hm-stars input:checked~label,.hm-stars label:hover,.hm-stars label:hover~label{color:#F2B36A}
+.hm-btn{display:block;width:100%;margin-top:18px;background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:15px;font-size:17px;font-weight:700;cursor:pointer}
+.hm-btn[disabled]{opacity:.6}
+.hm-err{color:#b00020;font-size:14px;margin-top:8px;display:none;text-align:center}
+.hm-dbg{color:#999;font-size:11px;margin-top:6px;word-break:break-all}
+.hm-pill{background:#F2B36A;display:inline-block;padding:6px 16px;border-radius:99px;font-weight:700}
+.template-page .jdgm-write-rev-link{display:none!important}
+</style>
+<div class="hm-op">
+<p style="font-size:22px;font-weight:700">¡Hola, familia Mellow! 💛</p>
+<p>Nos encantó tenerte en la tienda. Cuéntanos cómo te fue: tu opinión ayuda a otras familias a encontrarnos y a nosotros a consentirte cada vez mejor.</p>
+<p class="hm-pill">🎁 Tu opinión tiene premio: 15% OFF en tu próxima compra</p>
+<div id="hm-form" class="hm-card">
+<label style="text-align:center">¿Qué tan Mellow fue tu visita?</label>
+<div class="hm-stars">
+<input type="radio" name="hm-r" id="hm-r5" value="5"><label for="hm-r5" title="5">★</label>
+<input type="radio" name="hm-r" id="hm-r4" value="4"><label for="hm-r4" title="4">★</label>
+<input type="radio" name="hm-r" id="hm-r3" value="3"><label for="hm-r3" title="3">★</label>
+<input type="radio" name="hm-r" id="hm-r2" value="2"><label for="hm-r2" title="2">★</label>
+<input type="radio" name="hm-r" id="hm-r1" value="1"><label for="hm-r1" title="1">★</label>
+</div>
+<label for="hm-txt">Cuéntanos tu experiencia</label>
+<textarea id="hm-txt" placeholder="¿Qué te enamoró? ¿Un producto, la atención, el espacio…?"></textarea>
+<label for="hm-name">Tu nombre</label>
+<input type="text" id="hm-name" autocomplete="name">
+<label for="hm-email">Tu correo</label>
+<input type="email" id="hm-email" autocomplete="email" placeholder="No se publicará">
+<button type="button" class="hm-btn" id="hm-send">Enviar mi reseña y recibir mi regalo 🎁</button>
+<div class="hm-err" id="hm-err"></div>
+<div class="hm-dbg" id="hm-dbg"></div>
+</div>
+</div>
+<div id="hm-cupon" style="display:none;position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px">
+<div style="background:#F5F2E1;color:#70202c;max-width:380px;width:100%;border-radius:20px;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.3)">
+<div style="font-size:40px;line-height:1">🎁</div>
+<p style="font-size:22px;font-weight:700;margin:10px 0 6px">¡Gracias por tu opinión!</p>
+<p style="margin:0 0 16px">Aquí tienes tu regalo: <strong>15% de descuento</strong> en tu próxima compra en hellomellow.com.co</p>
+<div id="hm-code" style="border:2px dashed #70202c;border-radius:12px;padding:12px;font-size:24px;font-weight:700;letter-spacing:2px;background:#fff"></div>
+<button type="button" id="hm-copy" style="margin-top:14px;background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:12px 24px;font-size:15px;font-weight:700;cursor:pointer">Copiar código</button>
+<p style="font-size:12px;margin:14px 0 0;opacity:.8">Válido una vez por cliente. Toma una captura para no perderlo.</p>
+<button type="button" id="hm-close" style="margin-top:10px;background:none;border:0;color:#70202c;text-decoration:underline;cursor:pointer">Cerrar</button>
+</div>
+</div>
+<script>
+(function(){
+  var c=[71,82,65,67,73,65,83,77,69,76,76,79,87].map(function(n){return String.fromCharCode(n)}).join('');
+  var f=document.getElementById('hm-form'),box=document.getElementById('hm-cupon'),err=document.getElementById('hm-err'),dbg=document.getElementById('hm-dbg');
+  function show(){document.getElementById('hm-code').textContent=c;box.style.display='flex';}
+  document.getElementById('hm-copy').onclick=function(){var b=this;function ok(){b.textContent='¡Copiado! ✓'}if(navigator.clipboard)navigator.clipboard.writeText(c).then(ok,ok);else ok();};
+  document.getElementById('hm-close').onclick=function(){box.style.display='none'};
+  var sending=false;
+  document.getElementById('hm-send').addEventListener('click',function(e){
+    e.preventDefault();if(sending)return;
+    var r=f.querySelector('input[name=hm-r]:checked'),t=document.getElementById('hm-txt').value.trim(),n=document.getElementById('hm-name').value.trim(),m=document.getElementById('hm-email').value.trim();
+    function bad(x){err.textContent=x;err.style.display='block';}
+    if(!r)return bad('Elige de 1 a 5 estrellas ⭐');
+    if(t.length<3)return bad('Cuéntanos un poquito de tu experiencia');
+    if(!n)return bad('Escribe tu nombre');
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m))return bad('Escribe un correo válido');
+    err.style.display='none';dbg.textContent='';sending=true;var btn=this;btn.disabled=true;btn.textContent='Enviando…';
+    var jp=new URLSearchParams({url:'uyuguj-2n.myshopify.com',shop_domain:'uyuguj-2n.myshopify.com',platform:'shopify',id:'7291611742243',name:n,email:m,rating:r.value,title:t.split(/[.!?\n]/)[0].slice(0,60),body:t});
+    function ok(note){f.innerHTML='<p style="text-align:center;font-weight:700;margin:0">¡Recibimos tu reseña! 💛</p>'+(note?'<p class="hm-dbg" style="text-align:center">'+note+'</p>':'');show();}
+    function fail(x){sending=false;btn.disabled=false;btn.textContent='Enviar mi reseña y recibir mi regalo 🎁';bad('No pudimos enviar tu reseña. Intenta de nuevo o muéstrale esta pantalla a nuestro equipo.');dbg.textContent=x;}
+    fetch('https://judge.me/api/v1/reviews',{method:'POST',body:jp}).then(function(res){
+      return res.text().then(function(txt){
+        if(res.ok)ok('');else fail('Judge.me '+res.status+': '+txt.slice(0,200));
+      });
+    }).catch(function(e){
+      fetch('https://judge.me/api/v1/reviews',{method:'POST',mode:'no-cors',body:jp}).then(function(){ok('·')},function(e2){fail('Red: '+(e2&&e2.message||e2))});
+    });
+  });
+})();
+</script>

@@ -1,0 +1,126 @@
+sku,producto_shopify,talla,precio,costo,estado
+BML-MS-FUEGO-FF-E912,Body Manga Corta Fuego Figuras Full & Frase,9-12 meses,73000,46800,ACTIVE
+BML-E-MS-AGUAFULL&FRASE0-3,Body Manga Larga Agua Caritas Full & Frase,0-3 meses,78000,46800,ACTIVE
+BML-MS-AGUA-FF-E69,Body Manga Larga Agua Caritas Full & Frase,6-9 meses,78000,46800,ACTIVE
+BML-MS-AIRE-FR-36,Body Manga Larga Tierra Helados Frase,3-6 meses,78000,46800,ACTIVE
+BML-E-MS-AIREFULL&FRASE0-3,Body Manga Larga Tierra Helados Full & Frase,0-3 meses,78000,46800,ACTIVE
+BML-E-MS-AIREFULL&FRASE6-9,Body Manga Larga Tierra Helados Full & Frase,6-9 meses,78000,46800,ACTIVE
+BML-MS-AIRE-FF-E1218,Body Manga Larga Tierra Helados Full & Frase,12-18 meses,78000,46800,ACTIVE
+BML-MS-TIER-FR-03,Body Manga Larga Aire Cohetes Frase,0-3 meses,78000,46800,ACTIVE
+BML-E-MS-TIERRAFRASE6-9,Body Manga Larga Aire Cohetes Frase,6-9 meses,78000,46800,ACTIVE
+BML-E-MS-TIERRAFRASE12-18,Body Manga Larga Aire Cohetes Frase,12-18 meses,78000,46800,ACTIVE
+JUMPER-MS-AZULCLARONB,Pijama Jumper Agua Caritas Azul Claro,Recién nacido,149000,89400,ACTIVE
+JUMPER-MS-AZULCLARO12-18,Pijama Jumper Agua Caritas Azul Claro,12-18 meses,149000,0,ACTIVE
+JMP-MS-AZ-CL-1824,Pijama Jumper Agua Caritas Azul Claro,18-24 meses,149000,89400,ACTIVE
+BML-MS-FUEGO-FR-03,Body Manga Larga Fuego Figuras Frase,0-3 meses,78000,46800,ACTIVE
+BML-E-MS-FUEGOFRASE6-9,Body Manga Larga Fuego Figuras Frase,6-9 meses,78000,46800,ACTIVE
+BML-E-MS-FUEGOFRASE12-18,Body Manga Larga Fuego Figuras Frase,12-18 meses,78000,46800,ACTIVE
+BK-U-A-PALODEROSA0-3,Body Kimono Manga Larga Palo de Rosa,0-3 meses,89000,53400,ACTIVE
+BK-U-A-PALODEROSA3-6,Body Kimono Manga Larga Palo de Rosa,3-6 meses,89000,53400,ACTIVE
+BK-U-A-PALODEROSA6-9,Body Kimono Manga Larga Palo de Rosa,6-9 meses,89000,53400,ACTIVE
+BK-U-A-PALODEROSA9-12,Body Kimono Manga Larga Palo de Rosa,9-12 meses,89000,53400,ACTIVE
+BKUA-PALODEROSA12-18,Body Kimono Manga Larga Palo de Rosa,12-18 meses,89000,53400,ACTIVE
+PJ-BS-A-TERRACOTA-KOALA9-12,Pijama Básica Ambiental Terracota Koala,9-12 meses,98000,58800,ACTIVE
+PJ-BS-A-TERRACOTA-KOALA12-18,Pijama Básica Ambiental Terracota Koala,12-18 meses,98000,58800,ACTIVE
+PJ-BS-MS-CARITASFULL12-18,Pijama Básica Agua Caritas Full,12-18 meses,130000,78000,ACTIVE
+PJ-BS-A-VERDE-MORSA-12-18,Pijama Básica Ambiental Verde Morsa,12-18 meses,98000,58800,ACTIVE
+PJ-BS-MS-COHETESFULL12-18,Pijama Básica Aire Cohetes Full,12-18 meses,130000,78000,ACTIVE
+BK-U-A-AZULPETROLEONB,Body Kimono Manga Larga Azul Petroleo,Recién nacido,89000,53400,ACTIVE
+BK-U-A-AZULPETROLEO3-6,Body Kimono Manga Larga Azul Petroleo,3-6 meses,89000,53400,ACTIVE
+BK-U-A-AZULPETROLEO6-9,Body Kimono Manga Larga Azul Petroleo,6-9 meses,89000,53400,ACTIVE
+BK-U-A-AZULPETROLEO9-12,Body Kimono Manga Larga Azul Petroleo,9-12 meses,89000,53400,ACTIVE
+BK-U-A-AZULPETROLEO12-18,Body Kimono Manga Larga Azul Petroleo,12-18 meses,89000,53400,ACTIVE
+P-E-A-HOJANARANJANB,Pantalón Estampado Ambiental Hoja Naranja,Recién nacido,75000,47400,ACTIVE
+P-E-A-HOJANARANJA0-3,Pantalón Estampado Ambiental Hoja Naranja,0-3 meses,75000,47400,ACTIVE
+P-E-A-HOJANARANJA6-9,Pantalón Estampado Ambiental Hoja Naranja,6-9 meses,75000,47400,ACTIVE
+P-E-MS-FIGURAS0-3,Pantalón Estampado Fuego Figuras,0-3 meses,79000,47400,ACTIVE
+P-E-MS-FIGURAS6-9,Pantalón Estampado Fuego Figuras,6-9 meses,79000,47400,ACTIVE
+P-E-MS-FIGURAS9-12,Pantalón Estampado Fuego Figuras,9-12 meses,79000,47400,ACTIVE
+P-E-MS-FIGURAS12-18,Pantalón Estampado Fuego Figuras,12-18 meses,79000,47400,ACTIVE
+P-E-MS-FIGURAS18-24,Pantalón Estampado Fuego Figuras,18-24 meses,79000,47400,ACTIVE
+JUMPER-MS-AZULARANDANO0-3,Pijama Jumper Fuego Figuras Azul Arándano,0-3 meses,149000,89400,ACTIVE
+JUMPER-MS-AZULARANDANO6-9,Pijama Jumper Fuego Figuras Azul Arándano,6-9 meses,149000,89400,ACTIVE
+JUMPER-MS-AZULARANDANO9-12,Pijama Jumper Fuego Figuras Azul Arándano,9-12 meses,149000,89400,ACTIVE
+TALEGO-MS-GRIS3-6,Pijama Talego Fuego Figuras Gris,3-6 meses,193000,115800,ACTIVE
+TALEGO-MS-GRIS9-12,Pijama Talego Fuego Figuras Gris,9-12 meses,193000,115800,ACTIVE
+TALEGO-MS-GRIS18-24,Pijama Talego Fuego Figuras Gris,18-24 meses,193000,115800,ACTIVE
+TALEGO-MS-ROSADO3-6,Pijama Talego Tierra Helados Rosada,3-6 meses,193000,115800,ACTIVE
+TALEGO-MS-ROSADO9-12,Pijama Talego Tierra Helados Rosada,9-12 meses,193000,115800,ACTIVE
+PJ-BASICA-E-MS-FIGURASF&F3-6,Pijama Básica Fuego Figuras Full & Frase,3-6 meses,130000,78000,ACTIVE
+PJ-BASICA-E-MS-FIGURASF&F6-9,Pijama Básica Fuego Figuras Full & Frase,6-9 meses,130000,0,ACTIVE
+PJ-BASICA-E-MS-FIGURASF&F9-12,Pijama Básica Fuego Figuras Full & Frase,9-12 meses,130000,78000,ACTIVE
+BK-U-A-OLIVANB,Body Kimono Manga Larga Oliva,Recién nacido,89000,53400,ACTIVE
+BK-U-A-OLIVA0-3,Body Kimono Manga Larga Oliva,0-3 meses,89000,53400,ACTIVE
+BK-U-A-OLIVA3-6,Body Kimono Manga Larga Oliva,3-6 meses,89000,53400,ACTIVE
+BK-U-A-OLIVA6-9,Body Kimono Manga Larga Oliva,6-9 meses,89000,53400,ACTIVE
+BK-U-A-OLIVA9-12,Body Kimono Manga Larga Oliva,9-12 meses,89000,53400,ACTIVE
+BK-U-A-OLIVA12-18,Body Kimono Manga Larga Oliva,12-18 meses,89000,53400,ACTIVE
+TALEGO-MS-AMARILLO6-9,Pijama Talego Agua Caritas Amarillo,6-9 meses,193000,115800,ACTIVE
+TALEGO-MS-AMARILLO12-18,Pijama Talego Agua Caritas Amarillo,12-18 meses,193000,115800,ACTIVE
+PJ-BASICA-E-MS-FUEGOFULL3-6,Pijama Básica Fuego Figuras Full,3-6 meses,130000,0,ACTIVE
+PJ-BASICA-E-MS-FIGURASFULL9-12,Pijama Básica Fuego Figuras Full,9-12 meses,130000,78000,ACTIVE
+PJ-BASICA-E-MS-HELADOSF&F0-3,Pijama Básica Tierra Helados Full & Frase,0-3 meses,130000,78000,ACTIVE
+PJ-BASICA-E-MS-HELADOSF&3-6,Pijama Básica Tierra Helados Full & Frase,3-6 meses,130000,78000,ACTIVE
+PJ-BASICA-E-MS-HELADOSF&F6-9,Pijama Básica Tierra Helados Full & Frase,6-9 meses,130000,78000,ACTIVE
+PJ-BASICA-E-MS-CARITASF&F3-6,Pijama Básica Agua Caritas Full & Frase,3-6 meses,130000,78000,ACTIVE
+PJ-BASICA-E-MS-CARITASF&F12-18,Pijama Básica Agua Caritas Full & Frase,12-18 meses,130000,0,ACTIVE
+P-E-A-CORALNB,Pantalón Unicolor Ambiental Coral,Recién nacido,75000,47400,ACTIVE
+JUMPER-MS-AMARILLO6-9,Pijama Jumper Agua Caritas Amarillo,6-9 meses,149000,89400,ACTIVE
+BML-U-A-OLIVA6-9,Body Manga Larga Unicolor Oliva,6-9 meses,65000,39000,ACTIVE
+BML-U-A-VINO3-6,Body Manga Larga Unicolor Vinotinto,3-6 meses,65000,53400,ACTIVE
+BML-U-A-VINO6-9,Body Manga Larga Unicolor Vinotinto,6-9 meses,65000,39000,ACTIVE
+BML-U-A-VINO12-18,Body Manga Larga Unicolor Vinotinto,12-18 meses,65000,39000,ACTIVE
+JUMPER-MS-VERDECRUDO0-3,Pijama Jumper Fuego Figuras Crudo,0-3 meses,149000,0,ACTIVE
+JUMPER-MS-VERDECRUDO3-6,Pijama Jumper Fuego Figuras Crudo,3-6 meses,149000,89400,ACTIVE
+JUMPER-MS-VERDECRUDO6-9,Pijama Jumper Fuego Figuras Crudo,6-9 meses,149000,89400,ACTIVE
+JUMPER-MS-VERDECRUDO9-12,Pijama Jumper Fuego Figuras Crudo,9-12 meses,149000,89400,ACTIVE
+JUMPER-MS-VERDECRUDO12-18,Pijama Jumper Fuego Figuras Crudo,12-18 meses,149000,89400,ACTIVE
+JUMPER-MS-VERDEPISTACHONB,Pijama Jumper Aire Cohetes Verde Pistacho,Recién nacido,149000,89400,ACTIVE
+JUMPER-MS-VERDEPISTACHO6-9,Pijama Jumper Aire Cohetes Verde Pistacho,6-9 meses,149000,89400,ACTIVE
+JUMPER-MS-VERDEPISTACHO9-12,Pijama Jumper Aire Cohetes Verde Pistacho,9-12 meses,149000,89400,ACTIVE
+P-E-MS-HOJAS0-3,Pantalón Estampado Agua Hojas,0-3 meses,79000,47400,ACTIVE
+P-E-MS-HOJAS6-9,Pantalón Estampado Agua Hojas,6-9 meses,79000,47400,ACTIVE
+P-E-MS-HOJAS9-12,Pantalón Estampado Agua Hojas,9-12 meses,79000,47400,ACTIVE
+P-E-MS-HOJAS12-18,Pantalón Estampado Agua Hojas,12-18 meses,79000,47400,ACTIVE
+P-E-MS-HOJAS18-24,Pantalón Estampado Agua Hojas,18-24 meses,79000,47400,ACTIVE
+TALEGO-MS-CRUDO6-9,Pijama Talego Tierra Helados Crudo,6-9 meses,193000,115800,ACTIVE
+TALEGO-MS-CRUDO12-18,Pijama Talego Tierra Helados Crudo,12-18 meses,193000,115800,ACTIVE
+P-E-A-HOJAAMBARNB,Pantalón Estampado Ambiental Hoja Ambar,Recién nacido,75000,47400,ACTIVE
+P-E-A-HOJAAMBAR0-3,Pantalón Estampado Ambiental Hoja Ambar,0-3 meses,75000,0,ACTIVE
+P-E-A-HOJAAMBAR6-9,Pantalón Estampado Ambiental Hoja Ambar,6-9 meses,75000,47400,ACTIVE
+P-E-A-HOJAAMBAR9-12,Pantalón Estampado Ambiental Hoja Ambar,9-12 meses,75000,47400,ACTIVE
+P-E-MS-ESTRELLAS0-3,Pantalón Estampado Aire Estrellas,0-3 meses,79000,47400,ACTIVE
+P-E-MS-ESTRELLAS6-9,Pantalón Estampado Aire Estrellas,6-9 meses,79000,47400,ACTIVE
+P-E-MS-ESTRELLAS9-12,Pantalón Estampado Aire Estrellas,9-12 meses,79000,47400,ACTIVE
+P-E-MS-ESTRELLAS12-18,Pantalón Estampado Aire Estrellas,12-18 meses,79000,47400,ACTIVE
+P-E-MS-ESTRELLAS18-24,Pantalón Estampado Aire Estrellas,18-24 meses,79000,47400,ACTIVE
+P-E-A-NUBESNB,Pantalón Estampado Ambiental Nubes,Recién nacido,75000,47400,ACTIVE
+P-E-A-NUBES0-3,Pantalón Estampado Ambiental Nubes,0-3 meses,75000,47400,ACTIVE
+P-E-A-NUBES6-9,Pantalón Estampado Ambiental Nubes,6-9 meses,75000,47400,ACTIVE
+P-E-A-NUBES9-12,Pantalón Estampado Ambiental Nubes,9-12 meses,75000,47400,ACTIVE
+BML-E-MS-AGUAFRASENB,Body Manga Larga Agua Caritas Frase,Recién nacido,78000,46800,ACTIVE
+BML-E-MS-AGUAFRASE0-3,Body Manga Larga Agua Caritas Frase,0-3 meses,78000,0,ACTIVE
+BML-E-MS-AGUAFRASE3-6,Body Manga Larga Agua Caritas Frase,3-6 meses,78000,46800,ACTIVE
+BML-E-MS-AGUAFRASE9-12,Body Manga Larga Agua Caritas Frase,9-12 meses,78000,46800,ACTIVE
+TALEGO-MS-IVORY3-6,Pijama Talego Agua Caritas Ivory,3-6 meses,193000,115800,ACTIVE
+TALEGO-MS-IVORY9-12,Pijama Talego Agua Caritas Ivory,9-12 meses,193000,115800,ACTIVE
+TALEGO-MS-IVORY18-24,Pijama Talego Agua Caritas Ivory,18-24 meses,193000,115800,ACTIVE
+P-E-MS-HELADOS0-3,Pantalón Estampado Tierra Helados,0-3 meses,79000,47400,ACTIVE
+P-E-MS-HELADOS6-9,Pantalón Estampado Tierra Helados,6-9 meses,79000,47400,ACTIVE
+P-E-MS-HELADOS9-12,Pantalón Estampado Tierra Helados,9-12 meses,79000,47400,ACTIVE
+BML-E-MS-FUEGOFULL&FRASENB,Body Manga Larga Fuego Figuras Full & Frase,Recién nacido,78000,46800,ACTIVE
+BML-E-MS-FUEGOFULL&FRASE3-6,Body Manga Larga Fuego Figuras Full & Frase,3-6 meses,78000,46800,ACTIVE
+TALEGO-MS-LILA6-9,Pijama Talego Aire Cohetes Lila,6-9 meses,193000,115800,ACTIVE
+PJ-BASICA-E-MS-COHETESF&F12-18,Pijama Básica Aire Cohetes Full & Frase,12-18 meses,130000,0,ACTIVE
+JUMPER-MS-LILANB,Pijama Jumper Aire Cohetes Lila,Recién nacido,149000,89400,ACTIVE
+JUMPER-MS-LILA0-3,Pijama Jumper Aire Cohetes Lila,0-3 meses,149000,89400,ACTIVE
+JUMPER-MS-LILA12-18,Pijama Jumper Aire Cohetes Lila,12-18 meses,149000,89400,ACTIVE
+JUMPER-MS-LILA18-24,Pijama Jumper Aire Cohetes Lila,18-24 meses,149000,89400,ACTIVE
+BML-E-MS-TIERRAFULL&FRASENB,Body Manga Larga Aire Cohetes Full & Frase,Recién nacido,78000,46800,ACTIVE
+JUMPER-MS-ROSADO18-24,Pijama Jumper Rosado,18-24 meses,149000,89400,DRAFT
+JUMPER-MS-VERDEMENTA18-24,Pijama Jumper Verde Menta,18-24 meses,149000,89400,DRAFT
+BK-U-A-PALODEROSA12-18,Body Manga Larga Unicolor Palo de Rosa,12-18 meses,65000,39000,ACTIVE
+BML-E-MS-TIERRAFULL&FRASE9-12,Body Manga Corta Aire Cohetes Full & Frase,9-12 meses,73000,46800,ACTIVE
+PJ-BASICA-E-MS-HELADOSFULL3-6,Pijama Básica Tierra Helados Full,3-6 meses,130000,78000,ACTIVE
+PJ-BASICA-E-A-MALVA-RINO-12-18,Pijama Básica Ambiental Malva Rino,12-18 meses,98000,58800,ACTIVE
+PJ-BASICA-E-A-GRIS-BUHO-9-12,Pijama Básica Ambiental Gris Búho,9-12 meses,98000,58800,ACTIVE
