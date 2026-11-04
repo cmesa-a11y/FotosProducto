@@ -1,0 +1,23 @@
+{% comment %}
+  Hello Mellow · sellos de confianza JUNTO al botón "Agregar al carrito"
+  Se ve en celular y en computador.
+  Cómo usarlo (Personalizar tema > Productos > Plantilla por defecto):
+  1) En la sección del producto: "Agregar bloque" > "Liquid personalizado". Pega TODO este código.
+  2) Arrastra el bloque para que quede justo DEBAJO de "Botones de compra".
+  Textos editables en las 3 variables de abajo.
+{% endcomment %}
+{% assign hm_s1 = 'Envío gratis desde $250.000' %}
+{% assign hm_s2 = 'Cambios y devoluciones gratis' %}
+{% assign hm_s3 = 'Compra segura y protegida' %}
+
+<style>
+.hm-sb{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0 4px;padding:10px 6px;list-style:none;background:#F5F2E1;border-radius:12px}
+.hm-sb li{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;color:#70202c;font-size:11px;font-weight:600;line-height:1.2}
+.hm-sb svg{width:22px;height:22px;stroke:#70202c;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+@media (max-width:380px){.hm-sb li{font-size:10px}}
+</style>
+<ul class="hm-sb">
+  <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6.5h11v9H2z"/><path d="M13 9.5h4l3 3v3h-7"/><circle cx="6.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg><span>{{ hm_s1 }}</span></li>
+  <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/><path d="M9 12.2l2 2 4-4"/></svg><span>{{ hm_s2 }}</span></li>
+  <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8-7.5 9.5-4.3-1.5-7.5-5-7.5-9.5V6z"/><path d="M8.8 12l2.4 2.4 4-4.4"/></svg><span>{{ hm_s3 }}</span></li>
+</ul>

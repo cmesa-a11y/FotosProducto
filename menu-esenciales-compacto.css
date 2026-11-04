@@ -1,0 +1,17 @@
+<style>
+/* Hello Mellow · Mega menú de Esenciales compacto: el recuadro blanco solo cubre la lista y la foto (solo computador) */
+@media (min-width:1025px){
+  .menu-lv-1:has(>a[href="/collections/esenciales"]){position:relative}
+  .menu-lv-1:has(>a[href="/collections/esenciales"])>.menu-dropdown{width:auto!important;min-width:0!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;border-radius:0 0 14px 14px}
+  .menu-lv-1:has(>a[href="/collections/esenciales"])>.menu-dropdown>div{width:auto!important;max-width:none!important;padding:0 28px!important}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__wrapper{flex-wrap:nowrap!important;justify-content:flex-start!important;align-items:flex-start!important;gap:32px;margin:0!important}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__column{flex:0 0 auto!important;max-width:none!important;width:auto!important;height:auto!important}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__column .grid-sizer{display:none}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__column .site-nav{width:auto!important;position:static!important;padding:0!important;margin:0!important}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__column .site-nav-title{display:none!important}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__column .site-nav-sub{position:static!important;display:block!important}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__column li{white-space:nowrap}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .menu-dropdown__banner{flex:0 0 auto!important;max-width:none!important}
+  .menu-lv-1:has(>a[href="/collections/esenciales"]) .site-nav-banner-item--right{margin-left:0!important;width:220px!important}
+}
+</style>

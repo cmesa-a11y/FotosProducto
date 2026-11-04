@@ -1,9 +1,19 @@
 {%- comment -%}
+  FIX LCP 2: si el slideshow es la PRIMERA sección de la página (el hero del home), ya no lleva
+  scroll-trigger/animate--fade-in. Esa clase deja el hero en opacity .01 hasta que animations.js
+  (defer) corra y el IntersectionObserver lo dispare, y luego lo anima 600 ms: retrasa el LCP.
+  Para el resto de slideshows (más abajo en la página) la animación se conserva.
   FIX LCP: el primer slide ya se cargaba eager, pero sin prioridad. Añadido
   fetchpriority="high" para que el navegador lo pida antes que el resto.
 {%- endcomment -%}
 {%- if section.blocks.size > 0 -%}
     {%-liquid
+        assign hm_anim_hero = false
+        if section.index != blank
+          if section.index <= 1
+            assign hm_anim_hero = true
+          endif
+        endif
         assign autoplay = section.settings.autoplay
         assign autoplaySpeed = section.settings.slideshow_speed
         assign fade = section.settings.slideshow_transition
@@ -37,7 +47,7 @@
                     </div>
                 </div>
             {%- endif -%}
-            <div class="slideshow{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" data-auto-video="{{ section.settings.auto_playvideo }}" {% if section.blocks.size > 1 %}data-init-slideshow data-arrows="{{arrow}}" data-dots="{{dots}}" data-autoplay="{{ autoplay }}" data-autoplay-speed="{{ autoplaySpeed }}" data-fade="{{ fade }}" {% endif %}>
+            <div class="slideshow{% if settings.banner_animation == 'effect_fade_up' and hm_anim_hero == false %} scroll-trigger animate--fade-in{% endif %}" data-auto-video="{{ section.settings.auto_playvideo }}" {% if section.blocks.size > 1 %}data-init-slideshow data-arrows="{{arrow}}" data-dots="{{dots}}" data-autoplay="{{ autoplay }}" data-autoplay-speed="{{ autoplaySpeed }}" data-fade="{{ fade }}" {% endif %}>
             {%- for block in section.blocks -%}
                 {%- if block.type == 'image' or block.type == 'video' -%}
                     {%- if block.type == 'image' -%}
@@ -85,7 +95,7 @@
                                     {{ 'lookbook-script.js' | asset_url | script_tag }}
                                 {%- endif -%}
                             {%- endif -%}
-                            <div class="images-contain lookbook-image-item {% if enable_lookbook_width %}width-restricted{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }} o-hidden{% endif %}" data-lookbook-item-container style="--dot-desktop-size: {{ dot_desktop_size }};--dot-mobile-size: {{ dot_mobile_size }};--dot-shadow-color: {{ dot_shadow_color }};--dot-outer-color: {{ dot_outer_color }};--dot-inner-color: {{ dot_inner_color }};--dot-number-desktop-size: {{ number_desktop_size }};--dot-number-mobile-size: {{ number_mobile_size }};--max-width: {{ lookbook_width }};--des-max-width: {% if des_width > 0 %}{{ des_width | append: 'px' }}{% else %}unset{% endif %};--truncate-line: {{ lookbook_truncate }}">
+                            <div class="images-contain lookbook-image-item {% if enable_lookbook_width %}width-restricted{% endif %}{% if settings.banner_animation == 'effect_fade_up' and hm_anim_hero == false %} scroll-trigger animate--fade-in{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }} o-hidden{% endif %}" data-lookbook-item-container style="--dot-desktop-size: {{ dot_desktop_size }};--dot-mobile-size: {{ dot_mobile_size }};--dot-shadow-color: {{ dot_shadow_color }};--dot-outer-color: {{ dot_outer_color }};--dot-inner-color: {{ dot_inner_color }};--dot-number-desktop-size: {{ number_desktop_size }};--dot-number-mobile-size: {{ number_mobile_size }};--max-width: {{ lookbook_width }};--des-max-width: {% if des_width > 0 %}{{ des_width | append: 'px' }}{% else %}unset{% endif %};--truncate-line: {{ lookbook_truncate }}">
                                 {% if block.settings.image_slide_mb != blank %}
                                     {%- assign img_url_mb = block.settings.image_slide_mb -%}
                                     <div class="adaptive_height image slide-mobile" style="padding-top: {% unless img_url_mb.presentation.focal_point == '50.0% 50.0%' %}{{ 1 | divided_by: img_url_mb.aspect_ratio | times: 120 }}%{% else %}{{ 1 | divided_by: img_url_mb.aspect_ratio | times: 100 }}%{% endunless %}">

@@ -1,0 +1,148 @@
+{%- comment -%}
+  Tienda física hello mellow: foto, datos de la tienda, botones de "Cómo llegar"
+  y WhatsApp, y mapa de Google. Sin foto, los datos y el mapa ocupan dos columnas.
+  El mapa sale de la dirección; si se pega el código de "Insertar un mapa" de
+  Google Maps, se usa ese en su lugar (pin exacto con el nombre de la tienda).
+  Todas las clases llevan prefijo hm- como el banner animado.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign whatsapp = s.whatsapp | remove: ' ' | remove: '+' | remove: '-'
+  assign mapa_q = s.direccion_mapa | default: s.direccion | url_encode
+  assign foto_alt = s.foto.alt | default: s.titulo
+-%}
+{%- if s.cargar_poppins -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
+{%- endif -%}
+<style>
+  #hm-tf-{{ section.id }}{--bur:{{ s.color_acento }};--fondo:{{ s.color_fondo }};--tarjeta:{{ s.color_tarjeta }};--texto:#2a2a2a;
+    background:var(--fondo);padding:{{ s.mg_top }}px 20px {{ s.mg_bottom }}px;font-family:Poppins,Arial,sans-serif;color:var(--texto)}
+  #hm-tf-{{ section.id }} .hm-tf{max-width:1200px;margin:0 auto;display:grid;gap:24px;grid-template-columns:1fr 1fr}
+  #hm-tf-{{ section.id }} .hm-tf--foto{grid-template-columns:1fr 1fr;grid-template-areas:"foto info" "foto mapa"}
+  #hm-tf-{{ section.id }} .hm-tf--foto .hm-tf-foto{grid-area:foto}
+  #hm-tf-{{ section.id }} .hm-tf--foto .hm-tf-info{grid-area:info}
+  #hm-tf-{{ section.id }} .hm-tf--foto .hm-tf-mapa{grid-area:mapa}
+  #hm-tf-{{ section.id }} .hm-tf-foto{border-radius:20px;overflow:hidden;min-height:320px}
+  #hm-tf-{{ section.id }} .hm-tf-foto img{width:100%;height:100%;object-fit:cover;display:block}
+  #hm-tf-{{ section.id }} .hm-tf-info{background:var(--tarjeta);border-radius:20px;padding:36px 32px;display:flex;flex-direction:column;justify-content:center}
+  #hm-tf-{{ section.id }} .hm-tf-ceja{font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--bur);margin:0 0 10px}
+  #hm-tf-{{ section.id }} .hm-tf-titulo{font-family:inherit;font-size:clamp(26px,3vw,36px);font-weight:700;line-height:1.15;letter-spacing:0;text-transform:none;color:var(--bur);margin:0 0 14px}
+  #hm-tf-{{ section.id }} .hm-tf-texto{font-size:15px;line-height:1.6;margin:0 0 22px}
+  #hm-tf-{{ section.id }} .hm-tf-texto p{margin:0 0 8px}
+  #hm-tf-{{ section.id }} .hm-tf-datos{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:14px}
+  #hm-tf-{{ section.id }} .hm-tf-datos li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.5}
+  #hm-tf-{{ section.id }} .hm-tf-datos svg{flex:0 0 20px;width:20px;height:20px;margin-top:2px;stroke:var(--bur);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  #hm-tf-{{ section.id }} .hm-tf-datos strong{display:block;font-weight:500;color:var(--bur)}
+  #hm-tf-{{ section.id }} .hm-tf-botones{display:flex;flex-wrap:wrap;gap:12px}
+  #hm-tf-{{ section.id }} .hm-tf-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:999px;font-size:15px;font-weight:500;
+    text-decoration:none;border:2px solid var(--bur);transition:filter .2s,background .2s,color .2s}
+  #hm-tf-{{ section.id }} .hm-tf-btn--lleno{background:var(--bur);color:var(--tarjeta)}
+  #hm-tf-{{ section.id }} .hm-tf-btn--lleno:hover{filter:brightness(1.2);color:var(--tarjeta)}
+  #hm-tf-{{ section.id }} .hm-tf-btn--borde{background:transparent;color:var(--bur)}
+  #hm-tf-{{ section.id }} .hm-tf-btn--borde:hover{background:var(--bur);color:var(--tarjeta)}
+  #hm-tf-{{ section.id }} .hm-tf-btn svg{width:18px;height:18px;fill:currentColor}
+  #hm-tf-{{ section.id }} .hm-tf-mapa{border-radius:20px;overflow:hidden;min-height:320px;background:var(--tarjeta)}
+  #hm-tf-{{ section.id }} .hm-tf-mapa iframe{width:100%;height:100%;min-height:320px;border:0;display:block}
+  @media (max-width:749px){
+    #hm-tf-{{ section.id }}{padding:{{ s.mg_top | divided_by: 2 }}px 16px {{ s.mg_bottom | divided_by: 2 }}px}
+    #hm-tf-{{ section.id }} .hm-tf,#hm-tf-{{ section.id }} .hm-tf--foto{grid-template-columns:1fr;grid-template-areas:"foto" "info" "mapa";gap:16px}
+    #hm-tf-{{ section.id }} .hm-tf-foto{min-height:240px;aspect-ratio:4/3}
+    #hm-tf-{{ section.id }} .hm-tf-info{padding:28px 22px}
+    #hm-tf-{{ section.id }} .hm-tf-btn{flex:1 1 100%;justify-content:center}
+    #hm-tf-{{ section.id }} .hm-tf-mapa,#hm-tf-{{ section.id }} .hm-tf-mapa iframe{min-height:280px}
+  }
+</style>
+
+<div id="hm-tf-{{ section.id }}">
+  <div class="hm-tf{% if s.foto != blank %} hm-tf--foto{% endif %}">
+    {%- if s.foto != blank -%}
+      <div class="hm-tf-foto">
+        {{ s.foto | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(max-width: 749px) 100vw, 50vw', widths: '600, 900, 1200, 1400', alt: foto_alt }}
+      </div>
+    {%- endif -%}
+
+    <div class="hm-tf-info">
+      {%- if s.ceja != blank -%}<p class="hm-tf-ceja">{{ s.ceja | escape }}</p>{%- endif -%}
+      <h2 class="hm-tf-titulo">{{ s.titulo | escape }}</h2>
+      {%- if s.texto != blank -%}<div class="hm-tf-texto">{{ s.texto }}</div>{%- endif -%}
+
+      <ul class="hm-tf-datos">
+        {%- if s.direccion != blank -%}
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <span><strong>Dirección</strong>{{ s.direccion | escape | newline_to_br }}</span>
+          </li>
+        {%- endif -%}
+        {%- if s.horario != blank -%}
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span><strong>Horario</strong>{{ s.horario | escape | newline_to_br }}</span>
+          </li>
+        {%- endif -%}
+        {%- if s.telefono != blank -%}
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+            <span><strong>Teléfono</strong><a href="tel:{{ s.telefono | remove: ' ' }}" style="color:inherit">{{ s.telefono | escape }}</a></span>
+          </li>
+        {%- endif -%}
+      </ul>
+
+      <div class="hm-tf-botones">
+        {%- if s.direccion != blank -%}
+          <a class="hm-tf-btn hm-tf-btn--lleno" href="https://www.google.com/maps/search/?api=1&query={{ mapa_q }}" target="_blank" rel="noopener">{{ s.texto_como_llegar | escape }}</a>
+        {%- endif -%}
+        {%- if whatsapp != blank -%}
+          <a class="hm-tf-btn hm-tf-btn--borde" href="https://wa.me/{{ whatsapp }}{% if s.mensaje_whatsapp != blank %}?text={{ s.mensaje_whatsapp | url_encode }}{% endif %}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+            {{ s.texto_whatsapp | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="hm-tf-mapa">
+      {%- if s.mapa_embed != blank -%}
+        {{ s.mapa_embed }}
+      {%- elsif s.direccion != blank -%}
+        <iframe src="https://www.google.com/maps?q={{ mapa_q }}&output=embed" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="{{ 'Mapa: ' | append: s.titulo | escape }}"></iframe>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Tienda física",
+  "tag": "section",
+  "class": "hm-tienda-fisica",
+  "settings": [
+    { "type": "header", "content": "Textos" },
+    { "type": "text", "id": "ceja", "label": "Texto pequeño sobre el título", "default": "Visítanos" },
+    { "type": "text", "id": "titulo", "label": "Título", "default": "Nuestra tienda en Medellín" },
+    { "type": "richtext", "id": "texto", "label": "Texto", "default": "<p>Ven a conocer nuestros productos, toca las telas y elige el regalo perfecto en persona. Te ayudamos a escogerlo y a personalizarlo.</p>" },
+    { "type": "header", "content": "Datos de la tienda" },
+    { "type": "textarea", "id": "direccion", "label": "Dirección", "info": "Pulsa Intro para partir la línea.", "default": "Local 217, Mall Zona 2 Sur\nEdificio El Alfaro, Medellín" },
+    { "type": "textarea", "id": "horario", "label": "Horario", "info": "Si lo dejas vacío no se muestra. Ejemplo: Lunes a sábado 10:00 a. m. – 7:00 p. m." },
+    { "type": "text", "id": "telefono", "label": "Teléfono", "info": "Si lo dejas vacío no se muestra.", "default": "311 301 0550" },
+    { "type": "header", "content": "Botones" },
+    { "type": "text", "id": "texto_como_llegar", "label": "Texto del botón de mapa", "default": "Cómo llegar" },
+    { "type": "text", "id": "whatsapp", "label": "Número de WhatsApp", "info": "Con indicativo de país, sin espacios. Ejemplo: 573113010550. Si lo dejas vacío no se muestra el botón.", "default": "573113010550" },
+    { "type": "text", "id": "texto_whatsapp", "label": "Texto del botón de WhatsApp", "default": "Escríbenos" },
+    { "type": "text", "id": "mensaje_whatsapp", "label": "Mensaje inicial de WhatsApp", "default": "Hola, quiero visitar la tienda de hello mellow" },
+    { "type": "header", "content": "Foto y mapa" },
+    { "type": "image_picker", "id": "foto", "label": "Foto de la tienda", "info": "Opcional. Sin foto, los datos y el mapa se ven lado a lado." },
+    { "type": "text", "id": "direccion_mapa", "label": "Dirección para el mapa", "info": "Lo que se busca en Google Maps. Si la dejas vacía se usa la dirección de arriba.", "default": "Mall Zona 2 Sur, Medellín, Antioquia" },
+    { "type": "html", "id": "mapa_embed", "label": "Código del mapa de Google (opcional)", "info": "En Google Maps busca la tienda → Compartir → Insertar un mapa → Copiar HTML. Si lo pegas aquí, se usa en lugar de la dirección." },
+    { "type": "header", "content": "Estilo" },
+    { "type": "color", "id": "color_acento", "label": "Color de títulos y botones", "default": "#70202c" },
+    { "type": "color", "id": "color_tarjeta", "label": "Color de la tarjeta", "default": "#F5F2E1" },
+    { "type": "color", "id": "color_fondo", "label": "Color de fondo de la sección", "default": "#FFFFFF" },
+    { "type": "checkbox", "id": "cargar_poppins", "label": "Usar tipografía Poppins", "default": true },
+    { "type": "range", "id": "mg_top", "label": "Espacio arriba", "min": 0, "max": 120, "step": 5, "unit": "px", "default": 60 },
+    { "type": "range", "id": "mg_bottom", "label": "Espacio abajo", "min": 0, "max": 120, "step": 5, "unit": "px", "default": 60 }
+  ],
+  "presets": [{ "name": "Tienda física" }]
+}
+{% endschema %}

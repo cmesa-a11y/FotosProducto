@@ -1,0 +1,229 @@
+<style>
+.hm-rg{max-width:980px;margin:0 auto;color:#70202c;text-align:center}
+.hm-rg p{margin:0 0 12px}
+.hm-box{background:#F5F2E1;border-radius:20px;padding:22px 18px;margin-top:16px;text-align:left}
+.hm-box h3{margin:0 0 10px;font-size:16px;color:#70202c}
+.hm-chips{display:flex;flex-wrap:wrap;gap:8px}
+.hm-chip{border:1.5px solid #70202c;background:#fff;color:#70202c;border-radius:99px;padding:9px 16px;font-size:15px;font-weight:700;cursor:pointer}
+.hm-chip.on{background:#70202c;color:#F5F2E1}
+.hm-off{font-style:normal;font-size:11px;background:#F5F2E1;color:#70202c;border-radius:99px;padding:2px 7px;margin-left:4px}
+.hm-chip.on .hm-off{background:#F5F2E1}
+.hm-promo{background:#70202c;color:#F5F2E1;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600;margin:12px 0 0}
+.hm-total s{opacity:.6;margin-right:4px}
+.hm-save{display:block;color:#70202c;font-size:13px;font-weight:700}
+.hm-gift{display:flex;align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,#F2B36A,#F5F2E1);border:2px dashed #70202c;border-radius:18px;padding:14px 16px;margin:16px 0 0;text-align:left}
+.hm-gift .e{width:48px;height:48px;border-radius:50%;background:#fff;border:1.5px solid #70202c;display:flex;align-items:center;justify-content:center;flex:none}
+.hm-gift .e svg{width:28px;height:28px}
+.hm-gift b{display:block;font-size:17px;color:#70202c}
+.hm-gift span{font-size:14px;color:#70202c}
+.hm-wrap{margin-top:10px;font-size:13px;font-weight:700;color:#70202c;background:#F5F2E1;border-radius:10px;padding:7px 10px;text-align:center}
+.hm-back{display:inline-block;color:#70202c;font-weight:700;font-size:15px;text-decoration:none;border:1.5px solid #70202c;border-radius:99px;padding:8px 18px}
+.hm-back:hover{background:#70202c;color:#F5F2E1}
+.hm-money{display:flex;gap:8px;align-items:center;margin-top:10px}
+.hm-money span{font-weight:700}
+.hm-money input{flex:1;min-width:0;box-sizing:border-box;border:1px solid #d9cfc0;border-radius:12px;padding:12px;font-size:18px;font-weight:700;background:#fff;color:#222}
+.hm-go{display:block;width:100%;margin-top:18px;background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:15px;font-size:17px;font-weight:700;cursor:pointer}
+.hm-go[disabled]{opacity:.6}
+.hm-msg{margin-top:14px;font-size:15px}
+.hm-opt{background:#fff;border:1px solid #eadfce;border-radius:20px;padding:16px;margin-top:16px;text-align:left}
+.hm-opt-h{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.hm-opt-h b{font-size:18px}
+.hm-tag{background:#F2B36A;border-radius:99px;padding:4px 12px;font-weight:700;font-size:13px}
+.hm-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.hm-it{background:#F5F2E1;border-radius:14px;padding:10px;display:flex;flex-direction:column}
+.hm-it img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:#fff}
+.hm-it a{color:#70202c;font-weight:700;text-decoration:none;font-size:14px;margin-top:8px;line-height:1.25}
+.hm-it .pr{margin-top:4px;font-size:15px;font-weight:700}
+.hm-it select{margin-top:6px;width:100%;box-sizing:border-box;border:1px solid #d9cfc0;border-radius:8px;padding:7px;font-size:13px;background:#fff;color:#222}
+.hm-foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:14px}
+.hm-total{font-size:17px}
+.hm-total small{opacity:.8}
+.hm-add{background:#70202c;color:#F5F2E1;border:0;border-radius:99px;padding:12px 22px;font-size:15px;font-weight:700;cursor:pointer}
+.hm-add[disabled]{opacity:.6}
+.hm-more{background:none;border:1.5px solid #70202c;color:#70202c;border-radius:99px;padding:11px 22px;font-size:15px;font-weight:700;cursor:pointer;margin-top:18px}
+</style>
+<div class="hm-rg">
+<div style="text-align:left;margin-bottom:14px"><a class="hm-back" href="/">← Volver al inicio</a></div>
+<p style="font-size:22px;font-weight:700">¿Qué regalamos? 🎁</p>
+<p>Dinos cuánto quieres gastar y para quién es. Te armamos ideas de regalo de 1 a 4 productos de distintos precios, listas para agregar al carrito.</p>
+<div class="hm-gift"><div class="e"><svg viewBox="0 0 24 24" fill="none" stroke="#70202c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M3 7.5h18V11H3z"/><path d="M12 7.5V21"/><path d="M12 7.5C10.7 4.5 7.5 4 7.2 5.8 7 7.2 9.5 7.5 12 7.5zM12 7.5c1.3-3 4.5-3.5 4.8-1.7.2 1.4-2.3 1.7-4.8 1.7z"/><path d="M19.5 2.5V5M18.25 3.75h2.5" stroke-width="1.4"/></svg></div><div><b>Recibe tu regalo listo para entregar</b><span>Va empacado y con tarjeta, sin que tengas que hacer nada más.</span></div></div>
+<div class="hm-box">
+<h3>1. Tu presupuesto</h3>
+<div class="hm-chips" id="hm-pres">
+<button type="button" class="hm-chip" data-v="50000">$50.000</button>
+<button type="button" class="hm-chip" data-v="100000">$100.000</button>
+<button type="button" class="hm-chip" data-v="150000">$150.000</button>
+<button type="button" class="hm-chip" data-v="200000">$200.000</button>
+<button type="button" class="hm-chip" data-v="300000">$300.000 <i class="hm-off">-10%</i></button>
+<button type="button" class="hm-chip" data-v="400000">$400.000 <i class="hm-off">-10%</i></button>
+</div>
+<div class="hm-money"><span>$</span><input type="text" inputmode="numeric" id="hm-b" placeholder="O escribe tu presupuesto"></div>
+<h3 style="margin-top:18px">2. ¿Para quién?</h3>
+<div class="hm-chips" id="hm-edad">
+<button type="button" class="hm-chip on" data-v="">Cualquier edad</button>
+<button type="button" class="hm-chip" data-v="edad:0-12m">0–12 meses</button>
+<button type="button" class="hm-chip" data-v="edad:1-2a">1–2 años</button>
+<button type="button" class="hm-chip" data-v="edad:3-6a">3–6 años</button>
+<button type="button" class="hm-chip" data-v="edad:6-10a">6–10 años</button>
+</div>
+<div class="hm-chips" id="hm-gen" style="margin-top:8px">
+<button type="button" class="hm-chip on" data-v="">Niña o niño</button>
+<button type="button" class="hm-chip" data-v="genero:nina">Niña</button>
+<button type="button" class="hm-chip" data-v="genero:nino">Niño</button>
+</div>
+<h3 style="margin-top:18px">3. ¿Es para una ocasión? (opcional)</h3>
+<div class="hm-chips" id="hm-oca">
+<button type="button" class="hm-chip on" data-v="">Cualquiera</button>
+<button type="button" class="hm-chip" data-v="ocasion:cumpleanos">Cumpleaños</button>
+<button type="button" class="hm-chip" data-v="ocasion:baby-shower">Baby shower</button>
+<button type="button" class="hm-chip" data-v="ocasion:bautizo">Bautizo</button>
+</div>
+<button type="button" class="hm-go" id="hm-go">Armar mis ideas de regalo ✨</button>
+<div class="hm-promo" id="hm-promo" style="display:none">🎁 Con presupuesto de $300.000 o $400.000 tienes 10% de descuento en tu bundle (se aplica automáticamente al agregar al carrito). No se acumula con otros descuentos, como el de bienvenida.</div>
+<div class="hm-msg" id="hm-msg"></div>
+</div>
+<div id="hm-out"></div>
+<button type="button" class="hm-more" id="hm-more" style="display:none">🔄 Otras ideas con el mismo presupuesto</button>
+<div style="margin-top:22px"><a class="hm-back" href="/">← Volver al inicio</a></div>
+</div>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var sel={edad:'',gen:'',oca:''},all=null,loading=false,seed=1;
+  function cop(n){return '$'+Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+  function num(s){return parseInt(String(s).replace(/\D/g,''),10)||0}
+  function rnd(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
+  function group(id,key){
+    var g=$(id);
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('.hm-chip');if(!b)return;
+      [].forEach.call(g.querySelectorAll('.hm-chip'),function(x){x.classList.remove('on')});
+      b.classList.add('on');sel[key]=b.getAttribute('data-v');
+    });
+  }
+  group('hm-edad','edad');group('hm-gen','gen');group('hm-oca','oca');
+  $('hm-pres').addEventListener('click',function(e){
+    var b=e.target.closest('.hm-chip');if(!b)return;
+    [].forEach.call($('hm-pres').querySelectorAll('.hm-chip'),function(x){x.classList.remove('on')});
+    b.classList.add('on');$('hm-b').value=cop(b.getAttribute('data-v')).slice(1);promo();
+  });
+  $('hm-b').addEventListener('input',function(){
+    var n=num(this.value);this.value=n?cop(n).slice(1):'';promo();
+    [].forEach.call($('hm-pres').querySelectorAll('.hm-chip'),function(x){x.classList.remove('on')});
+  });
+  function load(cb){
+    if(all)return cb(true);
+    var out=[],page=1;
+    (function next(){
+      fetch('/collections/all/products.json?limit=250&page='+page).then(function(r){return r.json()}).then(function(j){
+        var ps=(j&&j.products)||[];out=out.concat(ps);
+        if(ps.length===250&&page<6){page++;next()}else{all=out;cb(true)}
+      }).catch(function(){cb(false)});
+    })();
+  }
+  function norm(p){
+    var vs=(p.variants||[]).filter(function(v){return v.available});
+    if(!vs.length)return null;
+    var tags=(p.tags||[]);if(typeof tags==='string')tags=tags.split(',').map(function(t){return t.trim()});
+    if(tags.indexOf('empaque')>=0)return null;
+    var cat='';tags.forEach(function(t){if(t.indexOf('cat:')===0)cat=t});
+    var min=Math.min.apply(null,vs.map(function(v){return parseFloat(v.price)}));
+    return {id:p.id,title:p.title,handle:p.handle,type:(p.product_type||cat||p.id)+'',tags:tags,
+      img:p.images&&p.images[0]?p.images[0].src:'',vs:vs,min:min};
+  }
+  function pool(B){
+    return all.map(norm).filter(function(p){
+      if(!p||p.min>B||p.min<=0)return false;
+      if(sel.edad&&p.tags.indexOf(sel.edad)<0)return false;
+      if(sel.gen&&p.tags.indexOf(sel.gen)<0)return false;
+      if(sel.oca&&p.tags.indexOf(sel.oca)<0)return false;
+      return true;
+    });
+  }
+  function build(P,B,fr){
+    var used={},types={},items=[],R=B,floor=Math.min.apply(null,P.map(function(p){return p.min}));
+    for(var i=0;i<fr.length;i++){
+      var last=i===fr.length-1,left=fr.length-1-i,target=last?R:fr[i]*B,max=R-left*floor;
+      var c=P.filter(function(p){return !used[p.id]&&!types[p.type]&&p.min<=max});
+      if(!c.length)return null;
+      c.sort(function(a,b){return Math.abs(a.min-target)-Math.abs(b.min-target)});
+      var k=c[Math.min(c.length-1,Math.floor(rnd()*Math.min(5,c.length)))];
+      used[k.id]=1;types[k.type]=1;items.push(k);R-=k.min;
+    }
+    return items;
+  }
+  function card(p,i,j){
+    var v=p.vs[0],h='<div class="hm-it">';
+    if(p.img){var q=p.img+(p.img.indexOf('?')<0?'?':'&')+'width=';
+      h+='<img loading="lazy" src="'+q+'600" srcset="'+q+'300 300w,'+q+'600 600w,'+q+'900 900w" sizes="(max-width:600px) 45vw, 240px" alt="'+p.title.replace(/"/g,'&quot;')+'">';}
+    h+='<a href="/products/'+p.handle+'" target="_blank" rel="noopener">'+p.title+'</a>';
+    h+='<div class="pr" data-p="'+i+'-'+j+'">'+cop(parseFloat(v.price))+'</div>';
+    if(p.vs.length>1){
+      h+='<select data-i="'+i+'" data-j="'+j+'">';
+      p.vs.forEach(function(x,n){h+='<option value="'+n+'">'+x.title+' · '+cop(parseFloat(x.price))+'</option>'});
+      h+='</select>';
+    }
+    return h+'</div>';
+  }
+  function render(opts,B){
+    var out=$('hm-out');out.innerHTML='';
+    opts.forEach(function(o,i){
+      o.pick=o.items.map(function(){return 0});
+      var d=document.createElement('div');d.className='hm-opt';
+      var h='<div class="hm-opt-h"><b>'+o.name+'</b><span class="hm-tag">'+o.items.length+(o.items.length>1?' productos':' producto')+'</span></div><div class="hm-items">';
+      o.items.forEach(function(p,j){h+=card(p,i,j)});
+      h+='</div><div class="hm-foot"><div class="hm-total"></div><button type="button" class="hm-add">Agregar todo al carrito</button></div><div class="hm-wrap">🎀 Llega empacado para regalo y con tarjeta</div>';
+      d.innerHTML=h;out.appendChild(d);
+      function tot(){
+        var t=0;o.items.forEach(function(p,j){t+=parseFloat(p.vs[o.pick[j]].price)});
+        var el=d.querySelector('.hm-total');
+        if(disc&&t>=MIN){var f=Math.round(t*0.9);el.innerHTML='Total: <s>'+cop(t)+'</s><b>'+cop(f)+'</b> <small>de '+cop(B)+'</small><span class="hm-save">🎁 Ahorras '+cop(t-f)+' (10% en tu bundle)</span>'}
+        else el.innerHTML='Total: <b>'+cop(t)+'</b> <small>de '+cop(B)+'</small>';
+      }
+      tot();
+      d.addEventListener('change',function(e){
+        var s=e.target;if(s.tagName!=='SELECT')return;
+        var j=+s.getAttribute('data-j');o.pick[j]=+s.value;
+        d.querySelector('[data-p="'+i+'-'+j+'"]').textContent=cop(parseFloat(o.items[j].vs[o.pick[j]].price));tot();
+      });
+      d.querySelector('.hm-add').addEventListener('click',function(){
+        var b=this;b.disabled=true;b.textContent='Agregando…';
+        var its=o.items.map(function(p,j){return {id:p.vs[o.pick[j]].id,quantity:1}});
+        fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:its})})
+          .then(function(r){if(!r.ok)throw 0;window.location.href=disc?'/discount/BUNDLE10?redirect=/cart':'/cart'})
+          .catch(function(){b.disabled=false;b.textContent='Agregar todo al carrito';alert('Alguno de los productos se agotó. Prueba con otras ideas.')});
+      });
+    });
+    $('hm-more').style.display='block';
+  }
+  var disc=false,MIN=200000;
+  function promo(){var v=num($('hm-b').value),pr=$('hm-promo');pr.style.display=(v===300000||v===400000)?'block':'none'}
+  function run(){
+    var B=num($('hm-b').value),msg=$('hm-msg');
+    if(B<20000){msg.textContent='Escribe o elige un presupuesto desde $20.000 🙂';return}
+    msg.textContent='Buscando los mejores regalos…';$('hm-go').disabled=true;
+    load(function(ok){
+      $('hm-go').disabled=false;
+      if(!ok){msg.textContent='No pudimos cargar los productos. Recarga la página o escríbenos por WhatsApp.';return}
+      var P=pool(B);disc=(B===300000||B===400000);
+      if(!P.length){msg.textContent='No encontramos productos con esos filtros. Prueba con otra edad u ocasión, o sube un poco el presupuesto.';$('hm-out').innerHTML='';$('hm-more').style.display='none';return}
+      var plans=B>=300000?[['Dúo perfecto',[0.6,0.4]],['Trío completo',[0.5,0.3,0.2]],['Regalo premium',[0.4,0.25,0.2,0.15]]]:[['Un regalo especial',[1]],['Dúo perfecto',[0.6,0.4]],['Trío completo',[0.5,0.3,0.2]]],opts=[];
+      plans.forEach(function(pl){
+        var it=null,t=0;while(!it&&t<12){it=build(P,B,pl[1]);t++}
+        if(it)opts.push({name:pl[0],items:it});
+      });
+      if(!opts.length){msg.textContent='Con ese presupuesto y filtros no logramos armar un regalo. Prueba subiendo un poco el presupuesto.';return}
+      msg.textContent='Estas son nuestras ideas para '+cop(B)+' 💛';
+      render(opts,B);
+    });
+  }
+  $('hm-go').addEventListener('click',function(){seed=Math.floor(Math.random()*1e6)+1;run()});
+  $('hm-more').addEventListener('click',function(){seed=Math.floor(Math.random()*1e6)+1;run();$('hm-out').scrollIntoView({behavior:'smooth'})});
+  var qb=(location.search.match(/[?&]b=(\d{4,7})/)||[])[1];
+  if(qb){
+    $('hm-b').value=cop(qb).slice(1);
+    [].forEach.call($('hm-pres').querySelectorAll('.hm-chip'),function(x){x.classList.toggle('on',x.getAttribute('data-v')===String(+qb))});
+    promo();seed=Math.floor(Math.random()*1e6)+1;run();
+  }
+})();
+</script>
