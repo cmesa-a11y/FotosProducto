@@ -1,0 +1,45 @@
+{% comment %}
+  Hello Mellow · opción "Bolsa de regalo" en el carrito
+  Cómo usarlo (Personalizar tema > Carrito):
+  1) Agregar sección > "Liquid personalizado" en la plantilla del carrito.
+  2) Pega TODO este código y ubícala encima del resumen / botón de pago.
+  El cliente marca o desmarca la casilla; la bolsa se agrega o se quita del carrito.
+{% endcomment %}
+{%- assign hm_bag = all_products['bolsa-de-regalo-hello-mellow'] -%}
+{%- if hm_bag != blank and hm_bag.available -%}
+{%- assign hm_bag_v = hm_bag.variants.first -%}
+<style>
+.hm-bag{display:flex;align-items:center;gap:14px;background:#F5F2E1;border:1.5px dashed #70202c;border-radius:16px;padding:12px 14px;margin:16px 0;color:#70202c;cursor:pointer}
+.hm-bag input{width:22px;height:22px;accent-color:#70202c;flex:none;cursor:pointer}
+.hm-bag img{width:64px;height:64px;object-fit:cover;border-radius:10px;background:#fff;flex:none}
+.hm-bag b{display:block;font-size:15px}
+.hm-bag span{font-size:13px;opacity:.9}
+.hm-bag .hm-bag-p{margin-left:auto;font-weight:700;font-size:15px;white-space:nowrap}
+.hm-bag.hm-busy{opacity:.6;pointer-events:none}
+</style>
+<label class="hm-bag" id="hm-bag" data-vid="{{ hm_bag_v.id }}">
+  <input type="checkbox" id="hm-bag-chk" aria-label="Agregar bolsa de regalo">
+  {%- if hm_bag.featured_image -%}<img src="{{ hm_bag.featured_image | image_url: width: 160 }}" alt="{{ hm_bag.title | escape }}" width="64" height="64" loading="lazy">{%- endif -%}
+  <div><b>Agrega la bolsa de regalo Hello Mellow</b><span>Lleva tu compra empacada, lista para entregar</span></div>
+  <div class="hm-bag-p">+{{ hm_bag_v.price | money_without_trailing_zeros }}</div>
+</label>
+<script>
+(function(){
+  var box=document.getElementById('hm-bag'),chk=document.getElementById('hm-bag-chk');
+  if(!box||!chk)return;
+  var vid=+box.getAttribute('data-vid');
+  fetch('/cart.js').then(function(r){return r.json()}).then(function(c){
+    chk.checked=(c.items||[]).some(function(i){return i.variant_id===vid});
+    var others=(c.items||[]).filter(function(i){return i.variant_id!==vid});
+    if(!others.length&&!chk.checked)box.style.display='none';
+  }).catch(function(){});
+  chk.addEventListener('change',function(){
+    box.classList.add('hm-busy');
+    var req=chk.checked
+      ?fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:vid,quantity:1}]})})
+      :fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:String(vid),quantity:0})});
+    req.then(function(){window.location.reload()}).catch(function(){box.classList.remove('hm-busy');chk.checked=!chk.checked});
+  });
+})();
+</script>
+{%- endif -%}
