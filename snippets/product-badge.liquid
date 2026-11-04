@@ -33,6 +33,11 @@
         endfor
     endif
 
+    assign hm_preventa_badge = false
+    if product.tags contains 'preventa'
+        assign hm_preventa_badge = true
+    endif
+
     if settings.show_bundle_badge
         assign bundle_badge = false
         if product.metafields.c_f.grouped_sub_product and settings.show_bundle_badge
@@ -76,7 +81,7 @@
 <div class="hc-sale-tag"><span>{{ discount }}%</span></div>
 {%- endif -%}
 {% endif %}
-{%- if sale_badge or sold_out_badge or custom_badge or bundle_badge or new_badge -%}
+{%- if sale_badge or sold_out_badge or custom_badge or bundle_badge or new_badge or hm_preventa_badge -%}
     <div class="{{ class }} badge-{{ position }} halo-productBadges halo-productBadges--{{ position }} date-{{ date_minus }} date1-{{ date_difference }}" data-new-badge-number="{{ new_badge_limit }}">
         {%- if new_badge -%}
             {%- if new_badge_type == 'auto' -%}
@@ -138,6 +143,9 @@
                     {{ 'products.product.on_sale' | t }}
                 {%- endif -%}
             </span>{% endcomment %}
+        {%- endif -%}
+        {%- if hm_preventa_badge -%}
+            <span class="badge preventa-badge" aria-hidden="true" style="background:#70202c;color:#F5F2E1;border-color:#70202c">Preventa</span>
         {%- endif -%}
         {%- if sold_out_badge -%}
             <span class="badge sold-out-badge" aria-hidden="true">

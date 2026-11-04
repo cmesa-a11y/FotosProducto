@@ -1,0 +1,54 @@
+{%- comment -%}
+  Hello Mellow · Preventa.
+  Se activa en productos con la etiqueta "preventa".
+  - Muestra el aviso "Reserva los tuyos" debajo del precio.
+  - Cambia el texto del botón "Agregar al carrito" por "Reservar".
+  - Agrega al pedido la propiedad "Preventa" con la fecha de entrega.
+  Cambia la fecha/textos en las variables de abajo.
+  Uso (bloque Custom liquid de la ficha): {% render 'hm-preventa', product: product %}
+{%- endcomment -%}
+{%- if product.tags contains 'preventa' -%}
+{%- liquid
+  assign hm_pv_titulo = '¡Vuelven los Leo! Reserva los tuyos'
+  assign hm_pv_texto = 'Unidades limitadas por talla. Las entregas se hacen a partir del sábado 7 de noviembre.'
+  assign hm_pv_prop = 'Entrega a partir del sábado 7 de noviembre'
+  assign hm_pv_boton = 'Reservar'
+  assign hm_pv_atc = 'products.product.add_to_cart' | t
+  assign hm_pv_ids = product.variants | map: 'id' | join: ','
+-%}
+<style>
+  .hm-pv{display:flex;gap:12px;align-items:flex-start;margin:-4px 0 16px;padding:12px 14px;background:#F5F2E1;border:1.5px dashed #70202c;border-radius:12px;color:#70202c}
+  .hm-pv__ico{flex:none;font-size:22px;line-height:1}
+  .hm-pv b{display:block;font-size:15px;line-height:1.3;margin-bottom:2px}
+  .hm-pv span{display:block;font-size:13px;line-height:1.4}
+</style>
+<div class="hm-pv" role="note">
+  <div class="hm-pv__ico" aria-hidden="true">✨</div>
+  <div><b>{{ hm_pv_titulo }}</b><span>{{ hm_pv_texto }}</span></div>
+</div>
+<script>
+(function(){
+  var IDS={{ hm_pv_ids | split: ',' | json }}, ATC={{ hm_pv_atc | strip | json }}, BTN={{ hm_pv_boton | json }}, PROP={{ hm_pv_prop | json }};
+  function mine(f){var i=f.querySelector('[name="id"]');return i&&IDS.indexOf(String(i.value))>-1;}
+  function label(b){
+    if(b.disabled||b.getAttribute('disabled'))return;
+    var t=(b.textContent||'').trim();
+    if(t&&t!==BTN&&(t===ATC||/agregar|añadir|add to cart/i.test(t))){b.textContent=BTN;}
+  }
+  function run(){
+    [].forEach.call(document.querySelectorAll('form[action*="/cart/add"]'),function(f){
+      if(!mine(f))return;
+      if(!f.querySelector('input[name="properties[Preventa]"]')){
+        var h=document.createElement('input');h.type='hidden';h.name='properties[Preventa]';h.value=PROP;f.appendChild(h);
+      }
+      [].forEach.call(f.querySelectorAll('[data-btn-addToCart]'),function(b){
+        label(b);
+        if(!b.__hmPv){b.__hmPv=1;new MutationObserver(function(){label(b);}).observe(b,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['disabled']});}
+      });
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+  window.addEventListener('load',run);
+})();
+</script>
+{%- endif -%}
