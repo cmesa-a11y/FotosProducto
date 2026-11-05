@@ -13,6 +13,18 @@
         {%- liquid
             assign file_extension = 'png'
             assign filter_by_tags = section.blocks | where: "type", "filter"
+            # En los bloques Filtro, "etiqueta=Nombre" muestra ese nombre en lugar de la etiqueta
+            assign tagNameMap = ','
+            for block in filter_by_tags
+                assign blockEntries = block.settings.list_tags | split: ','
+                for entry in blockEntries
+                    if entry contains '='
+                        assign entryTag = entry | split: '=' | first | strip
+                        assign entryName = entry | split: '=' | last | strip
+                        assign tagNameMap = tagNameMap | append: entryTag | append: '=' | append: entryName | append: ','
+                    endif
+                endfor
+            endfor
             if results.url
                 assign results_url = results.url
             else
@@ -47,7 +59,17 @@
                         <ul class="facets__list--refined list-unstyled" role="list">
                             {%- for filter in results.filters -%}
                                 {%- for value in filter.active_values -%}
-                                    <li><facet-remove><a class="active-facets__button js-facet-remove" href="{{ value.url_to_remove }}"><span class="text">{{ value.label | escape }}</span><span class="close"></span></a></facet-remove></li>
+                                    {%- liquid
+                                        # Etiquetas con prefijo (cat:ropa) se muestran sin él: "Ropa"
+                                        assign facet_label = value.label
+                                        assign facet_key = ',' | append: value.value | append: '='
+                                        if tagNameMap contains facet_key
+                                            assign facet_label = tagNameMap | split: facet_key | last | split: ',' | first
+                                        elsif facet_label contains ':'
+                                            assign facet_label = facet_label | split: ':' | last | replace: '-', ' ' | capitalize
+                                        endif
+                                    -%}
+                                    <li><facet-remove><a class="active-facets__button js-facet-remove" href="{{ value.url_to_remove }}"><span class="text">{{ facet_label | escape }}</span><span class="close"></span></a></facet-remove></li>
                                 {%- endfor -%}
                                 {%- if filter.type == "price_range" -%}
                                     {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
@@ -91,6 +113,12 @@
                                     if filterLabel == filterLabelAll
                                         assign filter_hidden_tag_list = section.settings.filter_hidden_tag_list | split: ','
                                     endif
+                                    # "*" en etiquetas ocultas: solo se muestran los bloques Filtro, nunca el grupo con el resto de etiquetas
+                                    assign hide_remaining_tags = false
+                                    assign hidden_setting = section.settings.filter_hidden_tag_list | strip
+                                    if filterLabel == filterLabelAll and hidden_setting == '*'
+                                        assign hide_remaining_tags = true
+                                    endif
                                 -%}
                                 {%- if filterLabel == filterLabelAll and filter_by_tags.size > 0 -%}
                                     {%- liquid
@@ -101,7 +129,13 @@
                                     {%- for block in filter_by_tags -%}
                                         {%- liquid
                                             assign listTagHeading = block.settings.heading | default: filterLabel
-                                            assign listTags = block.settings.list_tags | split: ','
+                                            assign listTags = ''
+                                            assign blockEntries = block.settings.list_tags | split: ','
+                                            for entry in blockEntries
+                                                assign entryTag = entry | split: '=' | first | strip
+                                                assign listTags = listTags | append: entryTag | append: ','
+                                            endfor
+                                            assign listTags = listTags | split: ','
                                             assign listTagsRender = ''
                                             for value in filter.values
                                                 assign item = value.value
@@ -143,8 +177,9 @@
                                                                 assign label = listTagHeading | downcase | handle
                                                                 assign valueIndex = 0
                                                             -%}
+                                                            {%- for blockTag in listTags -%}
                                                             {%- for value in filter.values -%}
-                                                                {%- if listTagsRender contains value.value -%}
+                                                                {%- if value.value == blockTag and listTagsRender contains value.value -%}
                                                                     {%- assign valueIndex = valueIndex | plus: 1 -%}
                                                                     <li class="list-menu__item facets__item {% if valueIndex > maxItemToShow and section.settings.filter_display_type == 'show-more' %}d-none{% endif %}{% if filter_swatch contains label %} facets__item--swatch{% elsif filter_rectangle contains label %} facets__item--rectangle{% endif %}">
                                                                         <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" id="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
@@ -161,10 +196,20 @@
                                                                         {%- elsif filter_rectangle contains label -%}
                                                                             <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}"><span class="text">{{ value.label | escape }}</span></label>
                                                                         {%- else -%}
-                                                                            <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} form-label--checkbox">{{ value.label | escape }} <span class="count">({{ value.count }})</span></label>
+                                                                            {%- liquid
+                                                                                assign facet_label = value.label
+                                                                                assign facet_key = ',' | append: value.value | append: '='
+                                                                                if tagNameMap contains facet_key
+                                                                                    assign facet_label = tagNameMap | split: facet_key | last | split: ',' | first
+                                                                                elsif facet_label contains ':'
+                                                                                    assign facet_label = facet_label | split: ':' | last | replace: '-', ' ' | capitalize
+                                                                                endif
+                                                                            -%}
+                                                                            <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} form-label--checkbox">{{ facet_label | escape }} <span class="count">({{ value.count }})</span></label>
                                                                         {%- endif -%}
                                                                     </li>
                                                                 {%- endif -%}
+                                                            {%- endfor -%}
                                                             {%- endfor -%}
                                                         </ul>
                                                         <a href="{{ filter.url_to_remove }}" class="facets__reset link link-underline js-facet-remove" data-index="{{ indexTag | append: forloop.index }}" {% if countTagActive == 0 %} style="display: none;"{% endif %}><span class="text">{{ 'sections.collection_template.clear_all' | t }}</span></a>
@@ -196,7 +241,7 @@
                                         {%- endif -%}
                                     {%- endfor -%}
                                     {%- if countTag > 0 -%}
-                                        {%- if listRemainingTags != blank -%}
+                                        {%- if listRemainingTags != blank and hide_remaining_tags == false -%}
                                             {%- liquid
                                                 assign listTagsRenderSize = listRemainingTags | split: ',' | size
                                                 assign listTagsRenderSize = filter.values.size | minus: listTagsRenderSize
@@ -299,7 +344,7 @@
                                                 {%- endunless -%}
                                             </div>
                                         {%- endif -%}
-                                    {%- else -%}
+                                    {%- elsif hide_remaining_tags == false -%}
                                         <div class="sidebarBlock js-filter {{ filter.label | escape }}" data-index="{{ forloop.index }}" data-type-list="true">
                                             {%- if show_collapse -%}
                                                 <div class="sidebarBlock-headingWrapper">
@@ -424,6 +469,7 @@
                                     </div>
                                 {%- endif -%}
                             {%- when 'price_range' -%}
+                                {%- comment -%} HM: los valores del filtro de precio se calculan en pesos enteros (centavos / 100). Antes salían del formato de moneda (399.900,00) y quedaban en 399,9. {%- endcomment -%}
                                 {% assign currencies_using_comma_decimals = "ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND" | split: ',' %}
                                 {% assign uses_comma_decimals = false %}
                                 {%- if currencies_using_comma_decimals contains cart.currency.iso_code -%}
@@ -445,59 +491,59 @@
                                             <price-range class="facets__price">
                                                 <div class="facets__price--slider">
                                                     <div class="facets__price--slide">
-                                                        <input class="filter__price_change filter__price_min" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}" step="1" type="range" 
+                                                        <input class="filter__price_change filter__price_min" min="0" max="{{ filter.range_max | divided_by: 100 }}" step="1" type="range" 
                                                             {%- if filter.min_value.value -%}
                                                                 {%- if uses_comma_decimals -%}
-                                                                    value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | replace: '.00', '' }}"
+                                                                    value="{{ filter.min_value.value | divided_by: 100 }}"
                                                                 {%- else -%}
-                                                                    value="{{ filter.min_value.value | money_without_currency | replace: ',', '' | replace: '.00', '' }}"
+                                                                    value="{{ filter.min_value.value | divided_by: 100 }}"
                                                                 {% endif %}
                                                             {%- else -%}
                                                                 value="0"
                                                             {%- endif -%}
                                                             aria-label="Min">
-                                                        <input class="filter__price_change filter__price_max" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}" step="1" type="range" 
+                                                        <input class="filter__price_change filter__price_max" min="0" max="{{ filter.range_max | divided_by: 100 }}" step="1" type="range" 
                                                             {%- if filter.max_value.value -%}
                                                                 {%- if uses_comma_decimals -%}
-                                                                    value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | replace: '.00', '' }}"
+                                                                    value="{{ filter.max_value.value | divided_by: 100 }}"
                                                                 {%- else -%}
-                                                                    value="{{ filter.max_value.value | money_without_currency | replace: ',', '' | replace: '.00', '' }}"
+                                                                    value="{{ filter.max_value.value | divided_by: 100 }}"
                                                                 {% endif %}
                                                             {%- else -%}
-                                                                value="{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}"
+                                                                value="{{ filter.range_max | divided_by: 100 }}"
                                                             {%- endif -%}
                                                             aria-label="Max">
                                                     </div>
                                                     <div class="facets__price--box price-slider clearfix">
                                                         <div class="form-field">
                                                             <span class="field__currency format-currency">{{ cart.currency.symbol }}</span>
-                                                            <span class="money format-money-input money--current-min hidden">{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' | replace: '.00', '' }}{% else %}0{% endif %}</span>
+                                                            <span class="money format-money-input money--current-min hidden">{% if filter.min_value.value %}{{ filter.min_value.value | divided_by: 100 }}{% else %}0{% endif %}</span>
                                                             <label class="form-label hiddenLabels" for="Filter-Min-{{ filter.label | escape }}-{{ forloop.index }}">{{ 'sections.collection_template.min' | t }}</label>
                                                             <input class="form-input field__input filter__price filter__price--min" name="{{ filter.min_value.param_name }}" id="Filter-Min-{{ filter.label | escape }}-{{ forloop.index }}" 
                                                                 {%- if filter.min_value.value -%}
                                                                     {%- if uses_comma_decimals -%}
-                                                                        value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | replace: '.00', '' }}"
+                                                                        value="{{ filter.min_value.value | divided_by: 100 }}"
                                                                     {%- else -%}
-                                                                        value="{{ filter.min_value.value | money_without_currency | replace: ',', '' | replace: '.00', '' }}"
+                                                                        value="{{ filter.min_value.value | divided_by: 100 }}"
                                                                     {% endif %}
                                                                 {%- endif -%}
-                                                                type="number" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}" placeholder="0">
+                                                                type="number" min="0" max="{{ filter.range_max | divided_by: 100 }}" placeholder="0">
                                                         </div>
                                                         <span class="price-to-price">{{ 'sections.collection_template.to' | t }}</span>
                                                         <div class="form-field">
                                                             <span class="field__currency format-currency">{{ cart.currency.symbol }}</span>
-                                                            <span class="money format-money-input money--current-max hidden">{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' | replace: '.00', '' }}{% else %}{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}{% endif %}</span>
-                                                            <span class="money format-money-input money--max hidden" data-default-max="{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}">{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}</span>
+                                                            <span class="money format-money-input money--current-max hidden">{% if filter.max_value.value %}{{ filter.max_value.value | divided_by: 100 }}{% else %}{{ filter.range_max | divided_by: 100 }}{% endif %}</span>
+                                                            <span class="money format-money-input money--max hidden" data-default-max="{{ filter.range_max | divided_by: 100 }}">{{ filter.range_max | divided_by: 100 }}</span>
                                                             <label class="form-label hiddenLabels" for="Filter-Max-{{ filter.label | escape }}-{{ forloop.index }}">{{ 'sections.collection_template.max' | t }}</label>
                                                             <input class="form-input field__input filter__price filter__price--max" name="{{ filter.max_value.param_name }}" id="Filter-Max-{{ filter.label | escape }}-{{ forloop.index }}" 
                                                                 {%- if filter.max_value.value -%}
                                                                     {%- if uses_comma_decimals -%}
-                                                                        value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | replace: '.00', '' }}"
+                                                                        value="{{ filter.max_value.value | divided_by: 100 }}"
                                                                     {%- else -%}
-                                                                        value="{{ filter.max_value.value | money_without_currency | replace: ',', '' | replace: '.00', '' }}"
+                                                                        value="{{ filter.max_value.value | divided_by: 100 }}"
                                                                     {% endif %}
                                                                 {%- endif -%}
-                                                                type="number" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' | replace: '.00', '' }}">
+                                                                type="number" min="0" max="{{ filter.range_max | divided_by: 100 }}" placeholder="{{ filter.range_max | divided_by: 100 }}">
                                                         </div>
                                                     </div>
                                                     <div class="form-actions">
