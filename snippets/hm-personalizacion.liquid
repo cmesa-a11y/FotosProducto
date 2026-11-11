@@ -5,7 +5,20 @@
   Personalizado, Nombre a bordar, Color de hilo, Tipografía.
   Uso: {% render 'hm-personalizacion', product: product %}
 {%- endcomment -%}
-{%- if product.tags contains 'personalizable' -%}
+{%- liquid
+  assign hm_show = false
+  assign hm_tags = 'personalizable,bordados,bordado' | split: ','
+  for t in product.tags
+    if hm_tags contains t
+      assign hm_show = true
+      break
+    endif
+  endfor
+  assign hm_bordado = all_products['bordado-personalizado']
+  assign hm_bordado_variant = hm_bordado.selected_or_first_available_variant
+  assign hm_piezas = product.metafields.custom.bordado_piezas.value
+-%}
+{%- if hm_show -%}
 {%- liquid
   assign hm_colores = 'Plateado:#C9C9CE,Dorado:#D9C186,Palo de rosa:#D0A7A1,Café:#8C6D51,Rosa pastel:#EDC1C8,Blanco:#FFFFFF'
   assign hm_fuentes = '01 Inicial Serif:hm-serif:400:1:P,02 Inicial Floral:hm-floral:400:1:A,03 Clemente:hm-clemente:400:12:clemente,04 Serena:hm-serena:400:12:serena,05 Avril:hm-avril:400:12:avril,06 Monograma:hm-monograma:400:3:JRC,07 Lucas:hm-lucas:700:12:LUCAS'
@@ -55,14 +68,27 @@
   .hmp-note{font-size:12px;color:#8a7f74;margin:10px 0 0}
   .hmp-err{display:none;margin-top:12px;background:#fdecec;color:#9b1c1c;border-radius:10px;padding:10px 12px;font-size:13px}
   .hmp.has-err .hmp-err{display:block}
+  .hmp-piezas{display:flex;flex-wrap:wrap;gap:8px}
+  .hmp-piezas button{appearance:none;border:1.5px solid var(--l);background:#fff;border-radius:999px;padding:10px 14px;font-size:14px;cursor:pointer;color:#2b2b2b;transition:.15s}
+  .hmp-piezas button small{color:#8a7f74;font-size:12px}
+  .hmp-piezas button[aria-pressed=true]{border-color:var(--v);background:var(--v);color:var(--c);font-weight:700}
+  .hmp-piezas button[aria-pressed=true] small{color:var(--c)}
 </style>
-<div class="hmp" data-hmp data-max="{{ hm_max }}">
+<div class="hmp" data-hmp data-max="{{ hm_max }}"{% if hm_bordado_variant %} data-bordado-id="{{ hm_bordado_variant.id }}"{% endif %} data-product-title="{{ product.title | escape }}">
   <p class="hmp-h">✨ ¿Quieres personalizarlo?</p>
   <div class="hmp-toggle" role="group" aria-label="¿Quieres personalizarlo?">
     <button type="button" data-hmp-opt="no" aria-pressed="true">No, gracias</button>
-    <button type="button" data-hmp-opt="si" aria-pressed="false">Sí, bordarlo 🧵</button>
+    <button type="button" data-hmp-opt="si" aria-pressed="false">Sí, bordarlo 🧵{% if hm_bordado_variant %} <small style="font-weight:600">(+{{ hm_bordado_variant.price | money_without_trailing_zeros }})</small>{% endif %}</button>
   </div>
   <div class="hmp-body">
+    {%- if hm_piezas.size > 0 -%}
+    <span class="hmp-l">¿Qué quieres bordar?</span>
+    <div class="hmp-piezas" data-hmp-piezas>
+      {%- for pz in hm_piezas -%}
+        <button type="button" aria-pressed="false" data-pieza="{{ pz | escape }}">{{ pz }}{% if pz contains 'Ambas' %} <small>(2 bordados)</small>{% endif %}</button>
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
     <span class="hmp-l">Tipografía</span>
     <div class="hmp-fonts" data-hmp-fonts>
       {%- assign fl = hm_fuentes | split: ',' -%}
@@ -94,7 +120,7 @@
       <img alt="Muestra real del bordado" loading="lazy" data-hmp-realimg>
       <span class="hmp-zoom">Toca para ver en grande</span>
     </a>
-    <p class="hmp-note">La vista previa es una referencia; el bordado final puede variar levemente. El bordado suma 3 a 5 días hábiles al envío. <a href="https://drive.google.com/file/d/1aC64bvKFZIhLWIrEAo3zSdwPzYXo8TvH/preview" target="_blank" rel="noopener" style="color:var(--v);font-weight:700">Ver catálogo completo de bordados →</a></p>
+    <p class="hmp-note">La vista previa es una referencia; el bordado final puede variar levemente. El bordado tiene un costo adicional de {% if hm_bordado_variant %}{{ hm_bordado_variant.price | money_without_trailing_zeros }}{% else %}$20.000{% endif %} por pieza y suma 3 a 5 días hábiles al envío. <a href="https://drive.google.com/file/d/1aC64bvKFZIhLWIrEAo3zSdwPzYXo8TvH/preview" target="_blank" rel="noopener" style="color:var(--v);font-weight:700">Ver catálogo completo de bordados →</a></p>
   </div>
   <div class="hmp-err" data-hmp-err></div>
 
@@ -102,11 +128,12 @@
   <input type="hidden" data-hmp-prop="Nombre a bordar" value="">
   <input type="hidden" data-hmp-prop="Color de hilo" value="">
   <input type="hidden" data-hmp-prop="Tipografía" value="">
+  <input type="hidden" data-hmp-prop="Pieza a bordar" value="">
 </div>
 <script>
 (function(){
   var root=document.currentScript.previousElementSibling; if(!root||!root.hasAttribute('data-hmp'))return;
-  var max=+root.dataset.max, on=false, colors=[], font=null;
+  var max=+root.dataset.max, on=false, colors=[], font=null, pieza=null, hasPiezas=!!root.querySelector('[data-hmp-piezas]');
   var $=function(s){return root.querySelector(s)}, $$=function(s){return [].slice.call(root.querySelectorAll(s))};
   var name=$('[data-hmp-name]'), prev=$('[data-hmp-preview]'), err=$('[data-hmp-err]'), count=$('[data-hmp-count]');
   var props={}; $$('[data-hmp-prop]').forEach(function(i){props[i.dataset.hmpProp]=i;});
@@ -116,6 +143,7 @@
     setProp('Nombre a bordar', name.value.trim());
     setProp('Color de hilo', colors.join(' + '));
     setProp('Tipografía', font?font.dataset.font:'');
+    setProp('Pieza a bordar', pieza||'');
     var t=name.value.trim()||(max===1?'A':max===3?'ABC':'Tu nombre'); prev.textContent=t;
     if(font){prev.style.fontFamily="'"+font.dataset.family+"'";prev.style.fontWeight=font.dataset.weight;}
     var c1=colors[0]?$('[data-color="'+colors[0]+'"]').dataset.hex:'#70202c', c2=colors[1]?$('[data-color="'+colors[1]+'"]').dataset.hex:c1;
@@ -132,6 +160,7 @@
     if(!name.value.trim())m.push(max===1?'escribe la inicial':max===3?'escribe las iniciales':'escribe el nombre a bordar');
     if(colors.length!==2)m.push('escoge 2 colores de hilo');
     if(!font)m.unshift('elige una tipografía');
+    if(hasPiezas&&!pieza)m.unshift('elige qué quieres bordar');
     if(m.length){err.textContent='Para continuar, '+m.join(', ')+'.';root.classList.add('has-err');return false;}
     root.classList.remove('has-err');return true;
   }
@@ -157,13 +186,27 @@
     if(max<=3)name.value=name.value.toUpperCase();
     sync();
   });});
+  $$('[data-hmp-piezas] button').forEach(function(b){b.addEventListener('click',function(){
+    pieza=b.dataset.pieza; $$('[data-hmp-piezas] button').forEach(function(x){x.setAttribute('aria-pressed',x===b);});
+    sync();
+  });});
   name.addEventListener('input',function(){if(max<=3)name.value=name.value.toUpperCase();sync();});
   /* bloquear "agregar al carrito" y "comprar ya" si falta algo */
   function guard(e){
     var t=e.target.closest&&e.target.closest('[data-btn-addToCart],.shopify-payment-button,[name="add"],.product-form__submit');
-    if(!t||!on||validate())return;
+    if(!t||!on)return;
+    if(!validate()){e.preventDefault();e.stopImmediatePropagation();root.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    /* cobrar el bordado: agrega el producto "Bordado personalizado" antes del producto principal */
+    var atc=e.target.closest('[data-btn-addToCart]'), form=atc&&atc.closest('form');
+    if(!atc||!form||!/^product-form-(sticky-)?\d+$/.test(form.id||'')||!root.dataset.bordadoId)return;
+    if(atc.dataset.hmpDone==='1'){delete atc.dataset.hmpDone;return;}
     e.preventDefault();e.stopImmediatePropagation();
-    root.scrollIntoView({behavior:'smooth',block:'center'});
+    var q=document.querySelector('[data-type="add-to-cart-form"] [name="quantity"]')||document.querySelector('.productView input[name="quantity"]');
+    var qty=Math.max(1,parseInt(q&&q.value,10)||1)*((pieza&&/^Ambas/.test(pieza))?2:1);
+    atc.classList.add('is-loading');
+    fetch(window.Shopify.routes.root+'cart/add.js',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({items:[{id:Number(root.dataset.bordadoId),quantity:qty,properties:{'Producto':root.dataset.productTitle,'Nombre a bordar':name.value.trim(),'Tipografía':font?font.dataset.font:'','Color de hilo':colors.join(' + '),'Pieza a bordar':pieza||''}}]})
+    }).catch(function(x){console.error('Bordado:',x);}).then(function(){atc.classList.remove('is-loading');atc.dataset.hmpDone='1';atc.click();});
   }
   window.addEventListener('click',guard,true);
   window.addEventListener('submit',function(e){if(on&&e.target.matches&&e.target.matches('form[action*="/cart/add"]')&&!validate()){e.preventDefault();e.stopImmediatePropagation();root.scrollIntoView({behavior:'smooth',block:'center'});}},true);

@@ -1,0 +1,111 @@
+{%- comment -%}
+  Hello Mellow · Cobro automático del bordado.
+  Revisa el carrito después de cada cambio y deja exactamente un "Bordado personalizado"
+  por cada unidad de producto con la propiedad Personalizado = Sí (agrega, ajusta o quita).
+  Si la propiedad "Pieza a bordar" empieza por "Ambas", cobra dos bordados por unidad.
+  Se incluye en layout/theme.liquid.
+{%- endcomment -%}
+{%- assign hm_bs_product = all_products['bordado-personalizado'] -%}
+{%- if hm_bs_product != blank -%}
+<script>
+(function(){
+  if (window.__hmBordadoSync) return;
+  window.__hmBordadoSync = true;
+  var BID = {{ hm_bs_product.selected_or_first_available_variant.id | json }};
+  var ROOT = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+  var origFetch = window.fetch.bind(window);
+  var CART_RE = /\/cart\/(add|change|update|clear)(\.js)?(\?|$)/;
+  var busy = false, again = false, timer = null;
+
+  function isPers(it){ return it.variant_id !== BID && it.properties && it.properties['Personalizado'] === 'Sí'; }
+  function keyOf(title, p){ return title + '|' + ((p && p['Nombre a bordar']) || ''); }
+  function req(path, body){
+    return origFetch(ROOT + path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-HM-Sync': '1' }, body: JSON.stringify(body) })
+      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+  }
+
+  async function sync(){
+    if (busy) { again = true; return; }
+    busy = true;
+    try {
+      var cart = await origFetch(ROOT + 'cart.js', { headers: { 'Accept': 'application/json' } }).then(function(r){ return r.json(); });
+      var need = {}, info = {};
+      cart.items.forEach(function(it){
+        if (!isPers(it)) return;
+        var k = keyOf(it.product_title, it.properties);
+        var pz = it.properties['Pieza a bordar'] || '';
+        need[k] = (need[k] || 0) + it.quantity * (/^Ambas/.test(pz) ? 2 : 1);
+        info[k] = { 'Producto': it.product_title, 'Nombre a bordar': it.properties['Nombre a bordar'] || '', 'Tipografía': it.properties['Tipografía'] || '', 'Color de hilo': it.properties['Color de hilo'] || '' };
+        if (pz) info[k]['Pieza a bordar'] = pz;
+      });
+      var have = {}, lines = {};
+      cart.items.forEach(function(it){
+        if (it.variant_id !== BID) return;
+        var k = keyOf((it.properties && it.properties['Producto']) || '', it.properties);
+        have[k] = (have[k] || 0) + it.quantity;
+        (lines[k] = lines[k] || []).push(it);
+      });
+      var changed = false;
+      // agregar o ajustar
+      for (var k in need) {
+        var diff = need[k] - (have[k] || 0);
+        if (diff > 0) {
+          await req('cart/add.js', { items: [{ id: BID, quantity: diff, properties: info[k] }] });
+          changed = true;
+        } else if (diff < 0) {
+          var ls = lines[k], extra = -diff;
+          for (var i = ls.length - 1; i >= 0 && extra > 0; i--) {
+            var q = Math.max(0, ls[i].quantity - extra);
+            extra -= ls[i].quantity - q;
+            await req('cart/change.js', { id: ls[i].key, quantity: q });
+            changed = true;
+          }
+        }
+      }
+      // quitar bordados sin producto personalizado
+      for (var k2 in lines) {
+        if (need[k2]) continue;
+        for (var j = 0; j < lines[k2].length; j++) {
+          await req('cart/change.js', { id: lines[k2][j].key, quantity: 0 });
+          changed = true;
+        }
+      }
+      if (changed) await refresh();
+    } catch (e) { console.error('HM bordado:', e); }
+    busy = false;
+    if (again) { again = false; schedule(); }
+  }
+
+  async function refresh(){
+    if (/\/cart\/?$/.test(location.pathname)) { location.reload(); return; }
+    var cart = await origFetch(ROOT + 'cart.js', { headers: { 'Accept': 'application/json' } }).then(function(r){ return r.json(); });
+    document.querySelectorAll('[data-cart-count]').forEach(function(el){ el.textContent = cart.item_count; });
+    var box = document.querySelector('#halo-cart-sidebar .halo-sidebar-wrapper .previewCart-wrapper');
+    if (box) {
+      var html = await origFetch(ROOT + 'cart?view=ajax_side_cart', { cache: 'no-store' }).then(function(r){ return r.text(); });
+      box.innerHTML = html;
+    }
+  }
+
+  function schedule(){ clearTimeout(timer); timer = setTimeout(sync, 400); }
+  function isCartWrite(url, method){ return CART_RE.test(String(url || '')) && String(method || 'GET').toUpperCase() !== 'GET'; }
+
+  // fetch
+  window.fetch = function(input, init){
+    var url = typeof input === 'string' ? input : (input && input.url);
+    var method = (init && init.method) || (input && input.method) || 'GET';
+    var own = init && init.headers && (init.headers['X-HM-Sync'] || (init.headers.get && init.headers.get('X-HM-Sync')));
+    var p = origFetch(input, init);
+    if (!own && isCartWrite(url, method)) p.then(schedule, schedule);
+    return p;
+  };
+  // XHR (jQuery $.ajax)
+  var oOpen = XMLHttpRequest.prototype.open, oSend = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.open = function(method, url){ this.__hm = isCartWrite(url, method); return oOpen.apply(this, arguments); };
+  XMLHttpRequest.prototype.send = function(){ if (this.__hm) this.addEventListener('loadend', schedule); return oSend.apply(this, arguments); };
+  // formularios normales que van a /cart/add o /cart (al volver se revisa en la carga)
+  document.addEventListener('DOMContentLoaded', schedule);
+  window.addEventListener('pageshow', function(e){ if (e.persisted) schedule(); });
+})();
+</script>
+{%- endif -%}
