@@ -66,23 +66,39 @@
         endif
     endif
 -%}
-{% if template contains "product" %}
-  {%- comment -%}Added by Heartcoding from Sale & Discount Manager{%- endcomment -%}
-{%- assign discount = 0 -%}
-{% assign selected_variant = product.selected_or_first_available_variant %}
-{%- if product.available and selected_variant.compare_at_price > selected_variant.price -%}
-{%- assign discount = selected_variant.compare_at_price | minus:selected_variant.price | times:100.0 | divided_by:selected_variant.compare_at_price | round %}
+{%- comment -%}Hello Mellow · badge de descuento propio (reemplaza hc-sale-tag de Heartcoding){%- endcomment -%}
+{%- liquid
+    assign hm_sale = 0
+    if product.available
+        if template contains 'product' and badge_detail
+            assign hm_v = product.selected_or_first_available_variant
+            if hm_v.compare_at_price > hm_v.price
+                assign hm_sale = hm_v.compare_at_price | minus: hm_v.price | times: 100.0 | divided_by: hm_v.compare_at_price | round
+            endif
+        else
+            for hm_v in product.variants
+                if hm_v.compare_at_price > hm_v.price
+                    assign hm_s = hm_v.compare_at_price | minus: hm_v.price | times: 100.0 | divided_by: hm_v.compare_at_price | round
+                    if hm_s > hm_sale
+                        assign hm_sale = hm_s
+                    endif
+                endif
+            endfor
+        endif
+    endif
+-%}
+{%- if hm_sale > 0 -%}
+<style>
+  .halo-productBadges .badge.hm-sale-badge{background:#70202c;color:#F5F2E1;border:0;border-radius:999px;padding:5px 11px 5px 9px;font-weight:800;font-size:13px;line-height:1.1;letter-spacing:.02em;display:inline-flex;align-items:center;gap:4px;box-shadow:0 3px 10px rgba(112,32,44,.28);text-transform:none}
+  .halo-productBadges .badge.hm-sale-badge i{font-style:normal;background:#F2B36A;color:#70202c;border-radius:999px;padding:2px 6px;font-size:10.5px;font-weight:800;letter-spacing:.04em}
+  @media (min-width:768px){.halo-productBadges .badge.hm-sale-badge{font-size:14px;padding:6px 13px 6px 10px}}
+</style>
 {%- endif -%}
-<div class="hc-sale-tag hc-product-page" {% if discount == 0 %}style="display:none"{% endif %}><span>{{ discount }}%</span></div>
-{% else %}
-{%- comment -%}Added by Heartcoding from Sale & Discount Manager{%- endcomment -%}
-{%- if product.available and product.compare_at_price_min > product.price_min -%}
-{%- assign discount = product.compare_at_price_min | minus:product.price_min | times:100.0 | divided_by:product.compare_at_price_min | round -%}
-<div class="hc-sale-tag"><span>{{ discount }}%</span></div>
-{%- endif -%}
-{% endif %}
-{%- if sale_badge or sold_out_badge or custom_badge or bundle_badge or new_badge or hm_preventa_badge -%}
+{%- if hm_sale > 0 or sale_badge or sold_out_badge or custom_badge or bundle_badge or new_badge or hm_preventa_badge -%}
     <div class="{{ class }} badge-{{ position }} halo-productBadges halo-productBadges--{{ position }} date-{{ date_minus }} date1-{{ date_difference }}" data-new-badge-number="{{ new_badge_limit }}">
+        {%- if hm_sale > 0 -%}
+            <span class="badge hm-sale-badge" aria-label="Ahorra {{ hm_sale }}%"><i>AHORRA</i>-{{ hm_sale }}%</span>
+        {%- endif -%}
         {%- if new_badge -%}
             {%- if new_badge_type == 'auto' -%}
                 {%- if date_difference < new_badge_time -%}
