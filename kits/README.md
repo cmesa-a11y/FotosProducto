@@ -22,3 +22,5 @@ Fotos: `kits/*.jpg` (una por versión, enlazada a su variante), generadas con `g
 Los kits con zapatos tienen opciones Para / Color zapatos / Talla zapatos (20 variantes). Cada color tiene su propia foto, enlazada a la variante (`kits-color-zapatos.json`).
 
 Kit Babero + Kings & Rebels: 96 variantes (6 baberos × 8 colores × 2 tallas), con foto por combinación de babero y color (`kits/babero-kings/`). No tiene opción Niño/Niña porque Shopify permite máximo 3 opciones.
+
+Bordado: los 4 kits tienen la etiqueta `personalizable`, así que muestran el formulario de bordado (snippet `hm-personalizacion`) y el cobro de $20.000 se agrega solo (`hm-bordado-sync`). Se borda una pieza por kit: manta (Bienvenida, Manta + Babero), cobija (Siesta y Baño) o babero (Babero + Kings & Rebels).
