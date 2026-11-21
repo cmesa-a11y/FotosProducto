@@ -15,7 +15,7 @@
   "title": "Kit Bienvenida Bebé · Niña",
   "sub": "Manta + Zapatos Kings & Rebels + Babero + Canasta Soulmade",
   "items": [
-   "manta_selva.jpg",
+   "cobija_hadas.jpg",
    "gamuza_palorosa.jpg",
    "drapeau_rosa.png",
    "box_milktea.png"
@@ -42,9 +42,9 @@
  {
   "file": "kit-manta-babero-nino.jpg",
   "title": "Kit Manta + Babero · Niño",
-  "sub": "Manta de muselina + Babero doble faz · estampado Bosque",
+  "sub": "Cobija + Babero doble faz · estampado Bosque",
   "items": [
-   "manta_bosque.jpg",
+   "cobija_bosque.jpg",
    "babero_bosque.jpg"
   ]
  },
