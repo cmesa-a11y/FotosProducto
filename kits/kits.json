@@ -1,10 +1,78 @@
 [
-{"file":"kit-bienvenida-nino.jpg","title":"Kit Bienvenida Bebé · Niño","sub":"Manta + Zapatos Kings & Rebels + Babero + Canasta Soulmade","items":["manta_bosque.jpg","gamuza_nightblue.jpg","drapeau_azul.png","box_gray.png"]},
-{"file":"kit-bienvenida-nina.jpg","title":"Kit Bienvenida Bebé · Niña","sub":"Manta + Zapatos Kings & Rebels + Babero + Canasta Soulmade","items":["manta_animal.jpg","gamuza_palorosa.jpg","drapeau_rosa.png","box_milktea.png"]},
-{"file":"kit-siesta-bano-nino.jpg","title":"Kit Siesta y Baño · Niño","sub":"Cobija + Toalla de microfibra · estampado Mar","items":["cobija_mar.jpg","toalla_mar.jpg"]},
-{"file":"kit-siesta-bano-nina.jpg","title":"Kit Siesta y Baño · Niña","sub":"Cobija + Toalla de microfibra · estampado Jardín Mágico","items":["cobija_jardin.jpg","toalla_jardin.jpg"]},
-{"file":"kit-manta-babero-nino.jpg","title":"Kit Manta + Babero · Niño","sub":"Manta de muselina + Babero doble faz · estampado Bosque","items":["manta_bosque.jpg","babero_bosque.jpg"]},
-{"file":"kit-manta-babero-nina.jpg","title":"Kit Manta + Babero · Niña","sub":"Manta de muselina + Babero doble faz · estampado Animal Print","items":["manta_animal.jpg","babero_animal.jpg"]},
-{"file":"kit-muselina-babero-nino.jpg","title":"Kit Muselina + Babero · Niño","sub":"Muselina con encaje + Babero orgánico azul","items":["muselina_hm.jpg","organico_azul.jpg"]},
-{"file":"kit-muselina-babero-nina.jpg","title":"Kit Muselina + Babero · Niña","sub":"Muselina con encaje + Babero con volantes","items":["muselina_hm.jpg","babero_volantes.jpg"]}
+ {
+  "file": "kit-bienvenida-nino.jpg",
+  "title": "Kit Bienvenida Bebé · Niño",
+  "sub": "Manta + Zapatos Kings & Rebels + Babero + Canasta Soulmade",
+  "items": [
+   "manta_bosque.jpg",
+   "gamuza_nightblue.jpg",
+   "drapeau_azul.png",
+   "box_gray.png"
+  ]
+ },
+ {
+  "file": "kit-bienvenida-nina.jpg",
+  "title": "Kit Bienvenida Bebé · Niña",
+  "sub": "Manta + Zapatos Kings & Rebels + Babero + Canasta Soulmade",
+  "items": [
+   "manta_selva.jpg",
+   "gamuza_palorosa.jpg",
+   "drapeau_rosa.png",
+   "box_milktea.png"
+  ]
+ },
+ {
+  "file": "kit-siesta-bano-nino.jpg",
+  "title": "Kit Siesta y Baño · Niño",
+  "sub": "Cobija + Toalla de microfibra · estampado Mar",
+  "items": [
+   "cobija_mar.jpg",
+   "toalla_mar.jpg"
+  ]
+ },
+ {
+  "file": "kit-siesta-bano-nina.jpg",
+  "title": "Kit Siesta y Baño · Niña",
+  "sub": "Cobija + Toalla de microfibra · estampado Jardín Mágico",
+  "items": [
+   "cobija_jardin.jpg",
+   "toalla_jardin.jpg"
+  ]
+ },
+ {
+  "file": "kit-manta-babero-nino.jpg",
+  "title": "Kit Manta + Babero · Niño",
+  "sub": "Manta de muselina + Babero doble faz · estampado Bosque",
+  "items": [
+   "manta_bosque.jpg",
+   "babero_bosque.jpg"
+  ]
+ },
+ {
+  "file": "kit-manta-babero-nina.jpg",
+  "title": "Kit Manta + Babero · Niña",
+  "sub": "Manta de muselina Selva + Babero doble faz Animal Print",
+  "items": [
+   "manta_selva.jpg",
+   "babero_animal.jpg"
+  ]
+ },
+ {
+  "file": "kit-muselina-babero-nino.jpg",
+  "title": "Kit Muselina + Babero · Niño",
+  "sub": "Muselina con encaje + Babero orgánico azul",
+  "items": [
+   "muselina_hm.jpg",
+   "organico_azul.jpg"
+  ]
+ },
+ {
+  "file": "kit-muselina-babero-nina.jpg",
+  "title": "Kit Muselina + Babero · Niña",
+  "sub": "Muselina con encaje + Babero con volantes",
+  "items": [
+   "muselina_hm.jpg",
+   "babero_volantes.jpg"
+  ]
+ }
 ]
